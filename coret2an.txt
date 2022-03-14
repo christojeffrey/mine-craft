@@ -1,0 +1,44 @@
+CLASS
+- Item ABC 
+    artibut sesuai spek, minus durability
+    method menampilkan spek item virtual (biar bisa di override bawahe)
+-   Tool : public item
+        durability
+-   NonTool : public item
+- BaseException 
+- Inventory 
+- Craft
+
+
+template 
+class List. harapane buat nyatet list of legal item, sama list of legal recipe
+
+
+
+GameState
+    atribute
+        - item legal
+        - recipe legal
+        - inventory
+        - craft 
+    method
+    - sesuai fungsi2 yg ada di main
+
+
+MAIN
+main.cpp 
+baca konfig dulu(SETUP)
+
+
+- SHOW
+- GIVE
+- DISCARD
+- MOVE
+- USE
+- CRAFT
+- EXPORT 
+
+
+
+stl enaknya buat dimana aja
+template class sama function enaknya dimana
