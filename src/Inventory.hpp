@@ -3,4 +3,4 @@ class Inventory{
         // pake map buat nyatet semua inventory
     public:
 
-}
+};

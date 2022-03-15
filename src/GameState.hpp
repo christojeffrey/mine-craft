@@ -1,16 +1,20 @@
+using namespace std;
+
 #include "Item.hpp"
 #include "Inventory.hpp"
 #include "Craft.hpp"
 #include <string>
+#include <vector>
+#include <list>
 
 class GameState{
     private:
-        Item * legalItem;
-        Craft * legalRecipe;
+        list<Item> legalItem;
+        list<Craft> legalRecipe;
         Inventory inventory;
         Craft craft;
     public:
-        GameState();
+        GameState(list<Item> _legalItem, list<Craft> _legalRecipe);
         void SHOW();
         void GIVE(string item_name, int qty);
         void DISCARD(string I_id, int qty);
@@ -20,9 +24,4 @@ class GameState{
         void CRAFT();
         void EXPORT(string namaFile);
 
-}
-
-
-
-
-// MOVE I0 1 I1
+};
