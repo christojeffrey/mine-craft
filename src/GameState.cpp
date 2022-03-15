@@ -1,18 +1,18 @@
 using namespace std;
 
 #include "GameState.hpp"
-#include "Craft.hpp"
+#include "CraftTable.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 
-GameState::GameState(list<Item> _legalItem, list<Craft> _legalRecipe){
+GameState::GameState(list<Item> _legalItem, list<CraftTable> _legalRecipe){
     this->legalItem = _legalItem;
     this->legalRecipe = _legalRecipe;
-    this->craft = Craft(); //buat craft kosong
+    this->craftTable = CraftTable(); //buat craft kosong
     this->inventory = Inventory(); //buat inventory kosong
 }
 void GameState::SHOW(){
-    this->craft.print();
+    this->craftTable.print();
     this->inventory.print();
 }
 void GameState::GIVE(string item_name, int qty){
@@ -35,7 +35,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
         this->inventory.substract(I_id,N);
         try{
             for(iterasi vector c_id){
-                this->craft.add(itemnyaapa,c_id);
+                this->craftTable.add(itemnyaapa,c_id);
             }
         }catch(...){
             //kalau di C_id sudah ada yg menempati
@@ -48,7 +48,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
 void GameState::MOVE(string C_id, string I_id){
     try{
         Item itemnyaapa=0;
-        this->craft.substract(C_id);
+        this->craftTable.substract(C_id);
         this->inventory.add(itemnyaapa,I_id);
     }catch(...){
         //kalau di craft kosong atau inventory penuh
@@ -63,7 +63,7 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        this->craft.make();
+        this->craftTable.make();
     }catch(...){
         //bila tidak sesuai dengan resep
     }

@@ -2,7 +2,7 @@ using namespace std;
 
 #include "Item.hpp"
 #include "Inventory.hpp"
-#include "Craft.hpp"
+#include "CraftTable.hpp"
 #include <string>
 #include <vector>
 #include <list>
@@ -10,11 +10,11 @@ using namespace std;
 class GameState{
     private:
         list<Item> legalItem;
-        list<Craft> legalRecipe;
+        list<CraftTable> legalRecipe;
         Inventory inventory;
-        Craft craft;
+        CraftTable craftTable;
     public:
-        GameState(list<Item> _legalItem, list<Craft> _legalRecipe);
+        GameState(list<Item> _legalItem, list<CraftTable> _legalRecipe);
         void SHOW();
         void GIVE(string item_name, int qty);
         void DISCARD(string I_id, int qty);
