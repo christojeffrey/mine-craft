@@ -1,21 +1,26 @@
+#include "Item.hpp"
+#include "Inventory.hpp"
+#include "Craft.hpp"
+#include <string>
+
 class GameState{
     private:
+        Item * legalItem;
+        Craft * legalRecipe;
+        Inventory inventory;
+        Craft craft;
     public:
-        void MOVE(){
-        
-        }
+        GameState();
+        void SHOW();
+        void GIVE(string item_name, int qty);
+        void DISCARD(string I_id, int qty);
+        void MOVE(string I_id, int N, vector<string> C_id); //dari inventory ke craft
+        void MOVE(string C_id, string I_id); //dari craft ke inventory
+        void USE(string I_id);
+        void CRAFT();
+        void EXPORT(string namaFile);
 
 }
-
-cin << command;
-if command == 'MOVE'{
-    cin << arg1 << arg2 << arg3;
-    gameState.MOVE(arg1, arg2, arg3);
-}
-else if (command == 'SHOW'){
-    gameState.SHOW();
-}
-else if ()
 
 
 
