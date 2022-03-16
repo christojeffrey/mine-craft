@@ -19,3 +19,7 @@ void NonTool::printInfo(){
     Item::printInfo();
     cout << "Quantity\t: "<< this->quantity <<endl;
 }
+
+bool NonTool::operator==(NonTool& n){
+    return this->getQuantity()==n.getQuantity();
+}

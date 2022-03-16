@@ -2,8 +2,8 @@
 #include <string>
 #include <iostream>
 using namespace std;
-int Item::countItem=0;
-Item::Item():Item("Item","type"){
+int Item::countItem=1;
+Item::Item():Item("Item","-"){
 }
 
 Item::Item(string name, string type):ID(countItem++){
