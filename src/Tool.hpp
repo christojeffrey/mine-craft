@@ -9,7 +9,8 @@ class Tool: public Item{
         string kind;
     public:
         Tool();
-        Tool(string name, string type,int durability, string kind);
+        Tool(string name, string type,int durability);
+        int getDurability();
         void printInfo();
 
 

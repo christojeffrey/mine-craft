@@ -5,12 +5,14 @@
 using namespace std;
 Tool::Tool():Item(){
     this->durability=10;
-    this->kind="Wood";
 }
 
-Tool::Tool(string name, string type, int durability, string kind):Item(name,type){
+Tool::Tool(string name, string type, int durability):Item(name,type){
     this->durability=durability;
-    this->kind=kind;
+}
+
+int Tool::getDurability(){
+    return this->durability;
 }
 
 void Tool::printInfo(){

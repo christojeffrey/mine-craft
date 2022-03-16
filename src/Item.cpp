@@ -6,10 +6,9 @@ int Item::countItem=0;
 Item::Item():Item("Item","type"){
 }
 
-Item::Item(string name, string type):ID(countItem){
+Item::Item(string name, string type):ID(countItem++){
     this->name=name;
     this->type=type;
-    countItem++;
 }
 
 string Item::getName(){

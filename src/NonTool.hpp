@@ -6,10 +6,10 @@
 class NonTool: public Item{
     private:
         int quantity;
-        string kind;
     public:
         NonTool();
         NonTool(string name, string type,int quantity);
+        int getQuantity();
         void printInfo();
 };
 

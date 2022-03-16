@@ -11,6 +11,10 @@ NonTool::NonTool(string name, string type, int quantity):Item(name,type){
     this->quantity=quantity;
 }
 
+int NonTool::getQuantity(){
+    return this->quantity;
+}
+
 void NonTool::printInfo(){
     Item::printInfo();
     cout << "Quantity\t: "<< this->quantity <<endl;
