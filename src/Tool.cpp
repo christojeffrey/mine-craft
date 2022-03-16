@@ -15,6 +15,6 @@ Tool::Tool(string name, string type, int durability, string kind):Item(name,type
 
 void Tool::printInfo(){
     Item::printInfo();
-    cout << "Durability\t\t: "<< this->durability <<endl;
+    cout << "Durability\t: "<< this->durability <<endl;
     cout << "Kind\t\t: "<< this->kind <<endl;
 }

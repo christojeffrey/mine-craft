@@ -8,11 +8,10 @@ NonTool::NonTool():Item(){
 }
 
 NonTool::NonTool(string name, string type, int quantity):Item(name,type){
-    this->durability=durability;
-    this->kind=kind;
+    this->quantity=quantity;
 }
 
 void NonTool::printInfo(){
     Item::printInfo();
-    cout << "Quantity\t\t: "<< this->durability <<endl;
+    cout << "Quantity\t: "<< this->quantity <<endl;
 }

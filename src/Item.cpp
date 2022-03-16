@@ -2,12 +2,14 @@
 #include <string>
 #include <iostream>
 using namespace std;
-int Item::ID=0;
+int Item::countItem=0;
+Item::Item():Item("Item","type"){
+}
 
-Item::Item(string name, string type){
+Item::Item(string name, string type):ID(countItem){
     this->name=name;
     this->type=type;
-    ID++;
+    countItem++;
 }
 
 string Item::getName(){

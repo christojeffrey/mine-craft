@@ -4,9 +4,10 @@
 using namespace std;
 class Item {
     private:
-        static int ID;
+        int ID;
         string name;
         string type;
+        static int countItem;
     public:
         Item();
         Item(string name, string type);
