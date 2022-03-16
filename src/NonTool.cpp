@@ -11,13 +11,18 @@ NonTool::NonTool(string name, string type, int quantity):Item(name,type){
     this->quantity=quantity;
 }
 
-int NonTool::getQuantity(){
+int NonTool::getQuantity()const{
     return this->quantity;
 }
 
-void NonTool::printInfo(){
+void NonTool::setQuantity(int pengganti){
+    this->quantity=pengganti;
+}
+
+void NonTool::printInfo()const{
+    cout<< "NonTool\t:"<<endl;
     Item::printInfo();
-    cout << "Quantity\t: "<< this->quantity <<endl;
+    cout << "Quantity\t: "<< this->quantity <<endl<<endl;
 }
 
 bool NonTool::operator==(NonTool& n){

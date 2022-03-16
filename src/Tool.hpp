@@ -10,8 +10,9 @@ class Tool: public Item{
     public:
         Tool();
         Tool(string name, string type,int durability);
-        int getDurability();
-        void printInfo();
+        int getDurability()const;
+        void setDurability(int pengganti);
+        void printInfo()const;
 
 
 };

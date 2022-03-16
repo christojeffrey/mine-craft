@@ -9,8 +9,10 @@ class NonTool: public Item{
     public:
         NonTool();
         NonTool(string name, string type,int quantity);
-        int getQuantity();
-        void printInfo();
+        int getQuantity()const;
+        void setQuantity(int pengganti);
+        void printInfo()const;
+        bool operator==(NonTool& n);
 };
 
 
