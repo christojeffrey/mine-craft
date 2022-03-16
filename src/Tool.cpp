@@ -11,12 +11,17 @@ Tool::Tool(string name, string type, int durability):Item(name,type){
     this->durability=durability;
 }
 
-int Tool::getDurability(){
+int Tool::getDurability()const{
     return this->durability;
 }
 
-void Tool::printInfo(){
+void Tool::setDurability(int pengganti){
+    this->durability=pengganti;
+}
+
+void Tool::printInfo()const{
+    cout<< "NonTool\t:"<<endl;
     Item::printInfo();
     cout << "Durability\t: "<< this->durability <<endl;
-    cout << "Kind\t\t: "<< this->kind <<endl;
+    cout << "Kind\t\t: "<< this->kind <<endl<<endl;
 }

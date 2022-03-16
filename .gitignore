@@ -34,3 +34,6 @@
 .vscode
 main
 check
+
+#debug only
+src/test.cpp

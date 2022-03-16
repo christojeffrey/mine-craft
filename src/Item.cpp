@@ -21,7 +21,7 @@ int Item::getID(){
     return this->ID;
 }
 
-void Item::printInfo(){
+void Item::printInfo()const{
     cout << "ID\t\t: "<< this->ID <<endl;
     cout << "Name\t\t: "<< this->name <<endl;
     cout << "type\t\t: "<< this->type <<endl;
