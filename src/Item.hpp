@@ -14,7 +14,9 @@ class Item {
         string getName();
         string getType();
         int getID();
-        virtual void printInfo();
+        virtual void printInfo()const;
+        void virtual setQuantity(int pengganti)=0;
+        int virtual getQuantity(int pengganti)=0;
 };
 
 
