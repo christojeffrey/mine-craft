@@ -18,7 +18,7 @@ class Item {
         void virtual setQuantity(int pengganti)=0;
         int virtual getQuantity()=0;
         void virtual setDurability(int pengganti)=0;
-        int virtual getDurabitlity()=0;
+        int virtual getDurability()=0;
 };
 
 
