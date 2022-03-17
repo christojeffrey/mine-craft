@@ -36,6 +36,12 @@ class craftTableDoesntMatchRecipeException : public BaseException {
         void printMessage();
 };
 
+class CIDNotValid : public BaseException { 
+    // happened when trying to craft on craft table but doesnt match any recipe
+    public:
+        void printMessage();
+};
+
 /* for inventory */
 class inventoryIsFullException : public BaseException { // happened when the inventory is full
     public:
