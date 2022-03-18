@@ -13,13 +13,28 @@ GameState::GameState(list<Item> _legalItem, list<CraftTable> _legalRecipe){
 }
 void GameState::SHOW(){
     this->craftTable.print();
-    this->inventory.print();
+    this->inventory.printInfo();
 }
 void GameState::GIVE(string item_name, int qty){
-    try{
-        this->inventory.add(item_name,qty);
-    } catch(...){
-        //kalau inventory penuh
+    bool found=false;
+    string type;
+    list<Item>::iterator it = this->legalItem.begin();
+    while(it!=this->legalItem.end()){
+        if(it->getName()==item_name){
+            found=true;
+            type = it->getType();
+        }else{
+            ++it;
+        }
+    }
+    if(found){
+        try{
+            this->inventory.add(new NonTool(item_name,type,qty));
+        } catch(...){
+            //kalau inventory penuh
+        }
+    }else{
+        throw "Nama item tidak ditemukan";
     }
 }
 void GameState::DISCARD(string I_id, int qty){

@@ -28,3 +28,16 @@ void NonTool::printInfo()const{
 bool NonTool::operator==(NonTool& n){
     return this->getQuantity()==n.getQuantity();
 }
+
+int NonTool::use(){
+    throw "Tidak Bisa Digunakan";
+}
+
+int NonTool::substract(int qty){
+    if(qty>this->quantity){
+        throw "Sisa item tidak cukup";
+    }else{
+        this->quantity-=qty;
+        return this->quantity;
+    }
+}

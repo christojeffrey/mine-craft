@@ -28,28 +28,28 @@ Inventory::Inventory() {
 Inventory::~Inventory(){
 }
 
-void Inventory::move(string idxSrc, string idxDest){
-  if (this->inven[idxDest]->getType() == "TOOL" || this->inven[idxSrc]->getType() == "NONTOOL") {
-    // throw exception
-    throw "Salah tipe";
-  } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {
-    throw "Salah satu item tidak ada";
-  } else {
-    int sisaQty = 64 - this->inven[idxDest]->getQuantity();
-    // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
-    if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
-      this->inven[idxDest]->setQuantity(64);
-      this->inven[idxSrc]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity() - sisaQty);
-      // hapus item jika jumlahnya jadi 0
-      if (this->inven[idxSrc]->getQuantity() == 0) {
-        this->inven.erase(idxSrc);
-      }
-    } else { // klo qty dari item di src engga memenuhi qty dari idx dest, idx dest lgsg tambahin, idx src lgsg hapus
-      this->inven[idxDest]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity());
-      this->inven.erase(idxSrc);
-    }
-  }
-}
+// void Inventory::move(string idxSrc, string idxDest){
+//   if (this->inven[idxDest]->getType() == "TOOL" || this->inven[idxSrc]->getType() == "NONTOOL") {
+//     // throw exception
+//     throw "Salah tipe";
+//   } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {
+//     throw "Salah satu item tidak ada";
+//   } else {
+//     int sisaQty = 64 - this->inven[idxDest]->getQuantity();
+//     // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
+//     if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
+//       this->inven[idxDest]->setQuantity(64);
+//       this->inven[idxSrc]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity() - sisaQty);
+//       // hapus item jika jumlahnya jadi 0
+//       if (this->inven[idxSrc]->getQuantity() == 0) {
+//         this->inven.erase(idxSrc);
+//       }
+//     } else { // klo qty dari item di src engga memenuhi qty dari idx dest, idx dest lgsg tambahin, idx src lgsg hapus
+//       this->inven[idxDest]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity());
+//       this->inven.erase(idxSrc);
+//     }
+//   }
+// }
 
 void Inventory::add(Item* item){
   if (inven.size() == MAX_INVEN) {
@@ -79,29 +79,25 @@ void Inventory::printInfo(){
 }
 
 void Inventory::substract(string I_id, int qty){
-  if (this->inven[I_id]->getType() == "TOOL") {
-    throw "Salah tipe";
-  } else if (this->inven.find(I_id) == this->inven.end()) {
-    throw "Tidak item di indeks tersebut";
-  } else if (this->inven[I_id]->getQuantity() < qty){ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
-    throw "Quantity item tidak mencukupi";
-  } else {
-    this->inven[I_id]->setQuantity(this->inven[I_id]->getQuantity() - qty);
-    // hapus item jika jumlahnya jadi 0
-    if (this->inven[I_id]->getQuantity() == 0) {
-      this->inven.erase(I_id);
+  if (this->inven.find(I_id) == this->inven.end()) {
+    throw "Tidak ada item di indeks tersebut";
+  } else{ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
+    try{
+      int sisa = this->inven[I_id]->substract(qty);
+      if(sisa==0){
+        this->inven.erase(I_id);
+      }
+    }catch(...){
+      //kalau qty kurang
     }
   }
 }
 
 void Inventory::use(string I_id){
-  if (this->inven[I_id]->getType() == "NONTOOL") {
-    throw "Salah tipe";
-  } else if (this->inven.find(I_id) == this->inven.end()) {
+  if (this->inven.find(I_id) == this->inven.end()) {
     throw "Tidak item di indeks tersebut";
   } else {
-    this->inven[I_id]->setDurability(this->inven[I_id]->getDurability() - 1);
-    if (this->inven[I_id]->getDurability() <= 0) {
+    if (this->inven[I_id]->use() <= 0) {
       this->inven.erase(I_id);
     }
   }
