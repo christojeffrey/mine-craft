@@ -10,11 +10,11 @@ using namespace std;
 class GameState{
     private:
         list<Item> legalItem;
-        list<CraftTable> legalRecipe;
+        vector<Recipe> legalRecipe;
         Inventory inventory;
         CraftTable craftTable;
     public:
-        GameState(list<Item> _legalItem, list<CraftTable> _legalRecipe);
+        GameState(list<Item> _legalItem, vector<Recipe> _legalRecipe);
         void SHOW();
         void GIVE(string item_name, int qty);
         void DISCARD(string I_id, int qty);

@@ -5,7 +5,7 @@ using namespace std;
 #include "Inventory.hpp"
 #include "Item.hpp"
 #include "Exception.hpp"
-GameState::GameState(list<Item> _legalItem, list<CraftTable> _legalRecipe){
+GameState::GameState(list<Item> _legalItem, vector<Recipe> _legalRecipe){
     this->legalItem = _legalItem;
     this->legalRecipe = _legalRecipe;
     this->craftTable = CraftTable(); //buat craft kosong
@@ -48,16 +48,18 @@ void GameState::DISCARD(string I_id, int qty){
 }
 void GameState::MOVE(string I_id, int N, vector<string> C_id){
     try{
-        Item itemnyaapa=0;
+        Item* itemnyaapa = this->inventory.getItem(I_id);
         this->inventory.substract(I_id,N);
         try{
-            for(iterasi vector c_id){
-                this->craftTable.add(itemnyaapa,c_id);
+            itemnyaapa->substract(1);
+            for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
+                this->craftTable.add(*itemnyaapa,*it);
             }
         }catch(BaseException *e){
-        e->printMessage();
+            e->printMessage();
             //kalau di C_id sudah ada yg menempati
-            this->inventory.add(itemnyaapa,N);
+
+            this->inventory.add(itemnyaapa);
         }
     }catch(BaseException *e){
         e->printMessage();
@@ -66,7 +68,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
 }
 void GameState::MOVE(string C_id, string I_id){
     try{
-        Item itemnyaapa=0;
+        Item* itemnyaapa = this->inventory.getItem(I_id);
         this->craftTable.substract(C_id);
         this->inventory.add(itemnyaapa,I_id);
     }catch(BaseException *e){
@@ -84,7 +86,7 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        this->craftTable.make();
+        this->craftTable.make(this->legalRecipe);
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep

@@ -51,7 +51,7 @@ Inventory::~Inventory(){
 //   }
 // }
 
-void Inventory::add(Item* item){
+void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
   if (inven.size() == MAX_INVEN) {
     throw "Inventory penuh";
   } else {
@@ -61,6 +61,14 @@ void Inventory::add(Item* item){
         this->inven[key] = item;
       }
     }
+  }
+}
+
+void Inventory::add(Item* item_name,string dest){
+  if(this->inven[dest]==NULL){
+    this->inven[dest]=item_name;
+  }else{
+    throw "Sudah ada yang menempati";
   }
 }
 
@@ -88,7 +96,7 @@ void Inventory::substract(string I_id, int qty){
         this->inven.erase(I_id);
       }
     }catch(...){
-      //kalau qty kurang
+      //kalau qty kurang atau
     }
   }
 }
@@ -102,6 +110,13 @@ void Inventory::use(string I_id){
     }
   }
 }
+ Item * Inventory::getItem(string I_id){
+   try{
+    return this->inven[I_id];
+   }catch(...){
+     throw "Tidak ada item";
+   }
+ } 
 
 // driver
 int main(){
