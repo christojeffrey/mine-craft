@@ -1,104 +1,146 @@
 #include <iostream>
 #include "CraftTable.hpp"
+#include "util.cpp"
 using namespace std;
 
 // Ctor
 CraftTable::CraftTable() {
-    tableTool = new Item[MAX_CAP];
-    tableNonTool = new Item[MAX_CAP];
     for (int i = 0; i < MAX_CAP; i++) {
-        this->tableTool[i] = Item();
-        this->tableNonTool[i] = Item();
+        string key = get_cid(i);
+        table[key] = NULL;
     }
 }; 
 // CCtor
 CraftTable::CraftTable(const CraftTable& other) {
-    tableTool = new Item[MAX_CAP];
-    tableNonTool = new Item[MAX_CAP];
-    for (int i = 0; i < MAX_CAP; i++) {
-        this->tableTool[i] = other.tableTool[i];
-        this->tableNonTool[i] = other.tableNonTool[i];
-    }
+    table = other.table;
 };
 
 // Overload
 CraftTable& CraftTable::operator=(const CraftTable& other) {
-    delete[] tableTool;
-    delete[] tableNonTool;
-    for (int i = 0; i < MAX_CAP; i++) {
-        this->tableTool[i] = other.tableTool[i];
-        this->tableNonTool[i] = other.tableNonTool[i];
-    }
+    table = other.table;
+    return *this;
 };
 
-// Getter Setter
+// Getter Setter Push Pop
 Item& CraftTable::getItemInCraftTable(string c_id) {
-    // determine which is not empty
-
-    int idx = (int)c_id[1];
-    if (notempty) {
-        return (tableTool[idx]);
-    } else {
-        return (tableNonTool[idx]);
+    if (isCIDValid(c_id))
+        return *table[c_id];
+    else {
+        throw new CIDNotValid();
     }
 };
 
-Item CraftTable::setItemInCraftTable(string c_id, Item item) {
-    int idx = (int)c_id[1];
-    if (getType(item) == "tool") {
-        return tableTool[idx];        
+void CraftTable::add(Item& item, string c_id) {
+    // Add item to c_id slot, if not empty throw error
+    if (isCIDValid(c_id)) {
+        if (isSlotEmpty(c_id)) {
+            table[c_id] = &item;
+        } else {
+            throw new craftTableIsNotEmptyException();
+        }
     } else {
-        return tableNonTool[idx];
+        throw new CIDNotValid();
     }
-};
-
+}; 
+void CraftTable::substract(string c_id) {
+    // Delete item from c_id slot to be empty, if empty throw error
+    if (isCIDValid(c_id)) {
+        if (!isSlotEmpty(c_id)) {
+            table[c_id] = NULL;
+        } else {
+            throw new craftTableIsNotEmptyException();
+        }
+    } else {
+        throw new CIDNotValid();
+    }
+}; 
 
 // Method
 void CraftTable::print() {
-    for (int i = 0; i < MAX_CAP; i++) {
-        if (not null) {
-            cout << tableTool[i] << " ";
-        } else {
-            cout << tableNonTool[i] << " ";
-        }
-        if (i==2 || i==5 || i==8) {
-            cout << endl;
-        }
-    }
-}; // Print all the values of the Crafting Table
-void CraftTable::add(Item item, string c_id) {
-    int idx = (int)c_id[1];
-    if (getType(item) == "tool") {
-        if (not empty) throw exception;
-        tableTool[idx] = item;
+    // Print all the values of the Crafting Table
+}; 
+
+
+Item& CraftTable::make(vector<Recipe> recipe) {
+    /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
+    algoritma yang sama dengan command GIVE. */
+    int idx = whichBuildable(recipe);
+    if (idx != -1) {
+        Recipe res = recipe[idx];
     } else {
-        if (not empty) throw exception;
-        tableNonTool[idx] = item;
+        // cannot build items in craft table
+        throw new craftTableDoesntMatchRecipeException();
     }
-}; // Add item to c_id slot, if not empty throw error
-void CraftTable::substract(string c_id) {
-    Item val;
-    int idx = (int)c_id[1];
-    if (not empty) throw exception;
-    tableTool[idx] = NULL;
-    tableNonTool[idx] = NULL;
-}; // Delete item from c_id slot to be empty, if empty throw error
-Item CraftTable::make() {
+}; 
 
-}; // return Item as a result of crafting
-
+bool CraftTable::contain(Item& item) {
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second == &item) return true;
+    }
+}
 
 // Attribute
-// bool CraftTable::isSlotToolEmpty(string c_id) {
-//     int idx = (int)c_id[1];
-//     return (this->tableTool[idx] == NULL);
-// };
+bool CraftTable::isSlotEmpty(string c_id) {
+    if (isCIDValid(c_id))
+        return (table[c_id]);
+};
 
-// bool CraftTable::isSlotNonToolEmpty(string c_id) {
+bool CraftTable::isTableEmpty() {
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) return false;
+    }
 
-// };
+    return true;
+};
 
-// bool CraftTable::isTableEmpty(string c_id) {
+vector<string> CraftTable::convertVector() {
+    vector<string> res;
+    string val;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            val = it->second->getName();
+        } else {
+            val = "-";
+        }
+        res.push_back(val);
+    }
+}
 
-// };
+int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
+    int res = -1;
+    for (int i = 0; i < listRecipe.size(); i++) {
+        int row = listRecipe[i].getRow();
+        int col = listRecipe[i].getCol();
+        vector<string> recipe = listRecipe[i].getRecipe();
+        // int quantity = listRecipe[i].getQuantityResult();
+        vector<string> table = (this->convertVector());
+        table = trimKosong(table);
 
+        // check recipe is subarray of a table array
+        if (isSubArray(table, recipe, table.size(), recipe.size())) {
+            res = i;
+            break;
+        }
+    }
+    return res;
+};
+
+vector<string> CraftTable::trimKosong(vector<string> table) {
+    for (int i = 0; i < table.size(); i++) {
+        if (table[i] == "-") {
+            table.erase(table.begin()+i);
+        } else {
+            break;
+        }
+    }
+
+    for (int i = table.size()-1; i>=0; i++) {
+        if (table[i] == "-") {
+            table.pop_back();
+        } else {
+            break;
+        }
+    }
+
+    return table;
+};

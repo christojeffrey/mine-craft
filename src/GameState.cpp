@@ -64,7 +64,7 @@ void GameState::USE(string I_id){
 void GameState::CRAFT(){
     try{
         this->craftTable.make();
-    }catch(...){
+    }catch(...){ 
         //bila tidak sesuai dengan resep
     }
 }

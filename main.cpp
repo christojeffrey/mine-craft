@@ -7,6 +7,10 @@
 using namespace std;
 
 int main() {
+  //add welcome message
+
+  /* SETUP */
+  cout << "setting up..." << endl;
   string configPath = "./config";
   string itemConfigPath = configPath + "/item.txt";
 
@@ -18,16 +22,49 @@ int main() {
   }
 
   // read recipes
-  for (const auto &entry :
-       filesystem::directory_iterator(configPath + "/recipe")) {
+  for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
     cout << entry.path() << endl;
     // read from file and do something
   }
 
-  // sample interaction
+
+  // GameState GS = new GameState()
+  cout << "game is ready!" << endl;
+  // add more glorified welcome message
+  /* START */
   string command;
-  while (cin >> command) {
-    if (command == "EXPORT") {
+  command = "HELP";
+  while (command != "EXIT") {
+    cout << "input your command!"<< endl;
+    cout << ">";
+    cin >> command;
+    if(command == "SHOW"){ //COMMAND SHOW
+      cout << "SHOW" << endl;
+    } 
+    else if (command == "GIVE") { //COMMAND GIVE
+      string itemName;
+      int itemQty;
+      cin >> itemName >> itemQty;
+      cout << "TODO" << endl;
+    }
+    else if (command == "DISCARD"){ //COMMAND DISCARD
+      cout << "DISCARD" << endl;
+    }
+    else if (command == "MOVE") { //COMMAND MOVE
+    }
+    else if(command == "USE"){ //COMMAND USE
+      cout << "USE " << endl;
+    } 
+    else if (command == "CRAFT") { //COMMAND CRAFT
+      cout << "TODO" << endl;
+      string slotSrc;
+      int slotQty;
+      string slotDest;
+      // need to handle multiple destinations
+      cin >> slotSrc >> slotQty >> slotDest;
+      cout << "TODO" << endl;
+    } 
+    else if (command == "EXPORT") { //COMMAND EXPORT
       string outputPath;
       cin >> outputPath;
       ofstream outputFile(outputPath);
@@ -40,24 +77,32 @@ int main() {
       }
 
       cout << "Exported" << endl;
-    } else if (command == "CRAFT") {
-      cout << "TODO" << endl;
-    } else if (command == "GIVE") {
-      string itemName;
-      int itemQty;
-      cin >> itemName >> itemQty;
-      cout << "TODO" << endl;
-    } else if (command == "MOVE") {
-      string slotSrc;
-      int slotQty;
-      string slotDest;
-      // need to handle multiple destinations
-      cin >> slotSrc >> slotQty >> slotDest;
-      cout << "TODO" << endl;
-    } else {
       // todo
-      cout << "Invalid command" << endl;
+    }
+
+    // COMMAND TAMBAHAN
+    else if(command == "HELP"){
+      cout << "this is your help lol" << endl;
+    }
+    else if(command == "EXIT"){
+      cout << "do you want to export your state first? (y/n)" << endl;
+      char yn;
+      cin >> yn;
+      if(yn == 'y'){
+        //do export
+      }
+      else if(yn == 'n'){
+        //say goodbye
+      }
+      else{
+        //print invalid input. we take it as a 'n', so bye bye
+      }
+    }
+    else {
+      cout << "Invalid command. try \"HELP\" " << endl;
     }
   }
+
+  // add closing screen?
   return 0;
 }
