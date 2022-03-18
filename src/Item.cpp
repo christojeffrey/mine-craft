@@ -14,6 +14,15 @@ Item::Item(string name, string type):ID(countItem++){
 string Item::getName(){
     return this->name;
 }
+
+void Item::setName(string name){
+    this->name=name;
+}
+
+void Item::setType(string type){
+    this->type=type;
+}
+
 string Item::getType(){
     return this->type;
 }

@@ -12,7 +12,9 @@ class Item {
         Item();
         Item(string name, string type);
         string getName();
+        void setName(string name);
         string getType();
+        void setType(string type);
         int getID();
         virtual void printInfo()const;
         void virtual setQuantity(int pengganti)=0;
