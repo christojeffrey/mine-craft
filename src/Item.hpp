@@ -16,10 +16,8 @@ class Item {
         void setType(string type);
         int getID();
         virtual void printInfo()const;
-        void virtual setQuantity(int pengganti)=0;
-        int virtual getQuantity()=0;
-        void virtual setDurability(int pengganti)=0;
-        int virtual getDurability()=0;
+        virtual int use() =0;
+        virtual int substract(int qty)=0;
 };
 
 

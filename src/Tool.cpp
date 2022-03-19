@@ -25,3 +25,17 @@ void Tool::printInfo()const{
     cout << "Durability\t: "<< this->durability <<endl;
     cout << "Kind\t\t: "<< this->kind <<endl<<endl;
 }
+
+int Tool::use(){
+    this->durability--;
+    return this->durability--;
+}
+
+int Tool::substract(int qty){
+    if(qty!=1){
+        throw "Tidak valid";
+    }else{
+        return 0;
+    }
+    
+}
