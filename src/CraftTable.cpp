@@ -74,6 +74,7 @@ Item* CraftTable::make(vector<Recipe> recipe) {
                 // cannot build items in craft table
                 throw new craftTableDoesntMatchRecipeException();
             }
+
         } else {
             Item* res = makeTool();
             return res;

@@ -24,6 +24,8 @@ class NonTool: public Item{
         bool operator==(NonTool& n);
         int use();
         int substract(int qty);
+        virtual void add(Tool t) = 0;
+        virtual void add(NonTool n) = 0;
 };
 
 

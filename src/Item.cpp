@@ -28,10 +28,5 @@ void Item::printInfo()const{
 
     cout << "ID\t\t: "<< this->ID <<endl;
     cout << "Name\t\t: "<< this->name <<endl;
-<<<<<<< HEAD
-}
-=======
-    cout << "type\t\t: "<< this->type <<endl;
 
-}
->>>>>>> 3ac2b2a024e7d09c2e9dbe70ef0e32b7eb97b50a
+    

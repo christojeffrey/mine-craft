@@ -33,7 +33,7 @@ int main() {
     int count = 0;
     string id;
     string name;
-    string type;
+    string nonToolClasss;
     string toolnontool;
     while(ss >> currentWord){
       if(count == 0){
@@ -43,7 +43,7 @@ int main() {
         name = currentWord;
       }
       else if(count == 2){ //
-        type = currentWord;
+        nonToolClasss = currentWord;
       }
       else if(count == 3){ //
         toolnontool = currentWord;
@@ -60,12 +60,12 @@ int main() {
     //add to legal list
     if(toolnontool == "TOOL"){
       //tambahkan tool ke legal item
-      legalItem.insert(id, 1, new Tool(id, name, 10));
+      legalItem.push_back(new Tool(id, name, 10));
     }
     else{
       //tambahakn nontool ke legal item
     }
-    legalItem.insert(new NonTool(id, name,));
+    legalItem.push_back(NonTool(id, name, nonToolClasss));
   }
 
   // read recipes
