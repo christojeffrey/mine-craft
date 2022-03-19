@@ -48,7 +48,7 @@ void CraftTable::substract(string c_id) {
         if (!isSlotEmpty(c_id)) {
             table[c_id] = NULL;
         } else {
-            throw new craftTableIsNotEmptyException();
+            throw new craftTableIsEmptyException();
         }
     } else {
         throw new CIDNotValid();
@@ -61,20 +61,22 @@ void CraftTable::print() {
 }; 
 
 
-Item& CraftTable::make(vector<Recipe> recipe) {
+Item* CraftTable::make(vector<Recipe> recipe) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
     if (!isTableEmpty()) {
         if (!this->isAllTool()) {
             int idx = whichBuildable(recipe);
             if (idx != -1) {
-                Recipe res = recipe[idx];
+                Item* res = new NonTool();
+                Recipe itemCrafted = recipe[idx];
             } else {
                 // cannot build items in craft table
                 throw new craftTableDoesntMatchRecipeException();
             }
         } else {
-            Tool a = new makeTool();
+            Item* res = makeTool();
+            return res;
         }
     } else {
         throw new craftTableIsEmptyException;
@@ -128,6 +130,7 @@ vector<string> CraftTable::convertVector() {
         }
         res.push_back(val);
     }
+    return res;
 }
 
 int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
@@ -136,12 +139,17 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
         int row = listRecipe[i].getRow();
         int col = listRecipe[i].getCol();
         vector<string> recipe = listRecipe[i].getRecipe();
-        // int quantity = listRecipe[i].getQuantityResult();
+        
         vector<string> table = (this->convertVector());
         table = trimKosong(table);
-
+        vector<string> tableYReflected = reflectYTable(table);
         // check recipe is subarray of a table array
         if (isSubArray(table, recipe, table.size(), recipe.size())) {
+            res = i;
+            break;
+        }
+
+        if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
             res = i;
             break;
         }
@@ -149,7 +157,7 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
     return res;
 };
 
-NonTool& CraftTable::makeTool() {
+Tool* CraftTable::makeTool() {
 
 };
 
