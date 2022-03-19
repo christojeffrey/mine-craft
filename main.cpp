@@ -67,12 +67,22 @@ int main() {
   }
 
 
+
+
+
   // GameState GS = new GameState()
   cout << "game is ready!" << endl;
   // add more glorified welcome message
+
+
+
+
+
   /* START */
   string command;
   command = "HELP";
+
+  
   while (command != "EXIT") {
     cout << "input your command!"<< endl;
     cout << ">";

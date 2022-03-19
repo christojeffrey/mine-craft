@@ -3,39 +3,29 @@
 #include <iostream>
 using namespace std;
 
-Item::Item(int ID, string name, string type, bool isTool){
-    this->ID=ID;
-    this->name=name;
-    this->type=type;
-    this->isTool=false;
+Item::Item(int ID, string name, bool isTool) : ID(ID), name(name), isTool(isTool){
 }
 
-string Item::getName(){
+string Item::getName()const{
     return this->name;
 }
 
-void Item::setName(string name){
-    this->name=name;
-}
-
-void Item::setType(string type){
-    this->type=type;
-}
-
-string Item::getType(){
-    return this->type;
-}
-int Item::getID(){
+int Item::getID()const{
     return this->ID;
 }
 
-bool Item::getIsTool() {
+bool Item::getIsTool() const{
     return isTool;
 }
 
 void Item::printInfo()const{
+    if(isTool){
+        cout << "Item is Tool" << endl;
+    }
+    else{
+        cout << "Item is Not a Tool" << endl;
+    }
+
     cout << "ID\t\t: "<< this->ID <<endl;
     cout << "Name\t\t: "<< this->name <<endl;
-    cout << "type\t\t: "<< this->type <<endl;
-
 }

@@ -3,11 +3,8 @@
 #include <iostream>
 
 using namespace std;
-Tool::Tool():Item(){
-    this->durability=10;
-}
 
-Tool::Tool(int ID, string name, string type, int durability):Item(ID,name,type,true){
+Tool::Tool(int ID, string name, int durability) : Item(ID,name,true){
     this->durability=durability;
 }
 
@@ -20,18 +17,18 @@ void Tool::setDurability(int pengganti){
 }
 
 void Tool::printInfo()const{
-    cout<< "NonTool\t:"<<endl;
     Item::printInfo();
     cout << "Durability\t: "<< this->durability <<endl;
-    cout << "Kind\t\t: "<< this->kind <<endl<<endl;
 }
 
 int Tool::use(){
+    //kalo di use, durability di kurangi sebanyak satu
     this->durability--;
     return this->durability--;
 }
 
 int Tool::substract(int qty){
+    //this actually did nothing to the item. return sisa itemnya
     if(qty!=1){
         throw "Tidak valid";
     }else{

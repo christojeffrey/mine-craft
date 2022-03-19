@@ -3,16 +3,14 @@
 #include <iostream>
 
 using namespace std;
-NonTool::NonTool():Item(){
-    this->quantity=1;
-}
 
-NonTool::NonTool(int ID, string name, string type, string nonToolClass, int quantity):Item(ID,name,type,false){
+
+NonTool::NonTool(int ID, string name, string nonToolClass, int quantity):Item(ID,name,false){
     this->nonToolClass=nonToolClass;
     this->quantity=quantity;
 }
 
-int NonTool::getQuantity(){
+int NonTool::getQuantity() const{
     return this->quantity;
 }
 
@@ -20,18 +18,10 @@ void NonTool::setQuantity(int pengganti){
     this->quantity=pengganti;
 }
 
-void NonTool::setDurability(int pengganti){
-    
-}
-
-int NonTool::getDurability(){
-    return 999;
-} 
 
 void NonTool::printInfo()const{
-    cout<< "NonTool\t:"<<endl;
     Item::printInfo();
-    cout << "Quantity\t: "<< this->quantity <<endl<<endl;
+    cout << "Quantity\t: "<< this->quantity << endl;
 }
 
 bool NonTool::operator==(NonTool& n){
@@ -39,14 +29,14 @@ bool NonTool::operator==(NonTool& n){
 }
 
 int NonTool::use(){
-    throw "Tidak Bisa Digunakan";
+    throw "NonTool Item Tidak Bisa Digunakan";
 }
 
 int NonTool::substract(int qty){
-    if(qty>this->quantity){
-        throw "Sisa item tidak cukup";
+    if(qty > this->quantity){
+        throw "Sisa Item NonTool Tidak Cukup";
     }else{
-        this->quantity-=qty;
+        this->quantity -= qty;
         return this->quantity;
     }
 }
