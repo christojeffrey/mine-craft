@@ -39,6 +39,26 @@ bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     return false;
 }
 
+vector<string> trimKosong(vector<string> table) {
+    for (int i = 0; i < table.size(); i++) {
+        if (table[i] == "-") {
+            table.erase(table.begin()+i);
+        } else {
+            break;
+        }
+    }
+
+    for (int i = table.size()-1; i>=0; i++) {
+        if (table[i] == "-") {
+            table.pop_back();
+        } else {
+            break;
+        }
+    }
+
+    return table;
+};
+
 vector<string> reflectYTable(vector<string> table) {
     swap(table[0], table[2]);
     swap(table[3], table[5]);

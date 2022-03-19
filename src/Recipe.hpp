@@ -16,11 +16,13 @@ class Recipe {
     public:
         Recipe(); // Ctor
         Recipe(int row, int col, vector<string> recipe, Item& item, int quantityResult);
+        Recipe(const Recipe& r);
         // Getter Setter
         ~Recipe();
         vector<string> getRecipe();
         int getRow();
         int getCol();
+        Item* getItem();
         int getQuantityResult();
         void setItemRecipe(Item& other);
         void setQuantityResult(int quantityResult);

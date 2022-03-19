@@ -66,16 +66,25 @@ Item* CraftTable::make(vector<Recipe> recipe) {
     algoritma yang sama dengan command GIVE. */
     if (!isTableEmpty()) {
         if (!this->isAllTool()) {
+            bool reflected = false;
             int idx = whichBuildable(recipe);
             if (idx != -1) {
-                Item* res = new NonTool();
                 Recipe itemCrafted = recipe[idx];
+                Item* res = new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
             } else {
-                // cannot build items in craft table
-                throw new craftTableDoesntMatchRecipeException();
+                idx = whichBuildableReflected(recipe);
+                if (idx != -1) {
+                    reflected = true;
+                    Recipe itemCrafted = recipe[idx];
+                    Item* res = new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
+                } else {
+                    // cannot build items in craft table
+                    throw new craftTableDoesntMatchRecipeException();
+                }
             }
         } else {
-            Item* res = makeTool();
+            Tool* sumTool = makeTool();
+            Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
         }
     } else {
@@ -139,16 +148,26 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
         int row = listRecipe[i].getRow();
         int col = listRecipe[i].getCol();
         vector<string> recipe = listRecipe[i].getRecipe();
-        
         vector<string> table = (this->convertVector());
         table = trimKosong(table);
-        vector<string> tableYReflected = reflectYTable(table);
         // check recipe is subarray of a table array
         if (isSubArray(table, recipe, table.size(), recipe.size())) {
             res = i;
             break;
         }
+    }
+    return res;
+};
 
+int CraftTable::whichBuildableReflected(vector<Recipe> listRecipe) {
+    int res = -1;
+    for (int i = 0; i < listRecipe.size(); i++) {
+        int row = listRecipe[i].getRow();
+        int col = listRecipe[i].getCol();
+        vector<string> recipe = listRecipe[i].getRecipe();
+        vector<string> tableYReflected = reflectYTable(this->convertVector());
+        tableYReflected = trimKosong(tableYReflected);
+        // check recipe is subarray of a table array
         if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
             res = i;
             break;
@@ -158,25 +177,65 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
 };
 
 Tool* CraftTable::makeTool() {
-
-};
-
-vector<string> CraftTable::trimKosong(vector<string> table) {
-    for (int i = 0; i < table.size(); i++) {
-        if (table[i] == "-") {
-            table.erase(table.begin()+i);
-        } else {
-            break;
+    string name;
+    int sum = 0, id = 0;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            id = it->second->getID();
+            name = it->second->getName();
+            sum += it->second.getDurability();
         }
     }
-
-    for (int i = table.size()-1; i>=0; i++) {
-        if (table[i] == "-") {
-            table.pop_back();
-        } else {
-            break;
-        }
-    }
-
-    return table;
+    sum = min(10, sum);
+    Tool* res = new Tool(id, name, sum);
 };
+
+// int CraftTable::checkMultiple(Recipe recipe) {
+//     int res = 0;
+//     vector<string> recipeArray = trimKosong(recipe.getRecipe());
+//     int idx = 0;
+//     int tempMultiple = 0;
+//     for (auto it = table.begin(); it != table.end(); ++it) {
+//         if (it->second) {
+//             if (it->second->getQuantity() != 1) {
+//                 res = 1;
+//                 int quantityItem = it->second->getQuantity();
+//                 if (idx == 0) {
+//                     tempMultiple = quantityItem;
+//                 } else {
+//                     if (tempMultiple != quantityItem) {
+//                         tempMultiple = min(tempMultiple, quantityItem);
+//                     }
+//                 }
+
+//             } else {
+//                 return 1;
+//             }
+//         }
+//         ++idx;
+//     }
+
+//     if (res == -1) {
+//         for (auto it = table.begin(); it != table.end(); ++it) {
+//         if (it->second) {
+//             if (it->second->getQuantity() != 1) {
+//                 res = 1;
+//                 int quantityItem = it->second->getQuantity();
+//                 if (idx == 0) {
+//                     tempMultiple = quantityItem;
+//                 } else {
+//                     if (tempMultiple != quantityItem) {
+//                         tempMultiple = min(tempMultiple, quantityItem);
+//                     }
+//                 }
+
+//             } else {
+//                 return 1;
+//             }
+//         }
+//         ++idx;
+//     }
+//     }
+// };
+
+
