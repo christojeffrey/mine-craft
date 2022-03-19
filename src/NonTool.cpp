@@ -7,7 +7,8 @@ NonTool::NonTool():Item(){
     this->quantity=1;
 }
 
-NonTool::NonTool(string name, string type, int quantity):Item(name,type){
+NonTool::NonTool(int ID, string name, string type, string nonToolClass, int quantity):Item(ID,name,type,false){
+    this->nonToolClass=nonToolClass;
     this->quantity=quantity;
 }
 

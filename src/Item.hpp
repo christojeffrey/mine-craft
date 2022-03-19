@@ -7,9 +7,10 @@ class Item {
         int ID;
         string name;
         string type;
+        bool isTool;
     public:
         Item();
-        Item(string name, string type);
+        Item(int ID, string name, string type, bool isTool);
         string getName();
         void setName(string name);
         string getType();

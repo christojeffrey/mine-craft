@@ -2,13 +2,12 @@
 #include <string>
 #include <iostream>
 using namespace std;
-Item::Item():Item("Item","-"){
-}
 
-Item::Item(int ID, string name, string type){
+Item::Item(int ID, string name, string type, bool isTool){
     this->ID=ID;
     this->name=name;
     this->type=type;
+    this->isTool=false;
 }
 
 string Item::getName(){
