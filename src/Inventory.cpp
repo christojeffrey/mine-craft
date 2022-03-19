@@ -28,13 +28,17 @@ Inventory::Inventory() {
 Inventory::~Inventory(){
 }
 
+// Belom cek apakah namanya sama (done)
 void Inventory::move(string idxSrc, string idxDest){
   if (this->inven[idxDest]->getType() == "TOOL" || this->inven[idxSrc]->getType() == "NONTOOL") {
     // throw exception
     throw "Salah tipe";
   } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {
     throw "Salah satu item tidak ada";
-  } else {
+  } else if (this->inven[idxSrc]->getName() != this->inven[idxDest]->getName()){
+    throw "ITEM TIDAK SAMA!!";
+  } 
+  else {
     int sisaQty = 64 - this->inven[idxDest]->getQuantity();
     // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
     if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
@@ -55,10 +59,16 @@ void Inventory::add(Item* item){
   if (inven.size() == MAX_INVEN) {
     throw "Inventory penuh";
   } else {
-    for (int i = 0; i < MAX_INVEN; i++){
+    int i = 0;
+    bool found = false;
+    while (i < MAX_INVEN && !found){
+      // cari indeks yang masi kosong
       string key = intToString(i);
       if (this->inven.find(key) == inven.end()){
         this->inven[key] = item;
+        found = true;
+      } else {
+        i++;
       }
     }
   }
@@ -107,8 +117,8 @@ void Inventory::use(string I_id){
   }
 }
 
-// driver
-int main(){
-  Inventory i;
-  return 0;
-}
+// // driver
+// int main(){
+//   Inventory i;
+//   return 0;
+// }

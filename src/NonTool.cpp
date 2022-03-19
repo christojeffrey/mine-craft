@@ -11,13 +11,21 @@ NonTool::NonTool(string name, string type, int quantity):Item(name,type){
     this->quantity=quantity;
 }
 
-int NonTool::getQuantity()const{
+int NonTool::getQuantity(){
     return this->quantity;
 }
 
 void NonTool::setQuantity(int pengganti){
     this->quantity=pengganti;
 }
+
+void NonTool::setDurability(int pengganti){
+    
+}
+
+int NonTool::getDurability(){
+    return 999;
+} 
 
 void NonTool::printInfo()const{
     cout<< "NonTool\t:"<<endl;
