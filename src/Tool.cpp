@@ -7,7 +7,7 @@ Tool::Tool():Item(){
     this->durability=10;
 }
 
-Tool::Tool(string name, string type, int durability):Item(name,type){
+Tool::Tool(int ID, string name, string type, int durability):Item(ID,name,type,true){
     this->durability=durability;
 }
 

@@ -6,11 +6,14 @@
 class NonTool: public Item{
     private:
         int quantity;
+        string nonToolClass;
     public:
         NonTool();
-        NonTool(string name, string type,int quantity);
-        int getQuantity()const;
+        NonTool(int ID,string name, string type, string NonToolClass,int quantity);
+        int getQuantity();
         void setQuantity(int pengganti);
+        int getDurability();
+        void setDurability(int pengganti);
         void printInfo()const;
         bool operator==(NonTool& n);
         int use();

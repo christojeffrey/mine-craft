@@ -2,13 +2,12 @@
 #include <string>
 #include <iostream>
 using namespace std;
-int Item::countItem=1;
-Item::Item():Item("Item","-"){
-}
 
-Item::Item(string name, string type):ID(countItem++){
+Item::Item(int ID, string name, string type, bool isTool){
+    this->ID=ID;
     this->name=name;
     this->type=type;
+    this->isTool=false;
 }
 
 string Item::getName(){
