@@ -16,6 +16,14 @@ Recipe::Recipe(int row, int col, vector<string> recipe, Item& item, int quantity
     this->item = &item;
 };
 
+Recipe::Recipe(const Recipe& r) {
+    this->row = r.row;
+    this->col = r.col;
+    this->quantityResult = r.quantityResult;
+    this->recipe = r.recipe;
+    this->item = r.item;
+};
+
 Recipe::~Recipe() {
     delete item;
 }
@@ -30,6 +38,11 @@ int Recipe::getRow() {
 int Recipe::getCol() {
     return col;
 };
+
+Item* Recipe::getItem() {
+    return item;
+};
+
 int Recipe::getQuantityResult() {
     return quantityResult;
 };
