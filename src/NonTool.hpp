@@ -12,7 +12,7 @@ class NonTool: public Item{
     public:
         // NonTool(); once a non tool is made, dia gaboleh polosan
         NonTool(int ID, string name, string NonToolClass, int quantity);
-
+        ~NonTool(){};
         int getQuantity() const;
         void setQuantity(int pengganti);
 
@@ -24,8 +24,7 @@ class NonTool: public Item{
         bool operator==(NonTool& n);
         int use();
         int substract(int qty);
-        virtual void add(Tool t) = 0;
-        virtual void add(NonTool n) = 0;
+        string getNonToolClass() const;
 };
 
 

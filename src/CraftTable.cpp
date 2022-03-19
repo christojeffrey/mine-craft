@@ -68,7 +68,7 @@ Item* CraftTable::make(vector<Recipe> recipe) {
         if (!this->isAllTool()) {
             int idx = whichBuildable(recipe);
             if (idx != -1) {
-                Item* res = new NonTool();
+                // Item* res = new NonTool();
                 Recipe itemCrafted = recipe[idx];
             } else {
                 // cannot build items in craft table
@@ -76,8 +76,8 @@ Item* CraftTable::make(vector<Recipe> recipe) {
             }
 
         } else {
-            Item* res = makeTool();
-            return res;
+            // Item* res = makeTool();
+            return new Tool(1, "bob", 10);
         }
     } else {
         throw new craftTableIsEmptyException;

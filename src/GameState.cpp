@@ -18,18 +18,20 @@ void GameState::SHOW(){
 void GameState::GIVE(string item_name, int qty){
     bool found=false;
     string type;
+    int id;
     list<Item>::iterator it = this->legalItem.begin();
     while(it!=this->legalItem.end()){
         if(it->getName()==item_name){
             found=true;
-            type = it->getType();
+            type = it->getNonToolClass();
+            id = it->getID();
         }else{
             ++it;
         }
     }
     if(found){
         try{
-            this->inventory.add(new NonTool(item_name,type,qty));
+            this->inventory.add(new NonTool(id,item_name,type,qty));
         } catch(BaseException *e){
             e->printMessage();
             //kalau inventory penuh
@@ -86,7 +88,7 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        Item& hasil = this->craftTable.make(this->legalRecipe);
+        // Item& hasil = this->craftTable.make(this->legalRecipe);
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep

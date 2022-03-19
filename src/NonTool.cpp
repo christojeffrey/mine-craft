@@ -1,4 +1,5 @@
 #include "NonTool.hpp"
+#include "Tool.hpp"
 #include <string>
 #include <iostream>
 
@@ -30,6 +31,7 @@ bool NonTool::operator==(NonTool& n){
 
 int NonTool::use(){
     throw "NonTool Item Tidak Bisa Digunakan";
+    return 0;
 }
 
 int NonTool::substract(int qty){
@@ -37,6 +39,25 @@ int NonTool::substract(int qty){
         throw "Sisa Item NonTool Tidak Cukup";
     }else{
         this->quantity -= qty;
-        return this->quantity;
+        throw "NonTool gabisa di add";
     }
+    return 0;
 }
+
+string NonTool::getNonToolClass()const{
+    return this->nonToolClass;
+    //   return this->quantity;
+}
+
+// }
+
+// void NonTool::add(Tool * t){
+    
+// }
+
+// void NonTool::add(NonTool *n ){
+//     if(n->getQuantity()<=0){
+//         throw "Nontool yang ditambahkan kosong";
+//     }
+//     this->quantity+=n->getQuantity();
+// } 

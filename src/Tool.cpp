@@ -34,5 +34,5 @@ int Tool::substract(int qty){
     }else{
         return 0;
     }
-    
+    return 0;
 }

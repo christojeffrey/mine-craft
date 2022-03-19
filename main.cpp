@@ -6,9 +6,9 @@
 #include <vector>
 #include <list>
 
-#include "Item.hpp"
-#include "Tool.hpp"
-#include "NonTool.hpp"
+#include "src/Item.hpp"
+#include "src/Tool.hpp"
+#include "src/NonTool.hpp"
 
 using namespace std;
 
@@ -21,7 +21,9 @@ int main() {
   string itemConfigPath = configPath + "/item.txt";
 
   // CREATE LIST OF LEGAL ITEM
-  list<Item> legalItem;
+  // list<Item> legalItem;
+  string name = "bob";
+  Item* a = new Tool(1, "bob", 10);
   //read from config 
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
@@ -33,7 +35,7 @@ int main() {
     int count = 0;
     string id;
     string name;
-    string nonToolClasss;
+    string nonToolClass;
     string toolnontool;
     while(ss >> currentWord){
       if(count == 0){
@@ -43,7 +45,7 @@ int main() {
         name = currentWord;
       }
       else if(count == 2){ //
-        nonToolClasss = currentWord;
+        nonToolClass = currentWord;
       }
       else if(count == 3){ //
         toolnontool = currentWord;
@@ -51,29 +53,37 @@ int main() {
       count++;
       //cout << count++ << ". " << currentWord << endl;
     }
+
     /* FOR DEBUGGING PURPOSE */
     cout << "\tid = " << id << endl;
     cout << "\tname = "<< name << endl;
-    cout << "\tclass = "<< type << endl;
+    cout << "\tclass = "<< nonToolClass << endl;
     cout << "\ttoolnontool = " << toolnontool << endl;
     /* FOR DEBUGGING PURPOSE */
+
     //add to legal list
     if(toolnontool == "TOOL"){
       //tambahkan tool ke legal item
-      legalItem.push_back(new Tool(id, name, 10));
+      // legalItem.push_back(new Tool(id, name, 10));
     }
     else{
       //tambahakn nontool ke legal item
+      // legalItem.push_back(NonTool(id, name, nonToolClass));
     }
-    legalItem.push_back(NonTool(id, name, nonToolClasss));
   }
 
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
     cout << entry.path() << endl;
+    
     // create list of legal recipe
+    ifstream eachRecipeFile(entry.path());
+    for (string line; getline(eachRecipeFile, line);) {
+      //each line inside a recipe
+      cout << "\t" << line << endl;
+      
+    }
   }
-
 
 
 
