@@ -64,12 +64,20 @@ void CraftTable::print() {
 Item& CraftTable::make(vector<Recipe> recipe) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
-    int idx = whichBuildable(recipe);
-    if (idx != -1) {
-        Recipe res = recipe[idx];
+    if (!isTableEmpty()) {
+        if (!this->isAllTool()) {
+            int idx = whichBuildable(recipe);
+            if (idx != -1) {
+                Recipe res = recipe[idx];
+            } else {
+                // cannot build items in craft table
+                throw new craftTableDoesntMatchRecipeException();
+            }
+        } else {
+            Tool a = new makeTool();
+        }
     } else {
-        // cannot build items in craft table
-        throw new craftTableDoesntMatchRecipeException();
+        throw new craftTableIsEmptyException;
     }
 }; 
 
@@ -90,6 +98,22 @@ bool CraftTable::isTableEmpty() {
         if (it->second) return false;
     }
 
+    return true;
+};
+
+bool CraftTable::isAllTool() {
+    int cnt = 2;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            // if slot not empty
+            if (it->second->getIsTool() && cnt >= 0) {
+                --cnt;
+            } else {
+                //if (!it->second->getIsTool() || cnt < 0)                
+                return false;
+            }
+        }
+    } 
     return true;
 };
 
@@ -123,6 +147,10 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
         }
     }
     return res;
+};
+
+NonTool& CraftTable::makeTool() {
+
 };
 
 vector<string> CraftTable::trimKosong(vector<string> table) {

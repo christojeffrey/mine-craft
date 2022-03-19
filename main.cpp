@@ -1,30 +1,69 @@
-// sample main file, replace this with your own code
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <bits/stdc++.h>
+#include <vector>
+#include <list>
+
+#include "Item.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
 
 using namespace std;
 
 int main() {
   //add welcome message
-
+  
   /* SETUP */
   cout << "setting up..." << endl;
   string configPath = "./config";
   string itemConfigPath = configPath + "/item.txt";
 
-  // read item from config file
+  // CREATE LIST OF LEGAL ITEM
+  list<Item> legalItem;
+  //read from config 
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
     cout << line << endl;
-    // do something
+
+    //spliting line
+    stringstream ss(line);
+    string currentWord;
+    int count = 0;
+    string id;
+    string name;
+    string type;
+    string toolnontool;
+    while(ss >> currentWord){
+      if(count == 0){
+        id = currentWord;
+      }
+      else if(count == 1){ //
+        name = currentWord;
+      }
+      else if(count == 2){ //
+        type = currentWord;
+      }
+      else if(count == 3){ //
+        toolnontool = currentWord;
+      }
+      count++;
+      //cout << count++ << ". " << currentWord << endl;
+    }
+    /* FOR DEBUGGING PURPOSE */
+    cout << "\tid = " << id << endl;
+    cout << "\tname = "<< name << endl;
+    cout << "\ttype = "<< type << endl;
+    cout << "\ttoolnontool = " << toolnontool << endl;
+    /* FOR DEBUGGING PURPOSE */
+
   }
 
   // read recipes
-  for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
+  for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
     cout << entry.path() << endl;
-    // read from file and do something
+    // create list of legal recipe
   }
 
 
