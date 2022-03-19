@@ -120,13 +120,14 @@ void Inventory::use(string I_id){
     }
   }
 }
- Item * Inventory::getItem(string I_id){
-   try{
-    return this->inven[I_id];
-   }catch(...){
-     throw "Tidak ada item";
-   }
- } 
+ 
+Item * Inventory::getItem(string I_id){
+  try{
+  return this->inven[I_id];
+  }catch(...){
+    throw "Tidak ada item";
+  }
+} 
 
 // // driver
 // int main(){
