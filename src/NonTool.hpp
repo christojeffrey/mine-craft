@@ -15,6 +15,8 @@ class NonTool: public Item{
         void setDurability(int pengganti);
         void printInfo()const;
         bool operator==(NonTool& n);
+        int use();
+        int substract(int qty);
 };
 
 

@@ -13,8 +13,8 @@ class Tool: public Item{
         int getDurability()const;
         void setDurability(int pengganti);
         void printInfo()const;
-
-
+        int use();
+        int substract(int qty);
 };
 
 

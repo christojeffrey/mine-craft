@@ -39,7 +39,7 @@ void Inventory::move(string idxSrc, string idxDest){
     throw "ITEM TIDAK SAMA!!";
   } 
   else {
-    int sisaQty = 64 - this->inven[idxDest]->getQuantity();
+    int sisaQty = 64 - this->inven[idxDest]->NonTool::getQuantity();
     // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
     if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
       this->inven[idxDest]->setQuantity(64);
@@ -55,7 +55,7 @@ void Inventory::move(string idxSrc, string idxDest){
   }
 }
 
-void Inventory::add(Item* item){
+void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
   if (inven.size() == MAX_INVEN) {
     throw "Inventory penuh";
   } else {
@@ -74,6 +74,14 @@ void Inventory::add(Item* item){
   }
 }
 
+void Inventory::add(Item* item_name,string dest){
+  if(this->inven.find(dest)== inven.end()){
+    this->inven[dest]=item_name;
+  }else{
+    throw "Sudah ada yang menempati";
+  }
+}
+
 void Inventory::printInfo(){
   // for (map<string, Item*>::iterator it = this->inven.begin(); it != this->inven.end(); ++it){
   for (int i = 0; i < MAX_INVEN; i++){
@@ -89,33 +97,36 @@ void Inventory::printInfo(){
 }
 
 void Inventory::substract(string I_id, int qty){
-  if (this->inven[I_id]->getType() == "TOOL") {
-    throw "Salah tipe";
-  } else if (this->inven.find(I_id) == this->inven.end()) {
-    throw "Tidak item di indeks tersebut";
-  } else if (this->inven[I_id]->getQuantity() < qty){ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
-    throw "Quantity item tidak mencukupi";
-  } else {
-    this->inven[I_id]->setQuantity(this->inven[I_id]->getQuantity() - qty);
-    // hapus item jika jumlahnya jadi 0
-    if (this->inven[I_id]->getQuantity() == 0) {
-      this->inven.erase(I_id);
+  if (this->inven.find(I_id) == this->inven.end()) {
+    throw "Tidak ada item di indeks tersebut";
+  } else{ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
+    try{
+      int sisa = this->inven[I_id]->substract(qty);
+      if(sisa==0){
+        this->inven.erase(I_id);
+      }
+    }catch(...){
+      //kalau qty kurang atau
     }
   }
 }
 
 void Inventory::use(string I_id){
-  if (this->inven[I_id]->getType() == "NONTOOL") {
-    throw "Salah tipe";
-  } else if (this->inven.find(I_id) == this->inven.end()) {
+  if (this->inven.find(I_id) == this->inven.end()) {
     throw "Tidak item di indeks tersebut";
   } else {
-    this->inven[I_id]->setDurability(this->inven[I_id]->getDurability() - 1);
-    if (this->inven[I_id]->getDurability() <= 0) {
+    if (this->inven[I_id]->use() <= 0) {
       this->inven.erase(I_id);
     }
   }
 }
+ Item * Inventory::getItem(string I_id){
+   try{
+    return this->inven[I_id];
+   }catch(...){
+     throw "Tidak ada item";
+   }
+ } 
 
 // // driver
 // int main(){
