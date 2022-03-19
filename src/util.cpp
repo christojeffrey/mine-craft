@@ -39,15 +39,9 @@ bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     return false;
 }
 
-// vector<string> reflectYTable(vector<string> param) {
-//     vector<vector<string>> res;
-//     res.resize(3);
-//     for (int i = 0; i < 3; i++) {
-//         res[i].resize(3);
-//     }
-//     for (int i = 0; i < res.size(); i++) {
-//         int row = i / 3;
-//         int col = i % 3;
-//         res[row][col] = param[i];
-//     }
-// }
+vector<string> reflectYTable(vector<string> table) {
+    swap(table[0], table[2]);
+    swap(table[3], table[5]);
+    swap(table[6], table[8]);
+    return table;
+}
