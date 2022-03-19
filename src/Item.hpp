@@ -6,7 +6,7 @@ class Item {
     private:
         int ID;
         string name;
-        string type;
+        string type; // tool non tool
         static int countItem;
     public:
         Item();
