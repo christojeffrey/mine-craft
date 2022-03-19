@@ -31,6 +31,7 @@ class Item {
         virtual int substract(int qty) = 0; 
         // kalo ini dibikin pure virual, artinya harus dibikinin sama tool. aneh kalo substact. kalo pun idenya 'ngeremove item dari inventory', yaitu di handle sama inventory. consider only making this on non tool.
         // oke gajadi, enaknya diinventory langsung manggil item substract, gk perlu peduliin dia itu tool atau nontool
+        virtual void add(Tool t) = 0;
 };
 
 

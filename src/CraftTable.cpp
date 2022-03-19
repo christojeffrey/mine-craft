@@ -82,6 +82,7 @@ Item* CraftTable::make(vector<Recipe> recipe) {
                     throw new craftTableDoesntMatchRecipeException();
                 }
             }
+
         } else {
             Tool* sumTool = makeTool();
             Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
