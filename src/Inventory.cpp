@@ -30,7 +30,7 @@ Inventory::~Inventory(){
 
 // Belom cek apakah namanya sama (done)
 void Inventory::move(string idxSrc, string idxDest){
-  if (this->inven[idxDest]->getType() == "TOOL" || this->inven[idxSrc]->getType() == "NONTOOL") {
+  if (this->inven[idxDest]->getIsTool() || this->inven[idxSrc]->getIsTool()) {
     // throw exception
     throw "Salah tipe";
   } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {

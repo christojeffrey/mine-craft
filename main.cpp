@@ -54,10 +54,18 @@ int main() {
     /* FOR DEBUGGING PURPOSE */
     cout << "\tid = " << id << endl;
     cout << "\tname = "<< name << endl;
-    cout << "\ttype = "<< type << endl;
+    cout << "\tclass = "<< type << endl;
     cout << "\ttoolnontool = " << toolnontool << endl;
     /* FOR DEBUGGING PURPOSE */
-
+    //add to legal list
+    if(toolnontool == "TOOL"){
+      //tambahkan tool ke legal item
+      legalItem.insert(id, 1, new Tool(id, name, 10));
+    }
+    else{
+      //tambahakn nontool ke legal item
+    }
+    legalItem.insert(new NonTool(id, name,));
   }
 
   // read recipes
