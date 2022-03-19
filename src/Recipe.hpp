@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include "Item.hpp"
-#include "CraftTable.hpp"
 using namespace std;
 
 class Recipe {

@@ -59,3 +59,15 @@ string Item:: getNonToolClass() const {
 string Item::getType(){
     throw "Tidak punya type";
 }
+
+Item& Item::operator=(const Item& i){
+    // this->isTool = i.isTool;
+    return *new Item(i.getID(), i.getName(), i.getIsTool());
+}
+
+int Item::use(){
+    return 1;
+    }
+int Item::substract(int qty){
+    return 1;
+}

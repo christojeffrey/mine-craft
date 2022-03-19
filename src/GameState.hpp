@@ -1,3 +1,5 @@
+#ifndef __GAMESTATE_HPP__
+#define __GAMESTATE_HPP__
 using namespace std;
 
 #include "Item.hpp"
@@ -25,3 +27,4 @@ class GameState{
         void EXPORT(string namaFile);
 
 };
+#endif

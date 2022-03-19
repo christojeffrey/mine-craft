@@ -2,14 +2,14 @@
 #define CRAFT_H
 
 #define MAX_CAP 9
+#include "Item.hpp"
+#include "Recipe.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
+#include "Exception.hpp"
 #include <iostream>
 #include <map>
 #include <vector>
-#include "Item.hpp"
-#include "Tool.hpp"
-#include "NonTool.hpp"
-#include "Recipe.hpp"
-#include "Exception.hpp"
 
 using namespace std;
 
@@ -27,13 +27,12 @@ class CraftTable {
         void substract(string c_id); // Delete item from c_id slot to be empty, if empty throw error
         // Method
         void print(); // Print all the values of the Crafting Table
-        Item* make(vector<Recipe> recipe); // return Item as a result of crafting
-        int whichBuildable(vector<Recipe> listRecipe);
-        int whichBuildableReflected(vector<Recipe> listRecipe);
+        Item* make(vector <Recipe> recipe); // return Item as a result of crafting
+        int whichBuildable(vector <Recipe> listRecipe);
+        int whichBuildableReflected(vector <Recipe> listRecipe);
         int checkMultiple(Recipe recipe);
         Tool* makeTool();
-        vector<string> trimKosong(vector<string> table);
-        vector<string> convertVector();
+        vector <string> convertVector();
         // Attribute
         bool contain(Item& item);
         bool isSlotEmpty(string c_id);

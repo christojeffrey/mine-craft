@@ -17,6 +17,7 @@ class Item {
         Item(int ID, string name, bool isTool);
         ~Item();
 
+        Item& operator=(const Item&);
         //getter (no setter)
         int getID() const;
 
@@ -35,8 +36,8 @@ class Item {
         virtual string getType();
 
         //pure virtual
-        virtual int use() = 0;
-        virtual int substract(int qty) = 0; 
+        virtual int use();
+        virtual int substract(int qty);
         // kalo ini dibikin pure virual, artinya harus dibikinin sama tool. aneh kalo substact. kalo pun idenya 'ngeremove item dari inventory', yaitu di handle sama inventory. consider only making this on non tool.
         // oke gajadi, enaknya diinventory langsung manggil item substract, gk perlu peduliin dia itu tool atau nontool
         // virtul void aItemool* t) = 0;

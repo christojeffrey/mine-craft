@@ -5,6 +5,9 @@ using namespace std;
 #include "Inventory.hpp"
 #include "Item.hpp"
 #include "Exception.hpp"
+#include <vector>
+#include <list>
+
 GameState::GameState(list<Item> _legalItem, vector<Recipe> _legalRecipe){
     this->legalItem = _legalItem;
     this->legalRecipe = _legalRecipe;

@@ -1,7 +1,72 @@
 #include <iostream>
 #include "CraftTable.hpp"
-#include "util.cpp"
+
 using namespace std;
+
+string get_cid(int idx) {
+    // Get c_id from a index
+    char num = idx + '0';
+    string res = "C";
+    res.push_back(num);
+    return res;
+};
+
+int get_idx(string c_id) {
+    int res = c_id[1] - '0';
+    return res;
+};
+
+bool isCIDValid(string c_id) {
+    int idx = get_idx(c_id);
+    return (idx >= 0 && idx < MAX_CAP);
+};
+
+
+bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
+    // to check if B is subarray of A
+    int i = 0, j = 0;
+    while (i < n && j < m) {
+        if (A[i] == B[j]) {
+            i++;
+            j++;
+            if (j == m)
+                return true;
+        }
+        else {
+            i = i - j + 1;
+            j = 0;
+        }
+    }
+    return false;
+}
+
+vector<string> trimKosong(vector<string> table) {
+    for (int i = 0; i < table.size(); i++) {
+        if (table[i] == "-") {
+            table.erase(table.begin()+i);
+        } else {
+            break;
+        }
+    }
+
+    for (int i = table.size()-1; i>=0; i++) {
+        if (table[i] == "-") {
+            table.pop_back();
+        } else {
+            break;
+        }
+    }
+
+    return table;
+};
+
+vector<string> reflectYTable(vector<string> table) {
+    swap(table[0], table[2]);
+    swap(table[3], table[5]);
+    swap(table[6], table[8]);
+    return table;
+}
+
 
 // Ctor
 CraftTable::CraftTable() {
@@ -70,19 +135,18 @@ Item* CraftTable::make(vector<Recipe> recipe) {
             int idx = whichBuildable(recipe);
             if (idx != -1) {
                 Recipe itemCrafted = recipe[idx];
-                Item* res = new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
+                return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
             } else {
                 idx = whichBuildableReflected(recipe);
                 if (idx != -1) {
                     reflected = true;
                     Recipe itemCrafted = recipe[idx];
-                    Item* res = new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
+                    return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
                 } else {
                     // cannot build items in craft table
                     throw new craftTableDoesntMatchRecipeException();
                 }
             }
-
         } else {
             Tool* sumTool = makeTool();
             Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
@@ -97,12 +161,14 @@ bool CraftTable::contain(Item& item) {
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second == &item) return true;
     }
+    return false;
 }
 
 // Attribute
 bool CraftTable::isSlotEmpty(string c_id) {
     if (isCIDValid(c_id))
         return (table[c_id]);
+    return false;
 };
 
 bool CraftTable::isTableEmpty() {
@@ -188,8 +254,9 @@ Tool* CraftTable::makeTool() {
         }
     }
     sum = min(10, sum);
-    Tool* res = new Tool(id, name, sum);
+    return new Tool(id, name, sum);
 };
+
 
 // int CraftTable::checkMultiple(Recipe recipe) {
 //     int res = 0;
