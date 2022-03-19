@@ -29,6 +29,10 @@ int Item::getID(){
     return this->ID;
 }
 
+bool Item::getIsTool() {
+    return isTool;
+}
+
 void Item::printInfo()const{
     cout << "ID\t\t: "<< this->ID <<endl;
     cout << "Name\t\t: "<< this->name <<endl;

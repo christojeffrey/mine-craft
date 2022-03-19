@@ -16,6 +16,7 @@ class Item {
         string getType();
         void setType(string type);
         int getID();
+        bool getIsTool();
         virtual void printInfo()const;
         virtual int use() =0;
         virtual int substract(int qty)=0;
