@@ -39,7 +39,7 @@ void Inventory::move(string idxSrc, string idxDest){
     throw "ITEM TIDAK SAMA!!";
   } 
   else {
-    int sisaQty = 64 - this->inven[idxDest]->NonTool::getQuantity();
+    int sisaQty = 64 - this->inven[idxDest]->getQuantity();
     // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
     if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
       this->inven[idxDest]->setQuantity(64);
