@@ -10,6 +10,7 @@ public:
     virtual void printMessage() = 0;
 };
 
+
 class ExampleException : public BaseException { 
     private:
         int contoh;
@@ -17,6 +18,7 @@ class ExampleException : public BaseException {
         ExampleException(int _contoh);
         void printMessage();
 };
+
 
 
 

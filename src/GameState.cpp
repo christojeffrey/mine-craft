@@ -68,9 +68,9 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
 }
 void GameState::MOVE(string C_id, string I_id){
     try{
-        Item* itemnyaapa = this->inventory.getItem(I_id);
+        Item& itemnyaapa = this->craftTable.getItemInCraftTable(C_id);
         this->craftTable.substract(C_id);
-        this->inventory.add(itemnyaapa,I_id);
+        this->inventory.add(&itemnyaapa,I_id);
     }catch(BaseException *e){
         e->printMessage();
         //kalau di craft kosong atau inventory penuh
@@ -86,7 +86,7 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        this->craftTable.make(this->legalRecipe);
+        Item& hasil = this->craftTable.make(this->legalRecipe);
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep
