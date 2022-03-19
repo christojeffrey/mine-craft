@@ -7,7 +7,6 @@ class Item {
         int ID;
         string name;
         string type;
-        static int countItem;
     public:
         Item();
         Item(string name, string type);
