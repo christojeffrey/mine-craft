@@ -11,6 +11,7 @@
 #include "src/Tool.hpp"
 #include "src/NonTool.hpp"
 #include "src/Recipe.hpp"
+#include "src/GameState.hpp"
 using namespace std;
 
 int main() {
@@ -25,7 +26,7 @@ int main() {
   list<Item*> legalItem;
 
   //buat ngebantu bikin recipe, aku butuh sebuah item, ketika diketahui nama item.
-  map<string, Item> ItemNameToItemObject; 
+  map<string, Item*> ItemNameToItemObject; 
   map<string, bool> isItemATool;
 
   //read from config 
@@ -76,8 +77,8 @@ int main() {
       legalItem.push_back(temp);
 
       //add to recipe helper
-      //ItemNameToItemObject.insert(pair<string,Item> (name,*temp));
-      //isItemATool.insert(pair<string,bool> (name, true));
+      ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
+      isItemATool.insert(pair<string,bool> (name, true));
     }
     else{
       //tambahakn nontool ke legal item
@@ -86,8 +87,8 @@ int main() {
 
             //add to recipe helper
 
-      //ItemNameToItemObject.insert(pair<string,Item> (name,*temp));
-      //isItemATool.insert(pair<string,bool> (name, false));
+      ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
+      isItemATool.insert(pair<string,bool> (name, false));
 
     }
   }
@@ -99,6 +100,7 @@ int main() {
   // }
   /* FOR DEBUGGING PURPOSE */
 
+  vector<Recipe> legalRecipe;
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
     cout << entry.path() << endl;
@@ -152,22 +154,26 @@ int main() {
       }
     }
     //creating Recipe Object
-    // if(isItemATool[itemName]){
+    if(isItemATool[itemName]){
     //   //recipe made for tool
 
-    //   int tempid = ItemNameToItemObject[itemName].getID();
-    //   string tempname = ItemNameToItemObject[itemName].getName();
-    //   int tempdurability = ItemNameToItemObject[itemName].getDurability();
-      //Recipe temp = Recipe(row, col, eachRecipe, Tool(tempid, tempname, tempdurability),resultquantity);
+      int tempid = ItemNameToItemObject[itemName]->getID();
+      string tempname = ItemNameToItemObject[itemName]->getName();
+      int tempdurability = ItemNameToItemObject[itemName]->getDurability();
+      Recipe temp = Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
       // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
-
-    // }
+      legalRecipe.push_back(temp);
+    }
   }
 
+  //nunggu gamestate di update
+  // GameState GS = GameState(legalItem, legalRecipe);
+
+  //sementara biar bisa bikin bawahe tanpa error
+  list<Item> temp;
+  GameState *GS = new GameState(temp, legalRecipe);
 
 
-
-  // GameState GS = new GameState()
   cout << "game is ready!" << endl;
   // add more glorified welcome message
 
@@ -185,45 +191,84 @@ int main() {
     cout << ">";
     cin >> command;
     if(command == "SHOW"){ //COMMAND SHOW
-      cout << "SHOW" << endl;
+      cout << "SHOW command is picked" << endl;
+      GS->SHOW();
     } 
     else if (command == "GIVE") { //COMMAND GIVE
+      cout << "GIVE command is picked" << endl;
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
-      cout << "TODO" << endl;
+      GS->GIVE(itemName, itemQty);
     }
     else if (command == "DISCARD"){ //COMMAND DISCARD
-      cout << "DISCARD" << endl;
+      cout << "DISCARD command is picked" << endl;
+      string i_id;
+      int itemQty;
+      cin >> i_id >> itemQty;
+      GS->DISCARD(i_id, itemQty);
+
     }
     else if (command == "MOVE") { //COMMAND MOVE
+      cout << "MOVE command is picked" << endl;
+      //MOVE ada 3 macem
+      //pertama dan kedua, diawali sama i_id, angka, sama tujuan akhir. keknya ini digabungin jadi 1, soalnya di gamestate cuman ada 1 buah method
+
+      //ketiga diawali sama c_id
+      string src;
+      int N;
+      cin >> src >> N;
+      if(src.substr(0,1) == "I"){
+        vector<string> dest;
+        while(N){
+          string temp;
+          cin >> temp; 
+          dest.push_back(temp);
+        }
+        GS->MOVE(src, N, dest);
+      }
+      else{
+        string dest;
+        cin >> dest;
+        GS->MOVE(src, dest);
+      }
     }
     else if(command == "USE"){ //COMMAND USE
-      cout << "USE " << endl;
+      cout << "USE command is picked" << endl;
+      string i_id;
+      cin >> i_id;
+      GS->USE(i_id);
     } 
     else if (command == "CRAFT") { //COMMAND CRAFT
-      cout << "TODO" << endl;
-      string slotSrc;
-      int slotQty;
-      string slotDest;
-      // need to handle multiple destinations
-      cin >> slotSrc >> slotQty >> slotDest;
-      cout << "TODO" << endl;
+      cout << "CRAFT command is picked" << endl;
+
+      //ntah kenapa dari code dari templatenya kek gini. padahal di spek, craft gk nerima argumen apapun
+      // string slotSrc;
+      // int slotQty;
+      // string slotDest;
+      // // need to handle multiple destinations
+      // cin >> slotSrc >> slotQty >> slotDest;
+      
+      GS->CRAFT();
     } 
     else if (command == "EXPORT") { //COMMAND EXPORT
+
+      //template export, mangga di reuse di GameState
+      // cout << "EXPORT command is picked" << endl;
       string outputPath;
       cin >> outputPath;
-      ofstream outputFile(outputPath);
+      // ofstream outputFile(outputPath);
 
-      // hardcode for first test case
-      outputFile << "21:10" << endl;
-      outputFile << "6:1" << endl;
-      for (int i = 2; i < 27; i++) {
-        outputFile << "0:0" << endl;
-      }
+      // // hardcode for first test case
+      // outputFile << "21:10" << endl;
+      // outputFile << "6:1" << endl;
+      // for (int i = 2; i < 27; i++) {
+      //   outputFile << "0:0" << endl;
+      // }
 
-      cout << "Exported" << endl;
+      // cout << "Exported" << endl;
       // todo
+      GS->EXPORT(outputPath);
     }
 
     // COMMAND TAMBAHAN
@@ -247,6 +292,7 @@ int main() {
     else {
       cout << "Invalid command. try \"HELP\" " << endl;
     }
+    cout << "COMMAND DONE, NEXT COMMAND" << endl;
   }
 
   // add closing screen?
