@@ -1,4 +1,4 @@
-// #include <filesystem>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -16,74 +16,81 @@ int main() {
   //add welcome message
 
   // /* SETUP */
-  // cout << "setting up..." << endl;
-  // string configPath = "./config";
-  // string itemConfigPath = configPath + "/item.txt";
+  cout << "setting up..." << endl;
+  string configPath = "./config";
+  string itemConfigPath = configPath + "/item.txt";
 
-  // // CREATE LIST OF LEGAL ITEM
-  // // list<Item> legalItem;
-  // string name = "bob";
-  // Item* a = new Tool(1, "bob", 10);
-  // //read from config 
-  // ifstream itemConfigFile(itemConfigPath);
-  // for (string line; getline(itemConfigFile, line);) {
-  //   cout << line << endl;
+  // CREATE LIST OF LEGAL ITEM
+  list<Item*> legalItem;
 
-  //   //spliting line
-  //   stringstream ss(line);
-  //   string currentWord;
-  //   int count = 0;
-  //   string id;
-  //   string name;
-  //   string nonToolClass;
-  //   string toolnontool;
-  //   while(ss >> currentWord){
-  //     if(count == 0){
-  //       id = currentWord;
-  //     }
-  //     else if(count == 1){ //
-  //       name = currentWord;
-  //     }
-  //     else if(count == 2){ //
-  //       nonToolClass = currentWord;
-  //     }
-  //     else if(count == 3){ //
-  //       toolnontool = currentWord;
-  //     }
-  //     count++;
-  //     //cout << count++ << ". " << currentWord << endl;
-  //   }
+  //read from config 
+  ifstream itemConfigFile(itemConfigPath);
+  for (string line; getline(itemConfigFile, line);) {
+    cout << line << endl;
 
-  //   /* FOR DEBUGGING PURPOSE */
-  //   cout << "\tid = " << id << endl;
-  //   cout << "\tname = "<< name << endl;
-  //   cout << "\tclass = "<< nonToolClass << endl;
-  //   cout << "\ttoolnontool = " << toolnontool << endl;
-  //   /* FOR DEBUGGING PURPOSE */
+    //spliting line
+    stringstream ss(line);
+    string currentWord;
+    int count = 0;
+    string id;
+    string name;
+    string nonToolClass;
+    string toolnontool;
+    while(ss >> currentWord){
+      if(count == 0){
+        id = currentWord;
+      }
+      else if(count == 1){ //
+        name = currentWord;
+      }
+      else if(count == 2){ //
+        nonToolClass = currentWord;
+      }
+      else if(count == 3){ //
+        toolnontool = currentWord;
+      }
+      count++;
+      //cout << count++ << ". " << currentWord << endl;
+    }
 
-  //   //add to legal list
-  //   if(toolnontool == "TOOL"){
-  //     //tambahkan tool ke legal item
-  //     // legalItem.push_back(new Tool(id, name, 10));
-  //   }
-  //   else{
-  //     //tambahakn nontool ke legal item
-  //     // legalItem.push_back(NonTool(id, name, nonToolClass));
-  //   }
-  // }
+    /* FOR DEBUGGING PURPOSE */
+    // cout << "\tid = " << id << endl;
+    // cout << "\tname = "<< name << endl;
+    // cout << "\tclass = "<< nonToolClass << endl;
+    // cout << "\ttoolnontool = " << toolnontool << endl;
+    /* FOR DEBUGGING PURPOSE */
 
-  // // read recipes
-  // for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
-  //   cout << entry.path() << endl;
+    //add to legal list
+    if(toolnontool == "TOOL"){
+      //tambahkan tool ke legal item
+      Tool* temp = new Tool(stoi(id) ,name, 10);
+      // temp->printInfo();
+      legalItem.push_back(temp);
+    }
+    else{
+      //tambahakn nontool ke legal item
+      NonTool* temp = new NonTool(stoi(id), name, nonToolClass,1); // quantity disini harusnya gaperna disentuh. aku kasih 1. kenapa gk dikasih 0 aja? takutnya nti bikin behaviour yg aneh
+      legalItem.push_back(temp);
+    }
+  }
+
+  list<Item*>::iterator it = legalItem.begin();
+  for(it = legalItem.begin(); it != legalItem.end();it++){ //
+    (*it)->printInfo();
+  }
+
+  // read recipes
+  for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
+    cout << entry.path() << endl;
     
-  //   // create list of legal recipe
-  //   ifstream eachRecipeFile(entry.path());
-  //   for (string line; getline(eachRecipeFile, line);) {
-  //     //each line inside a recipe
-  //     cout << "\t" << line << endl;
+    // create list of legal recipe
+    ifstream eachRecipeFile(entry.path());
+    for (string line; getline(eachRecipeFile, line);) {
+      //each line inside a recipe
+      cout << "\t" << line << endl;
       
-  //   }
-  // }
+    }
+  }
 
 
 
