@@ -28,10 +28,10 @@ class CraftTable {
         // Method
         void print(); // Print all the values of the Crafting Table
         Item* make(vector <Recipe> recipe); // return Item as a result of crafting
+        Tool* makeTool();
         int whichBuildable(vector <Recipe> listRecipe);
         int whichBuildableReflected(vector <Recipe> listRecipe);
         int checkMultiple(Recipe recipe);
-        Tool* makeTool();
         vector <string> convertVector();
         // Attribute
         bool contain(Item& item);

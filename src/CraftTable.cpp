@@ -157,6 +157,68 @@ Item* CraftTable::make(vector<Recipe> recipe) {
     }
 }; 
 
+Tool* CraftTable::makeTool() {
+    string name;
+    int sum = 0, id = 0;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            id = it->second->getID();
+            name = it->second->getName();
+            sum += it->second->getDurability();
+        }
+    }
+    sum = min(10, sum);
+    return new Tool(id, name, sum);
+};
+
+int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
+    int res = -1;
+    for (int i = 0; i < listRecipe.size(); i++) {
+        int row = listRecipe[i].getRow();
+        int col = listRecipe[i].getCol();
+        vector<string> recipe = listRecipe[i].getRecipe();
+        vector<string> table = (this->convertVector());
+        table = trimKosong(table);
+        // check recipe is subarray of a table array
+        if (isSubArray(table, recipe, table.size(), recipe.size())) {
+            res = i;
+            break;
+        }
+    }
+    return res;
+};
+
+int CraftTable::whichBuildableReflected(vector<Recipe> listRecipe) {
+    int res = -1;
+    for (int i = 0; i < listRecipe.size(); i++) {
+        int row = listRecipe[i].getRow();
+        int col = listRecipe[i].getCol();
+        vector<string> recipe = listRecipe[i].getRecipe();
+        vector<string> tableYReflected = reflectYTable(this->convertVector());
+        tableYReflected = trimKosong(tableYReflected);
+        // check recipe is subarray of a table array
+        if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
+            res = i;
+            break;
+        }
+    }
+    return res;
+};
+
+vector<string> CraftTable::convertVector() {
+    vector<string> res;
+    string val;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            val = it->second->getName();
+        } else {
+            val = "-";
+        }
+        res.push_back(val);
+    }
+    return res;
+}
+
 bool CraftTable::contain(Item& item) {
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second == &item) return true;
@@ -194,69 +256,6 @@ bool CraftTable::isAllTool() {
     } 
     return true;
 };
-
-vector<string> CraftTable::convertVector() {
-    vector<string> res;
-    string val;
-    for (auto it = table.begin(); it != table.end(); ++it) {
-        if (it->second) {
-            val = it->second->getName();
-        } else {
-            val = "-";
-        }
-        res.push_back(val);
-    }
-    return res;
-}
-
-int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
-    int res = -1;
-    for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
-        int col = listRecipe[i].getCol();
-        vector<string> recipe = listRecipe[i].getRecipe();
-        vector<string> table = (this->convertVector());
-        table = trimKosong(table);
-        // check recipe is subarray of a table array
-        if (isSubArray(table, recipe, table.size(), recipe.size())) {
-            res = i;
-            break;
-        }
-    }
-    return res;
-};
-
-int CraftTable::whichBuildableReflected(vector<Recipe> listRecipe) {
-    int res = -1;
-    for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
-        int col = listRecipe[i].getCol();
-        vector<string> recipe = listRecipe[i].getRecipe();
-        vector<string> tableYReflected = reflectYTable(this->convertVector());
-        tableYReflected = trimKosong(tableYReflected);
-        // check recipe is subarray of a table array
-        if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
-            res = i;
-            break;
-        }
-    }
-    return res;
-};
-
-Tool* CraftTable::makeTool() {
-    string name;
-    int sum = 0, id = 0;
-    for (auto it = table.begin(); it != table.end(); ++it) {
-        if (it->second) {
-            id = it->second->getID();
-            name = it->second->getName();
-            sum += it->second->getDurability();
-        }
-    }
-    sum = min(10, sum);
-    return new Tool(id, name, sum);
-};
-
 
 // int CraftTable::checkMultiple(Recipe recipe) {
 //     int res = 0;
