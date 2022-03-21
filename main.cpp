@@ -100,7 +100,8 @@ int main() {
   // }
   /* FOR DEBUGGING PURPOSE */
 
-  vector<Recipe> legalRecipe;
+  vector<Recipe*> legalRecipe;
+
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
     cout << entry.path() << endl;
@@ -160,14 +161,39 @@ int main() {
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
-      Recipe temp = Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
+      Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
       // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
     }
+    else{
+      //recipe made for nontool
+      int tempid = ItemNameToItemObject[itemName]->getID();
+      string tempname = ItemNameToItemObject[itemName]->getName();
+      string nontoolClass = ItemNameToItemObject[itemName]->getNonToolClass();
+      int quantity = ItemNameToItemObject[itemName]->getQuantity();
+      Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
+      legalRecipe.push_back(temp);
+    }
+  }
+  /*SETUP DONE*/
+
+  cout << "================================================================" << endl;
+  //CHECKING LEGAL RECIPE
+  vector<Recipe*>::iterator ptr;
+  for(ptr = legalRecipe.begin(); ptr != legalRecipe.end();ptr++){
+    cout << (*ptr)->getItem()->getName() << endl;
+  }
+  cout << "================================================================" << endl;
+  //CHEKING LEGAL ITEM
+  list<Item*>::iterator it;
+  for (it = legalItem.begin(); it != legalItem.end(); it++){
+    cout << (*it)->getName() << endl;
   }
 
-  //nunggu gamestate di update
-  GameState *GS = new GameState(legalItem, legalRecipe);
+
+  //creating gamestate
+  vector<Recipe> temp;
+  GameState *GS = new GameState(legalItem, temp);
 
 
 
