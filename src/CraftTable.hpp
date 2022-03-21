@@ -27,20 +27,18 @@ class CraftTable {
         void substract(string c_id); // Delete item from c_id slot to be empty, if empty throw error
         // Method
         void print(); // Print all the values of the Crafting Table
-        // Item* make(vector <Recipe*> recipe); // return Item as a result of crafting
-
-
+        Item* make(vector<Recipe*> recipe); // return Item as a result of crafting
         Tool* makeTool();
-        int whichBuildable(vector <Recipe*> listRecipe);
-        int whichBuildableReflected(vector <Recipe*> listRecipe);
+        int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected);
         int checkMultiple();
-        vector <string> convertVector();
+        vector <string> convertVector();S
         // Attribute
         bool contain(Item& item);
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
         
+        int whichBuildableReflected(vector<Recipe*> listRecipe);
 };
 
 #endif
