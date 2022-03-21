@@ -134,33 +134,40 @@ void CraftTable::print() {
     }
 }; 
 
-Item* CraftTable::make(vector<Recipe> recipe) {
+Item* CraftTable::make(vector<Recipe*> recipe) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
     if (!isTableEmpty()) {
+
         if (!this->isAllTool()) {
-            int idx = whichBuildable(recipe);
+            bool reflected = false;
+            int idx = whichBuildable(recipe, reflected);
             if (idx != -1) {
-                Recipe itemCrafted = recipe[idx];
+                // If recipe matched with craft table
+                Recipe* itemCrafted = recipe[idx];
                 int multiplicity = this->checkMultiple();
-                return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
+                return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult());
             } else {
-                idx = whichBuildableReflected(recipe);
+                // If recipe not matched with craft table, check craft table reflected by Y-axis
+                reflected = true;
+                idx = whichBuildable(recipe, reflected);
                 if (idx != -1) {
                     int multiplicity = this->checkMultiple();
-                    Recipe itemCrafted = recipe[idx];
-                    return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
+                    Recipe* itemCrafted = recipe[idx];
+                    return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult());
                 } else {
                     // cannot build items in craft table
                     throw new craftTableDoesntMatchRecipeException();
                 }
             }
+
         } else {
             // If build Tool sum by durability
             Tool* sumTool = makeTool();
             Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
         }
+        
     } else {
         throw new craftTableIsEmptyException;
     }
@@ -180,33 +187,21 @@ Tool* CraftTable::makeTool() {
     return new Tool(id, name, sum);
 };
 
-int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
+int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected) {
     int res = -1;
     for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
-        int col = listRecipe[i].getCol();
-        vector<string> recipe = listRecipe[i].getRecipe();
-        vector<string> table = (this->convertVector());
+        int row = listRecipe[i]->getRow();
+        int col = listRecipe[i]->getCol();
+        vector<string> recipe = listRecipe[i]->getRecipe();
+        vector<string> table;
+        if (!reflected) {
+            table = (this->convertVector());
+        } else {
+            table = reflectYTable(this->convertVector());
+        }
         table = trimKosong(table);
         // check recipe is subarray of a table array
         if (isSubArray(table, recipe, table.size(), recipe.size())) {
-            res = i;
-            break;
-        }
-    }
-    return res;
-};
-
-int CraftTable::whichBuildableReflected(vector<Recipe> listRecipe) {
-    int res = -1;
-    for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
-        int col = listRecipe[i].getCol();
-        vector<string> recipe = listRecipe[i].getRecipe();
-        vector<string> tableYReflected = reflectYTable(this->convertVector());
-        tableYReflected = trimKosong(tableYReflected);
-        // check recipe is subarray of a table array
-        if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
             res = i;
             break;
         }
@@ -290,3 +285,20 @@ int CraftTable::checkMultiple() {
     return multiplicity;
 };
 
+
+// int CraftTable::whichBuildableReflected(vector<Recipe*> listRecipe) {
+//     int res = -1;
+//     for (int i = 0; i < listRecipe.size(); i++) {
+//         int row = listRecipe[i]->getRow();
+//         int col = listRecipe[i]->getCol();
+//         vector<string> recipe = listRecipe[i]->getRecipe();
+//         vector<string> tableYReflected = reflectYTable(this->convertVector());
+//         tableYReflected = trimKosong(tableYReflected);
+//         // check recipe is subarray of a table array
+//         if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
+//             res = i;
+//             break;
+//         }
+//     }
+//     return res;
+// };
