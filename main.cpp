@@ -170,7 +170,7 @@ int main() {
   // GameState GS = GameState(legalItem, legalRecipe);
 
   //sementara biar bisa bikin bawahe tanpa error
-  list<Item> temp;
+  list<Item*> temp;
   GameState *GS = new GameState(temp, legalRecipe);
 
 
