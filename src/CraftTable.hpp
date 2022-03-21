@@ -37,7 +37,7 @@ class CraftTable {
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
-        
+        void afterCraft(int multiplicity);
         int whichBuildableReflected(vector<Recipe*> listRecipe);
 };
 

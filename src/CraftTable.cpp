@@ -125,12 +125,19 @@ void CraftTable::print() {
     // Print all the values of the Crafting Table
     for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
-        if (i == 2 || i == 5) {
-            cout << table[key]->getName() << endl;
+        if (table[key]) {
+            if (i == 2 || i == 5) {
+                cout << table[key]->getName() << endl;
+            } else {
+                cout << table[key]->getName() << " ";
+            }
         } else {
-            cout << table[key]->getName() << " ";
+            if (i == 2 || i == 5) {
+                cout << "KOSONG" << endl;
+            } else {
+                cout << "KOSONG" << " ";
+            }
         }
-        cout << endl;
     }
 }; 
 
@@ -146,6 +153,7 @@ Item* CraftTable::make(vector<Recipe*> recipe) {
                 // If recipe matched with craft table
                 Recipe* itemCrafted = recipe[idx];
                 int multiplicity = this->checkMultiple();
+                afterCraft(multiplicity);
                 return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult());
             } else {
                 // If recipe not matched with craft table, check craft table reflected by Y-axis
@@ -153,6 +161,7 @@ Item* CraftTable::make(vector<Recipe*> recipe) {
                 idx = whichBuildable(recipe, reflected);
                 if (idx != -1) {
                     int multiplicity = this->checkMultiple();
+                    afterCraft(multiplicity);
                     Recipe* itemCrafted = recipe[idx];
                     return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult());
                 } else {
@@ -171,7 +180,24 @@ Item* CraftTable::make(vector<Recipe*> recipe) {
     } else {
         throw new craftTableIsEmptyException;
     }
-}; 
+};
+
+void CraftTable::afterCraft(int multiplicity) {
+    if (!this->isTableEmpty()) {
+        for (auto it = table.begin(); it != table.end(); it++) {
+            if (it->second) {
+                int quantity = it->second->getQuantity();
+                if (quantity == multiplicity) {
+                    it->second->setQuantity(0);
+                } else if (quantity > multiplicity) {
+                    it->second->setQuantity(quantity - multiplicity);
+                }
+            }
+        }
+    } else {
+        throw new craftTableIsEmptyException;
+    }
+};
 
 Tool* CraftTable::makeTool() {
     string name;
@@ -181,6 +207,8 @@ Tool* CraftTable::makeTool() {
             id = it->second->getID();
             name = it->second->getName();
             sum += it->second->getDurability();
+
+            it->second = NULL;
         }
     }
     sum = min(10, sum);
