@@ -96,14 +96,19 @@ Item& CraftTable::getItemInCraftTable(string c_id) {
 };
 
 void CraftTable::add(Item& item, string c_id) {
+    cout << "Adding to " << c_id << "item named " << item.getName();
     // Add item to c_id slot, if not empty throw error
     if (isCIDValid(c_id)) {
+        cout << "is slot empty "<<isSlotEmpty(c_id) << endl;
         if (isSlotEmpty(c_id)) {
             table[c_id] = &item;
+            cout<<"isi table cid" << table[c_id]->getName() << endl;
         } else {
+            cout << "THROW sini" << endl;
             throw new craftTableIsNotEmptyException();
         }
     } else {
+        cout << "THROW" << endl;
         throw new CIDNotValid();
     }
 }; 
@@ -122,18 +127,24 @@ void CraftTable::substract(string c_id) {
 
 // Method
 void CraftTable::print() {
-    // Print all the values of the Crafting Table
-    for (int i = 0; i < MAX_CAP; i++) {
+   for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
-        if (i == 2 || i == 5) {
-            cout << table[key]->getName() << endl;
+        if (table[key]) {
+            if (i == 2 || i == 5) {
+                cout << table[key]->getName() << endl;
+            } else {
+                cout << table[key]->getName() << " ";
+            }
         } else {
-            cout << table[key]->getName() << " ";
+            if (i == 2 || i == 5) {
+                cout << "KOSONG" << endl;
+            } else {
+                cout << "KOSONG" << " ";
+            }
         }
-        cout << endl;
     }
+    cout << endl;
 }; 
-
 Item* CraftTable::make(vector<Recipe> recipe) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
@@ -179,11 +190,11 @@ Tool* CraftTable::makeTool() {
     sum = min(10, sum);
     return new Tool(id, name, sum);
 };
-
+<Recipe*>
 int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
     int res = -1;
     for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
+        int row = listRecipe[i]->getRow();
         int col = listRecipe[i].getCol();
         vector<string> recipe = listRecipe[i].getRecipe();
         vector<string> table = (this->convertVector());
@@ -196,12 +207,12 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
     }
     return res;
 };
-
+<Recipe*>
 int CraftTable::whichBuildableReflected(vector<Recipe> listRecipe) {
     int res = -1;
-    for (int i = 0; i < listRecipe.size(); i++) {
-        int row = listRecipe[i].getRow();
-        int col = listRecipe[i].getCol();
+    for (int i = 0; i < listRec->pe.size(); i++) {
+        int row = listRecipe[i]->getRow();
+        int col = listRecipe[i].getCol();->
         vector<string> recipe = listRecipe[i].getRecipe();
         vector<string> tableYReflected = reflectYTable(this->convertVector());
         tableYReflected = trimKosong(tableYReflected);
@@ -238,7 +249,7 @@ bool CraftTable::contain(Item& item) {
 // Attribute
 bool CraftTable::isSlotEmpty(string c_id) {
     if (isCIDValid(c_id))
-        return (table[c_id]);
+        return (!table[c_id]);
     return false;
 };
 

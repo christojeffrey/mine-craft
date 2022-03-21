@@ -3,6 +3,7 @@
 #include "Item.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"
+#include "Exception.hpp"
 #include <string>
 #include <map>
 using namespace std;
