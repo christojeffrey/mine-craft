@@ -35,13 +35,13 @@ int NonTool::use(){
 }
 
 int NonTool::substract(int qty){
+    //memberikan return sisa quantity setelah dikurangi
     if(qty > this->quantity){
         throw "Sisa Item NonTool Tidak Cukup";
     }else{
         this->quantity -= qty;
-        throw "NonTool gabisa di add";
     }
-    return 0;
+    return this->quantity;
 }
 
 string NonTool::getNonToolClass()const{

@@ -31,7 +31,7 @@ class CraftTable {
         Tool* makeTool();
         int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected);
         int checkMultiple();
-        vector <string> convertVector();
+        vector <string> convertVector();S
         // Attribute
         bool contain(Item& item);
         bool isSlotEmpty(string c_id);

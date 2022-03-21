@@ -96,14 +96,19 @@ Item& CraftTable::getItemInCraftTable(string c_id) {
 };
 
 void CraftTable::add(Item& item, string c_id) {
+    cout << "Adding to " << c_id << "item named " << item.getName();
     // Add item to c_id slot, if not empty throw error
     if (isCIDValid(c_id)) {
+        cout << "is slot empty "<<isSlotEmpty(c_id) << endl;
         if (isSlotEmpty(c_id)) {
             table[c_id] = &item;
+            cout<<"isi table cid" << table[c_id]->getName() << endl;
         } else {
+            cout << "THROW sini" << endl;
             throw new craftTableIsNotEmptyException();
         }
     } else {
+        cout << "THROW" << endl;
         throw new CIDNotValid();
     }
 }; 
@@ -122,8 +127,7 @@ void CraftTable::substract(string c_id) {
 
 // Method
 void CraftTable::print() {
-    // Print all the values of the Crafting Table
-    for (int i = 0; i < MAX_CAP; i++) {
+   for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
         if (table[key]) {
             if (i == 2 || i == 5) {
@@ -139,6 +143,7 @@ void CraftTable::print() {
             }
         }
     }
+    cout << endl;
 }; 
 
 Item* CraftTable::make(vector<Recipe*> recipe) {
@@ -251,17 +256,17 @@ vector<string> CraftTable::convertVector() {
     return res;
 }
 
-bool CraftTable::contain(Item& item) {
-    for (auto it = table.begin(); it != table.end(); ++it) {
-        if (it->second == &item) return true;
-    }
-    return false;
-}
+// bool CraftTable::contain(Item& item) {
+//     for (auto it = table.begin(); it != table.end(); ++it) {
+//         if (it->second == &item) return true;
+//     }
+//     return false;
+// }
 
 // Attribute
 bool CraftTable::isSlotEmpty(string c_id) {
     if (isCIDValid(c_id))
-        return (table[c_id]);
+        return (!table[c_id]);
     return false;
 };
 

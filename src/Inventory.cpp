@@ -97,15 +97,19 @@ void Inventory::printInfo(){
 }
 
 void Inventory::substract(string I_id, int qty){
+  cout <<"inventory substract"<< I_id << " " << qty << endl;
   if (this->inven.find(I_id) == this->inven.end()) {
     throw "Tidak ada item di indeks tersebut";
+  } else if (qty < 0) {
+    throw "Quantity Negatif";
   } else{ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
     try{
       int sisa = this->inven[I_id]->substract(qty);
       if(sisa==0){
         this->inven.erase(I_id);
       }
-    }catch(...){
+    }catch(BaseException* e){
+      e->printMessage();
       //kalau qty kurang atau
     }
   }
@@ -113,7 +117,7 @@ void Inventory::substract(string I_id, int qty){
 
 void Inventory::use(string I_id){
   if (this->inven.find(I_id) == this->inven.end()) {
-    throw "Tidak item di indeks tersebut";
+    throw "Tidak ada item di indeks tersebut";
   } else {
     if (this->inven[I_id]->use() <= 0) {
       this->inven.erase(I_id);
@@ -122,10 +126,10 @@ void Inventory::use(string I_id){
 }
  
 Item * Inventory::getItem(string I_id){
-  try{
-  return this->inven[I_id];
-  }catch(...){
-    throw "Tidak ada item";
+  if (this->inven.find(I_id) == this->inven.end()){
+    throw new inventoryItemNameIsNotFoundException();
+  } else {
+    return this->inven[I_id];
   }
 } 
 
