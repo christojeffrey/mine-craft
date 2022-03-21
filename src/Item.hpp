@@ -1,6 +1,8 @@
 #ifndef _ITEM_HPP_
 #define _ITEM_HPP_
 #include <string>
+#include "Exception.hpp"
+
 using namespace std;
 class Item {
     private:

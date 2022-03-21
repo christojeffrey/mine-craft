@@ -9,6 +9,7 @@
 #include "Exception.hpp"
 #include <iostream>
 #include <map>
+#include <list>
 #include <vector>
 
 using namespace std;
@@ -27,16 +28,21 @@ class CraftTable {
         void substract(string c_id); // Delete item from c_id slot to be empty, if empty throw error
         // Method
         void print(); // Print all the values of the Crafting Table
-        Item* make(vector<Recipe*> recipe); // return Item as a result of crafting
+        Item* make(vector<Recipe*> recipe, list<Item*> legalItem); // return Item as a result of crafting
         Tool* makeTool();
         void afterCraft(int multiplicity);
-        int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected);
+        int whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem, bool reflected);
+        vector<string> getTableToCheck(vector<string> table, list<Item*> legalItem);
         int checkMultiple();
-        vector <string> convertVector();
+        vector<string> convertVector();
         // Attribute
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
 };
+
+bool isCIDValid(string c_id);
+int get_idx(string c_id);
+string get_cid(int idx);
 
 #endif

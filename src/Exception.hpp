@@ -44,7 +44,7 @@ class craftTableDoesntMatchRecipeException : public BaseException {
         }
 };
 
-class CIDNotValid : public BaseException { 
+class CIDNotValidException : public BaseException { 
     // happened when trying to craft on craft table but doesnt match any recipe
     public:
         void printMessage(){
@@ -60,10 +60,17 @@ class inventoryIsFullException : public BaseException { // happened when the inv
         }
 };
 class inventoryIdIsEmptyException : public BaseException{
-    // happened when the inventory on I_id is empty
+    // happened when the inventory on I_id is empty, when it's supposed to not be empty
     public:
         void printMessage(){
             cout << "I id is empty" << endl;
+        }
+};
+class inventoryIdIsNotEmptyException : public BaseException{
+    // happened when the inventory on I_id is not empty, when it's supposed to be empty
+    public:
+        void printMessage(){
+            cout << "I id is not empty" << endl;
         }
 };
 class inventoryIdIsInsufficientException : public BaseException{
@@ -90,4 +97,52 @@ class inventoryItemNameIsNotFoundException : public BaseException{
         }
 };
 
+
+//untuk inventory
+class wrongTypeException : public BaseException{
+    //happen when you expet tool but get nontool, or when you expect nontool but get tool
+    public:
+        void printMessage(){
+            cout << "I expect tipe yang berbeda (antara non tool dan tool)" << endl;
+        }
+};
+
+class oneOfTheItemNeededDoesntExistException : public BaseException{
+    //happen when move, and either idxsource or idxdest doesnt exist
+    public:
+        void printMessage(){
+            cout << "One of the item in the argument given doesnt exist" << endl;
+        }
+};
+
+class itemDoesntHaveTheSameNameException : public BaseException{
+    //happen when you want to move to an existing inventory place, but item from source don't have the same name with item from destination
+    public:
+        void printMessage(){
+            cout << "you want to move to an existing inventory place, but item from source don't have the same name with item from destination" << endl;
+        }
+};
+
+class negativeValueGivenException : public BaseException{
+    //hapen when you expect non negative value, but given negative value
+    public:
+        void printMessage(){
+            cout << "negative value given when non negative value expected" << endl;
+        }
+};
+
+class invalidCommandToItem : public BaseException{
+    //happen when invalid command given to item. for example nontool.getDurability()
+    public:
+        void printMessage(){
+            cout << "invalid command given to item" << endl;
+        }
+};
+class nonItemQuantityIsNotSufficientException : public BaseException{
+    //happen when you try to substract non item quantity, but the quantity existed is not sufficient
+    public:
+        void printMessage(){
+            cout << "non item quantity is not sufficient"<< endl;
+        }
+};
 #endif

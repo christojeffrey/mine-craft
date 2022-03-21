@@ -30,14 +30,14 @@ bool NonTool::operator==(NonTool& n){
 }
 
 int NonTool::use(){
-    throw "NonTool Item Tidak Bisa Digunakan";
+    throw new invalidCommandToItem();
     return 0;
 }
 
 int NonTool::substract(int qty){
     //memberikan return sisa quantity setelah dikurangi
     if(qty > this->quantity){
-        throw "Sisa Item NonTool Tidak Cukup";
+        throw new nonItemQuantityIsNotSufficientException();
     }else{
         this->quantity -= qty;
     }

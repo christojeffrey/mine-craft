@@ -32,11 +32,11 @@ Inventory::~Inventory(){
 void Inventory::move(string idxSrc, string idxDest){
   if (this->inven[idxDest]->getIsTool() || this->inven[idxSrc]->getIsTool()) {
     // throw exception
-    throw "Salah tipe";
+    throw new wrongTypeException();
   } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {
-    throw "Salah satu item tidak ada";
+    throw new oneOfTheItemNeededDoesntExistException();
   } else if (this->inven[idxSrc]->getName() != this->inven[idxDest]->getName()){
-    throw "ITEM TIDAK SAMA!!";
+    throw new itemDoesntHaveTheSameNameException();
   } 
   else {
     int sisaQty = 64 - this->inven[idxDest]->getQuantity();
@@ -57,7 +57,7 @@ void Inventory::move(string idxSrc, string idxDest){
 
 void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
   if (inven.size() == MAX_INVEN) {
-    throw "Inventory penuh";
+    throw new inventoryIsFullException();
   } else {
     int i = 0;
     bool found = false;
@@ -78,7 +78,7 @@ void Inventory::add(Item* item_name,string dest){
   if(this->inven.find(dest)== inven.end()){
     this->inven[dest]=item_name;
   }else{
-    throw "Sudah ada yang menempati";
+    throw new inventoryIdIsNotEmptyException();
   }
 }
 
@@ -99,9 +99,9 @@ void Inventory::printInfo(){
 void Inventory::substract(string I_id, int qty){
   cout <<"inventory substract"<< I_id << " " << qty << endl;
   if (this->inven.find(I_id) == this->inven.end()) {
-    throw "Tidak ada item di indeks tersebut";
+    throw new inventoryIdIsEmptyException();
   } else if (qty < 0) {
-    throw "Quantity Negatif";
+    throw new negativeValueGivenException();
   } else{ // gamungkin quantity 0 soalnya klo 0 pasti udah gaada di map
     try{
       int sisa = this->inven[I_id]->substract(qty);
@@ -117,7 +117,7 @@ void Inventory::substract(string I_id, int qty){
 
 void Inventory::use(string I_id){
   if (this->inven.find(I_id) == this->inven.end()) {
-    throw "Tidak ada item di indeks tersebut";
+    throw new inventoryIdIsEmptyException();
   } else {
     if (this->inven[I_id]->use() <= 0) {
       this->inven.erase(I_id);

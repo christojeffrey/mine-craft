@@ -34,30 +34,35 @@ void Item::printInfo()const{
 }
 
 int Item::getQuantity()const{
-    throw "Tool tidak memiliki Quantity";
+    throw new invalidCommandToItem();
 }
 
 void Item::setQuantity(int pengganti)
 {
-    throw "Tool tidak memiliki Quantity";
+    throw new invalidCommandToItem();
+
 }
 
 int Item::getDurability() const
 {
-    throw "NonTool tidak memiliki Quantity";
+    throw new invalidCommandToItem();
+
 }
 
 void Item::setDurability(int pengganti)
 {
-    throw "NonTool tidak memiliki Quantity";
+    throw new invalidCommandToItem();
+
 }
 
 string Item:: getNonToolClass() const {
-    throw "Tool tidak memiliki get nonToolClass";
+    throw new invalidCommandToItem();
+
 }
 
 string Item::getType(){
-    throw "Tidak punya type";
+    throw new invalidCommandToItem();
+
 }
 
 Item& Item::operator=(const Item& i){

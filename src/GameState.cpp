@@ -50,7 +50,7 @@ void GameState::GIVE(string item_name, int qty){
             //kalau inventory penuh
         }
     }else{
-        throw new inventoryItemNameIsNotFoundException;
+        throw new inventoryItemNameIsNotFoundException();
     }
     cout << "give done" << endl;
 }
@@ -65,18 +65,29 @@ void GameState::DISCARD(string I_id, int qty){
 void GameState::MOVE(string I_id, int N, vector<string> C_id){
     try{
         Item* itemnyaapa = this->inventory.getItem(I_id);
+        Item* itemnyaapa_copy;
+        if (itemnyaapa->getIsTool()){
+            itemnyaapa_copy = new Tool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getDurability());
+        } else {
+            itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
+        }
         cout << "kirim ke "<<C_id.size()<<"  tempat di craft" << endl;
         try{
+            for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
+                if (!isCIDValid(*it)) {
+                    throw new CIDNotValidException();
+                }
+            }
             this->inventory.substract(I_id,N);
             for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
-                cout << "ngirim sebuah "<< (*itemnyaapa).getName() << " ke "<< *it << endl;
-                this->craftTable.add(*itemnyaapa,*it);
+                cout << "ngirim sebuah "<< (*itemnyaapa_copy).getName() << " ke "<< *it << endl;
+                this->craftTable.add(*itemnyaapa_copy,*it);
             }
         }catch(BaseException *e){
             e->printMessage();
             //kalau di C_id sudah ada yg menempati
 
-            this->inventory.add(itemnyaapa);
+            this->inventory.add(itemnyaapa, I_id);
         }
     }catch(BaseException *e){
         e->printMessage();
@@ -103,12 +114,14 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        // Item* hasil = this->craftTable.make(this->legalRecipe);
+        Item* hasil = this->craftTable.make(this->legalRecipe, this->legalItem);
+        this->inventory.add(hasil);
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep
     }
 }
 void GameState::EXPORT(string namaFile){
-
+    //export me daddy
+    cout << "export me so hard" << endl;
 }
