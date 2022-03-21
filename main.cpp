@@ -13,6 +13,12 @@
 #include "src/Recipe.hpp"
 #include "src/GameState.hpp"
 using namespace std;
+string clean(string s) {
+    // sometimes the file can have CRLF ending, so we need to clean the string first before using it.
+    if (s.length() == 0) return s;
+    if (s[s.length()-1] != '\x0D') return s;
+    return s.substr(0, s.length()-1);
+}
 
 int main() {
   //add welcome message
@@ -28,7 +34,7 @@ int main() {
   //buat ngebantu bikin recipe, aku butuh sebuah item, ketika diketahui nama item.
   map<string, Item*> ItemNameToItemObject; 
   map<string, bool> isItemATool;
-
+   
   //read from config 
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
@@ -104,6 +110,7 @@ int main() {
 
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
+    cout << "====== batas ====" << endl;
     cout << entry.path() << endl;
     
     // create list of legal recipe
@@ -112,11 +119,14 @@ int main() {
     //changing text inside into one long string
     string currentRecipeString;
     for (string line; getline(eachRecipeFile, line);) {
+      // line = clean(line);
+
       //each line inside a recipe
       //cout << "\t" << line << endl;
       currentRecipeString.append(line);
       currentRecipeString.append(" ");
     }
+
     cout <<"INI ISI FILENYA:" << currentRecipeString << endl;
     
 
@@ -157,24 +167,24 @@ int main() {
 
     //creating Recipe Object
     if(isItemATool[itemName]){
-    //   //recipe made for tool
+    // //   //recipe made for tool
 
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
-      // Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
-      // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
-      // legalRecipe.push_back(temp);
+      Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
+    //   // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
+      legalRecipe.push_back(temp);
 
     }
     else{
-      //recipe made for nontool
+    //   //recipe made for nontool
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       string nontoolClass = ItemNameToItemObject[itemName]->getNonToolClass();
       int quantity = ItemNameToItemObject[itemName]->getQuantity();
-      // Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
-      // legalRecipe.push_back(temp);
+      Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
+      legalRecipe.push_back(temp);
     }
   }
   /*SETUP DONE*/
@@ -185,6 +195,7 @@ int main() {
   vector<Recipe*>::iterator ptr;
   for(ptr = legalRecipe.begin(); ptr != legalRecipe.end();ptr++){
     cout << (*ptr)->getItem()->getName() << endl;
+    cout << (*ptr)->getRow() << (*ptr)->getCol() << (*ptr)->getQuantityResult();
   }
   cout << "================================================================" << endl;
   //CHEKING LEGAL ITEM
@@ -225,6 +236,7 @@ int main() {
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
+      cout << "main done, lempar ke gamestate" << endl;
       GS->GIVE(itemName, itemQty);
     }
     else if (command == "DISCARD"){ //COMMAND DISCARD
@@ -232,6 +244,8 @@ int main() {
       string i_id;
       int itemQty;
       cin >> i_id >> itemQty;
+      cout << "main done, lempar ke gamestate" << endl;
+
       GS->DISCARD(i_id, itemQty);
 
     }
@@ -243,19 +257,26 @@ int main() {
       //ketiga diawali sama c_id
       string src;
       int N;
-      cin >> src >> N;
+      string tempN;
+      cin >> src >> tempN;
+      N = stoi(tempN);
       if(src.substr(0,1) == "I"){
+        cout << "DEPANNYA I" << endl;
         vector<string> dest;
-        while(N){
+        for(int i = 0 ; i < N ; i++){
           string temp;
           cin >> temp; 
           dest.push_back(temp);
         }
+        cout << "main done, lempar ke gamestate" << endl;
+
         GS->MOVE(src, N, dest);
       }
       else{
         string dest;
         cin >> dest;
+      cout << "main done, lempar ke gamestate" << endl;
+
         GS->MOVE(src, dest);
       }
     }
@@ -263,6 +284,8 @@ int main() {
       cout << "USE command is picked" << endl;
       string i_id;
       cin >> i_id;
+      cout << "main done, lempar ke gamestate" << endl;
+
       GS->USE(i_id);
     } 
     else if (command == "CRAFT") { //COMMAND CRAFT
@@ -274,6 +297,7 @@ int main() {
       // string slotDest;
       // // need to handle multiple destinations
       // cin >> slotSrc >> slotQty >> slotDest;
+      cout << "main done, lempar ke gamestate" << endl;
       
       GS->CRAFT();
     } 
@@ -294,6 +318,8 @@ int main() {
 
       // cout << "Exported" << endl;
       // todo
+      cout << "main done, lempar ke gamestate" << endl;
+
       GS->EXPORT(outputPath);
     }
 

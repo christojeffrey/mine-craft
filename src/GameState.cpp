@@ -24,19 +24,29 @@ void GameState::GIVE(string item_name, int qty){
     bool found=false;
     string type;
     int id;
-    list<Item*>::iterator it = this->legalItem.begin();
-    while(it!=this->legalItem.end()){
+
+    list<Item*>::iterator it;
+    for (it = legalItem.begin(); it != legalItem.end(); it++){
+        cout << "checking inside give" << endl;
+        cout << (*it)->getName() << endl;
         if((*it)->getName()==item_name){
             found=true;
             type = (*it)->getNonToolClass();
             id = (*it)->getID();
-        }else{
-            ++it;
+            break;
         }
     }
     if(found){
         try{
-            this->inventory.add(new NonTool(id,item_name,type,qty));
+            cout << "BERHASIL KETEMU" << endl;
+            if (qty > 64) {
+                qty = 64;
+            } else if (qty < 0){
+                cout << "QUANTITY JANGAN NEGATIF!!\n";
+            } else {
+                this->inventory.add(new NonTool(id,item_name,type,qty));
+                this->inventory.printInfo();
+            }
         } catch(BaseException *e){
             e->printMessage();
             //kalau inventory penuh
@@ -44,6 +54,7 @@ void GameState::GIVE(string item_name, int qty){
     }else{
         throw new inventoryItemNameIsNotFoundException;
     }
+    cout << "give done" << endl;
 }
 void GameState::DISCARD(string I_id, int qty){
     try{
@@ -56,10 +67,11 @@ void GameState::DISCARD(string I_id, int qty){
 void GameState::MOVE(string I_id, int N, vector<string> C_id){
     try{
         Item* itemnyaapa = this->inventory.getItem(I_id);
-        this->inventory.substract(I_id,N);
+        cout << "kirim ke "<<C_id.size()<<"  tempat di craft" << endl;
         try{
-            itemnyaapa->substract(1);
+            this->inventory.substract(I_id,N);
             for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
+                cout << "ngirim sebuah "<< (*itemnyaapa).getName() << " ke "<< *it << endl;
                 this->craftTable.add(*itemnyaapa,*it);
             }
         }catch(BaseException *e){
@@ -93,7 +105,7 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        // Item& hasil = this->craftTable.make(this->legalRecipe);
+        // Item* hasil = this->craftTable.make(this->legalRecipe);
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep

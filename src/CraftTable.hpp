@@ -33,12 +33,9 @@ class CraftTable {
         int checkMultiple();
         vector <string> convertVector();
         // Attribute
-        bool contain(Item& item);
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
-        
-        int whichBuildableReflected(vector<Recipe*> listRecipe);
 };
 
 #endif
