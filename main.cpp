@@ -192,8 +192,8 @@ int main() {
 
 
   //creating gamestate
-  vector<Recipe> temp;
-  GameState *GS = new GameState(legalItem, temp);
+  //vector<Recipe> temp;
+  GameState *GS = new GameState(legalItem, legalRecipe);
 
 
 

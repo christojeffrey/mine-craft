@@ -8,7 +8,7 @@ using namespace std;
 #include <vector>
 #include <list>
 
-GameState::GameState(list<Item*> _legalItem, vector<Recipe> _legalRecipe){
+GameState::GameState(list<Item*> _legalItem, vector<Recipe*> _legalRecipe){
     this->legalItem = _legalItem;
     this->legalRecipe = _legalRecipe;
     this->craftTable = CraftTable(); //buat craft kosong
