@@ -7,6 +7,8 @@ using namespace std;
 #include "Exception.hpp"
 #include <vector>
 #include <list>
+#include <iostream>
+#include <fstream>
 
 GameState::GameState(list<Item*> _legalItem, vector<Recipe*> _legalRecipe){
     this->legalItem = _legalItem;
@@ -122,6 +124,17 @@ void GameState::CRAFT(){
     }
 }
 void GameState::EXPORT(string namaFile){
-    //export me daddy
-    cout << "export me so hard" << endl;
+    ofstream result (namaFile);
+    string idx;
+    Item * item;
+    for(int i=0;i<27;i++){
+        idx = "I"+to_string(i);
+        item = this->inventory.getItem(idx);
+        if(item->getIsTool()){
+            result << item->getID() << ":" << item->getDurability();
+        }else{
+            result << item->getID() << ":" << item->getQuantity();
+        }
+        result << endl;
+    }
 }
