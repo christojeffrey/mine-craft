@@ -29,16 +29,14 @@ class CraftTable {
         void print(); // Print all the values of the Crafting Table
         Item* make(vector<Recipe*> recipe); // return Item as a result of crafting
         Tool* makeTool();
+        void afterCraft(int multiplicity);
         int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected);
         int checkMultiple();
-        vector <string> convertVector();S
+        vector <string> convertVector();
         // Attribute
-        bool contain(Item& item);
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
-        void afterCraft(int multiplicity);
-        int whichBuildableReflected(vector<Recipe*> listRecipe);
 };
 
 #endif

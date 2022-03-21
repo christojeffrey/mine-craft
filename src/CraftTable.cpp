@@ -256,13 +256,6 @@ vector<string> CraftTable::convertVector() {
     return res;
 }
 
-// bool CraftTable::contain(Item& item) {
-//     for (auto it = table.begin(); it != table.end(); ++it) {
-//         if (it->second == &item) return true;
-//     }
-//     return false;
-// }
-
 // Attribute
 bool CraftTable::isSlotEmpty(string c_id) {
     if (isCIDValid(c_id))
