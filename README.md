@@ -11,7 +11,8 @@ repo buat tubes 1 oop
 [link spec](https://docs.google.com/document/d/1SeMA2ugBRTX8CC2HvdrkLcuhqRSLJ81m/edit)\
 [link pedoman](https://docs.google.com/document/d/18TpVkY1RWG8EwFirT7qwFMvAEDTKdFdY/edit)\
 [link laporan](https://docs.google.com/document/d/1G4pTkZyIyddl5NclLTXnlm7Fbg3ARk-4/edit)\
-[link asistensi 1](https://docs.google.com/document/d/1NVLBiEOAP0xUehO1MuTZedD7Jtrwp341/edit)
+[link asistensi 1](https://docs.google.com/document/d/1NVLBiEOAP0xUehO1MuTZedD7Jtrwp341/edit)\
+[link diagram kelas](https://lucid.app/lucidchart/d8323ff8-89f8-4e84-8ee1-54417a2a9a56/edit?invitationId=inv_2986e704-f1a0-4c27-8ecd-5787be0b29af&page=0_0#)
 --- 
 # readme dari template
 
