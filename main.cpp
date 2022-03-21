@@ -117,7 +117,7 @@ int main() {
       currentRecipeString.append(line);
       currentRecipeString.append(" ");
     }
-    cout <<"\t" << currentRecipeString << endl;
+    cout <<"INI ISI FILENYA:" << currentRecipeString << endl;
     
 
     //spliting long string into each variable needed to make a recipe
@@ -130,7 +130,6 @@ int main() {
     int resultquantity = 0;
 
     stringstream ssrecipe(currentRecipeString);
-
     //assigning into the correct variable
     while(ssrecipe >> currentWordRecipe) {
       count++;
@@ -154,6 +153,8 @@ int main() {
         cout << "INI jumlah yg kebikin " << currentWordRecipe << endl;
       }
     }
+
+
     //creating Recipe Object
     if(isItemATool[itemName]){
     //   //recipe made for tool
@@ -161,9 +162,9 @@ int main() {
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
-      Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
+      // Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
       // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
-      legalRecipe.push_back(temp);
+      // legalRecipe.push_back(temp);
 
     }
     else{
@@ -172,8 +173,8 @@ int main() {
       string tempname = ItemNameToItemObject[itemName]->getName();
       string nontoolClass = ItemNameToItemObject[itemName]->getNonToolClass();
       int quantity = ItemNameToItemObject[itemName]->getQuantity();
-      Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
-      legalRecipe.push_back(temp);
+      // Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
+      // legalRecipe.push_back(temp);
     }
   }
   /*SETUP DONE*/
