@@ -31,7 +31,7 @@ class CraftTable {
         Tool* makeTool();
         int whichBuildable(vector <Recipe> listRecipe);
         int whichBuildableReflected(vector <Recipe> listRecipe);
-        int checkMultiple(Recipe recipe);
+        int checkMultiple();
         vector <string> convertVector();
         // Attribute
         bool contain(Item& item);

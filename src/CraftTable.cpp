@@ -123,23 +123,31 @@ void CraftTable::substract(string c_id) {
 // Method
 void CraftTable::print() {
     // Print all the values of the Crafting Table
+    for (int i = 0; i < MAX_CAP; i++) {
+        string key = get_cid(i);
+        if (i == 2 || i == 5) {
+            cout << table[key]->getName() << endl;
+        } else {
+            cout << table[key]->getName() << " ";
+        }
+        cout << endl;
+    }
 }; 
-
 
 Item* CraftTable::make(vector<Recipe> recipe) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
     if (!isTableEmpty()) {
         if (!this->isAllTool()) {
-            bool reflected = false;
             int idx = whichBuildable(recipe);
             if (idx != -1) {
                 Recipe itemCrafted = recipe[idx];
+                int multiplicity = this->checkMultiple();
                 return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
             } else {
                 idx = whichBuildableReflected(recipe);
                 if (idx != -1) {
-                    reflected = true;
+                    int multiplicity = this->checkMultiple();
                     Recipe itemCrafted = recipe[idx];
                     return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
                 } else {
@@ -148,6 +156,7 @@ Item* CraftTable::make(vector<Recipe> recipe) {
                 }
             }
         } else {
+            // If build Tool sum by durability
             Tool* sumTool = makeTool();
             Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
@@ -257,52 +266,27 @@ bool CraftTable::isAllTool() {
     return true;
 };
 
-// int CraftTable::checkMultiple(Recipe recipe) {
-//     int res = 0;
-//     vector<string> recipeArray = trimKosong(recipe.getRecipe());
-//     int idx = 0;
-//     int tempMultiple = 0;
-//     for (auto it = table.begin(); it != table.end(); ++it) {
-//         if (it->second) {
-//             if (it->second->getQuantity() != 1) {
-//                 res = 1;
-//                 int quantityItem = it->second->getQuantity();
-//                 if (idx == 0) {
-//                     tempMultiple = quantityItem;
-//                 } else {
-//                     if (tempMultiple != quantityItem) {
-//                         tempMultiple = min(tempMultiple, quantityItem);
-//                     }
-//                 }
+int CraftTable::checkMultiple() {
+    int idx = 0;
+    int multiplicity = 0;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            if (it->second->getQuantity() != 1) {
+                int quantityItem = it->second->getQuantity();
+                if (idx == 0) {
+                    multiplicity = quantityItem;
+                } else {
+                    if (multiplicity > quantityItem) {
+                        multiplicity = quantityItem;
+                    }
+                }
 
-//             } else {
-//                 return 1;
-//             }
-//         }
-//         ++idx;
-//     }
-
-//     if (res == -1) {
-//         for (auto it = table.begin(); it != table.end(); ++it) {
-//         if (it->second) {
-//             if (it->second->getQuantity() != 1) {
-//                 res = 1;
-//                 int quantityItem = it->second->getQuantity();
-//                 if (idx == 0) {
-//                     tempMultiple = quantityItem;
-//                 } else {
-//                     if (tempMultiple != quantityItem) {
-//                         tempMultiple = min(tempMultiple, quantityItem);
-//                     }
-//                 }
-
-//             } else {
-//                 return 1;
-//             }
-//         }
-//         ++idx;
-//     }
-//     }
-// };
-
+            } else {
+                return 1;
+            }
+        }
+        ++idx;
+    }
+    return multiplicity;
+};
 
