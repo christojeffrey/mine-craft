@@ -152,7 +152,7 @@ Item* CraftTable::make(vector<Recipe> recipe) {
         if (!this->isAllTool()) {
             int idx = whichBuildable(recipe);
             if (idx != -1) {
-                Recipe itemCrafted = recipe[idx];
+                Recipe* itemCrafted = recipe[idx];
                 int multiplicity = this->checkMultiple();
                 return new NonTool(itemCrafted.getItem()->getID(), itemCrafted.getItem()->getName(), itemCrafted.getItem()->getNonToolClass(), itemCrafted.getQuantityResult());
             } else {
@@ -195,8 +195,8 @@ int CraftTable::whichBuildable(vector<Recipe> listRecipe) {
     int res = -1;
     for (int i = 0; i < listRecipe.size(); i++) {
         int row = listRecipe[i]->getRow();
-        int col = listRecipe[i].getCol();
-        vector<string> recipe = listRecipe[i].getRecipe();
+        int col = listRecipe[i]->getCol();
+        vector<string> recipe = listRecipe[i]->getRecipe();
         vector<string> table = (this->convertVector());
         table = trimKosong(table);
         // check recipe is subarray of a table array
