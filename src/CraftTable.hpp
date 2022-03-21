@@ -29,7 +29,7 @@ class CraftTable {
         void print(); // Print all the values of the Crafting Table
         Item* make(vector<Recipe*> recipe); // return Item as a result of crafting
         Tool* makeTool();
-        int CraftTable::whichBuildable(vector<Recipe*> listRecipe, bool reflected);
+        int whichBuildable(vector<Recipe*> listRecipe, bool reflected);
         int checkMultiple();
         vector <string> convertVector();
         // Attribute
