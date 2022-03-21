@@ -8,7 +8,7 @@ using namespace std;
 #include <vector>
 #include <list>
 
-GameState::GameState(list<Item> _legalItem, vector<Recipe> _legalRecipe){
+GameState::GameState(list<Item*> _legalItem, vector<Recipe> _legalRecipe){
     this->legalItem = _legalItem;
     this->legalRecipe = _legalRecipe;
     this->craftTable = CraftTable(); //buat craft kosong
@@ -22,12 +22,12 @@ void GameState::GIVE(string item_name, int qty){
     bool found=false;
     string type;
     int id;
-    list<Item>::iterator it = this->legalItem.begin();
+    list<Item*>::iterator it = this->legalItem.begin();
     while(it!=this->legalItem.end()){
-        if(it->getName()==item_name){
+        if((*it)->getName()==item_name){
             found=true;
-            type = it->getNonToolClass();
-            id = it->getID();
+            type = (*it)->getNonToolClass();
+            id = (*it)->getID();
         }else{
             ++it;
         }
