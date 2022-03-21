@@ -177,6 +177,7 @@ int main() {
   }
   /*SETUP DONE*/
 
+  //baris dibawah ini(yg buat ngecek recipe), gk jalan kalo recipe legalRecipe dibuat sebagai vector<Recipe>. kalo dibikin vector<Recipe*>, isa. mungkin karena Recipe gapunya cctor?
   cout << "================================================================" << endl;
   //CHECKING LEGAL RECIPE
   vector<Recipe*>::iterator ptr;
