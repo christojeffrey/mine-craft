@@ -167,11 +167,8 @@ int main() {
   }
 
   //nunggu gamestate di update
-  // GameState GS = GameState(legalItem, legalRecipe);
+  GameState *GS = new GameState(legalItem, legalRecipe);
 
-  //sementara biar bisa bikin bawahe tanpa error
-  list<Item*> temp;
-  GameState *GS = new GameState(temp, legalRecipe);
 
 
   cout << "game is ready!" << endl;
