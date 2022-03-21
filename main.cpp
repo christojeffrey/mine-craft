@@ -164,6 +164,7 @@ int main() {
       Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
       // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
+
     }
     else{
       //recipe made for nontool
