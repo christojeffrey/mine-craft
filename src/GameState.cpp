@@ -64,7 +64,7 @@ void GameState::DISCARD(string I_id, int qty){
         //kalau I_id tersebut kosong atau kurang
     }
 }
-void GameState::MOVE(string I_id, int N, vector<string> C_id){
+void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
     try{
         Item* itemnyaapa = this->inventory.getItem(I_id);
         Item* itemnyaapa_copy;
@@ -96,16 +96,29 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
         //kalau jumlah di inventory kurang
     }
 }
-void GameState::MOVE(string C_id, string I_id){
+void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
     try{
-        Item& itemnyaapa = this->craftTable.getItemInCraftTable(C_id);
-        this->craftTable.substract(C_id);
-        this->inventory.add(&itemnyaapa,I_id);
-        itemnyaapa.printInfo();
+        Item* itemnyaapa = this->inventory.getItem(from);
+        this->inventory.substract(from,itemnyaapa->getQuantity());
+        this->inventory.add(itemnyaapa,to);
+        itemnyaapa->printInfo();
     }catch(BaseException *e){
         e->printMessage();
         //kalau di craft kosong atau inventory penuh
     }
+
+}
+
+void GameState::MOVE(string c_id, int N, string i_id){
+        try{
+            Item& itemnyaapa = this->craftTable.getItemInCraftTable(from);
+            this->craftTable.substract(from);
+            this->inventory.add(&itemnyaapa,to);
+            itemnyaapa.printInfo();
+        }catch(BaseException *e){
+            e->printMessage();
+            //kalau di craft kosong atau inventory penuh
+        }
 }
 void GameState::USE(string I_id){
     try{
@@ -130,12 +143,16 @@ void GameState::EXPORT(string namaFile){
     Item * item;
     for(int i=0;i<27;i++){
         idx = "I"+to_string(i);
-        item = this->inventory.getItem(idx);
-        if(item->getIsTool()){
-            result << item->getID() << ":" << item->getDurability();
-        }else{
-            result << item->getID() << ":" << item->getQuantity();
+        try{
+            item = this->inventory.getItem(idx);
+            if(item->getIsTool()){
+                result << item->getID() << ":" << item->getDurability();
+            }else{
+                result << item->getID() << ":" << item->getQuantity();
+            }
+            result << endl;
+        }catch(...){
+
         }
-        result << endl;
     }
 }

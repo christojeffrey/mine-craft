@@ -79,8 +79,16 @@ void Inventory::add(Item* item_name,string dest){
     // if item is not in inventory
     this->inven[dest]=item_name;
   } else {
-    if (item_name->getName() == this->inven[dest]->getName()) {
-      this->inven[dest]->setQuantity(this->inven[dest]->getQuantity() + 1);
+    if (item_name->getName() == this->inven[dest]->getName() && !this->inven[dest]->getIsTool()) {
+      int totalBaru = this->inven[dest]->getQuantity() + item_name->getQuantity();
+      if(totalBaru>64){
+        this->inven[dest]->setQuantity(64);
+        Item * copy = new NonTool(item_name->getID(),item_name->getName(),item_name->getNonToolClass(),totalBaru-64);
+        this->add(copy);
+      }else{
+        this->inven[dest]->setQuantity(totalBaru);
+      }
+      
     } else {
       throw new itemDoesntHaveTheSameNameException();
     }
