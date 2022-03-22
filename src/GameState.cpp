@@ -95,9 +95,9 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
 }
 void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
     try{
-        Item* itemnyaapa = this->inventory.getItem(from);
-        this->inventory.substract(from,itemnyaapa->getQuantity());
-        this->inventory.add(itemnyaapa,to);
+        Item* itemnyaapa = this->inventory.getItem(i_id1);
+        this->inventory.substract(i_id1,itemnyaapa->getQuantity());
+        this->inventory.add(itemnyaapa,i_id2);
         itemnyaapa->printInfo();
     }catch(BaseException *e){
         e->printMessage();
@@ -108,9 +108,15 @@ void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
 
 void GameState::MOVE(string c_id, int N, string i_id){
         try{
-            Item& itemnyaapa = this->craftTable.getItemInCraftTable(from);
-            this->craftTable.substract(from);
-            this->inventory.add(&itemnyaapa,to);
+            Item& itemnyaapa = this->craftTable.getItemInCraftTable(c_id);
+            Item* copy;
+            if(itemnyaapa.getIsTool()){
+                copy = new Tool(itemnyaapa.getID(),itemnyaapa.getName(),itemnyaapa.getDurability());
+            }else{
+                copy = new NonTool(itemnyaapa.getID(),itemnyaapa.getName(), itemnyaapa.getNonToolClass(), N);
+            }
+            this->craftTable.substract(c_id,N);
+            this->inventory.add(copy,i_id);
             itemnyaapa.printInfo();
         }catch(BaseException *e){
             e->printMessage();

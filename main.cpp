@@ -333,7 +333,7 @@ int main() {
         cin >> dest;
       cout << "main done, lempar ke gamestate" << endl;
 
-        GS->MOVE(src, dest);
+        GS->MOVE(src, N,dest);
       }
     }
     else if(command == "USE"){ //COMMAND USE

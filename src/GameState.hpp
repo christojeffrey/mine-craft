@@ -22,6 +22,7 @@ class GameState{
         void DISCARD(string I_id, int qty);
         void MOVE(string I_id, int N, vector<string> C_id); //dari inventory ke craft
         void MOVE(string from, string to); //dari craft ke inventory atau dari inventory ke inventory
+        void MOVE(string c_id, int N, string i_id);
         void USE(string I_id);
         void CRAFT();
         void EXPORT(string namaFile);

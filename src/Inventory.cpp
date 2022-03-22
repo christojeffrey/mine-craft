@@ -56,19 +56,71 @@ void Inventory::move(string idxSrc, string idxDest){
 }
 
 void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
-  if (inven.size() == MAX_INVEN) {
-    throw new inventoryIsFullException();
-  } else {
-    int i = 0;
-    bool found = false;
-    while (i < MAX_INVEN && !found){
-      // cari indeks yang masi kosong
-      string key = intToString(i);
-      if (this->inven.find(key) == inven.end()){
-        this->inven[key] = item;
-        found = true;
-      } else {
-        i++;
+  // Iterate item yang sudah ada dulu cari yang sama
+  // Cek apakah dia nontool, kalau tool sudah pasti tambah baru
+  bool alreadyAdded = false;
+  bool alreadyAddedPartially = false;
+  if (!item->getIsTool()){
+    if (!inven.size() == 0){ // iterasi cuma kalo inventory size tidak 0
+      map<string, Item*>::iterator it;
+      int i = 0;
+      for (it = inven.begin(); it != inven.end(); it++){
+        // Cek apakah namanya sama dengan item yang akan ditambah
+        if (item->getName() == it->second->getName()){
+          // cek quantity item + qty this masih di batas atau tidak
+          if (item->getQuantity() + it->second->getQuantity() <= 64){
+            it->second->setQuantity(item->getQuantity() + it->second->getQuantity());
+            item->setQuantity(0);
+            alreadyAdded = true;
+          } else { // kita add partial
+            int sisaQty = 64 - it->second->getQuantity(); // Simpan sisa sebelum penuh
+            // Pasti yg ditambah lgsg set 64
+            it->second->setQuantity(64);
+            //kurangi qty item yg akan ditambah
+            item->setQuantity(item->getQuantity() - sisaQty);
+            alreadyAddedPartially = true;
+          }
+        }
+      }
+    }
+    // Cek apakah sudah ditambah
+    if (!alreadyAdded && inven.size() == MAX_INVEN){
+      // Jika sudah add sebagian
+      if (alreadyAddedPartially){
+        throw new inventoryAddedPartialButFull();
+      } else { // Jika belum add sama sekali
+        throw new inventoryIsFullException();
+      }
+    } else if (!alreadyAdded && !inven.size() < MAX_INVEN) { // Kalau belum ditambah dan inven tidak full
+      // cout << "MASUK CEK DIA TOOL\n";
+      // Cari tempat yang kosong
+      int i = 0;
+      bool found = false;
+      while (i < MAX_INVEN && !found){
+        string key = intToString(i);
+        if (inven.find(key) == inven.end()){
+          inven[key] = item;
+          found = true;
+        } else {
+          i++;
+        }
+      }
+    }
+  } else { // klo dia tool langsung cari tempat kosong
+    if (inven.size() == MAX_INVEN){
+      throw new inventoryIsFullException();
+    } else {
+      // Cari tempat yang kosong
+      int i = 0;
+      bool found = false;
+      while (i < MAX_INVEN && !found){
+        string key = intToString(i);
+        if (inven.find(key) == inven.end()){
+          inven[key] = item;
+          found = true;
+        } else {
+          i++;
+        }
       }
     }
   }
@@ -79,16 +131,8 @@ void Inventory::add(Item* item_name,string dest){
     // if item is not in inventory
     this->inven[dest]=item_name;
   } else {
-    if (item_name->getName() == this->inven[dest]->getName() && !this->inven[dest]->getIsTool()) {
-      int totalBaru = this->inven[dest]->getQuantity() + item_name->getQuantity();
-      if(totalBaru>64){
-        this->inven[dest]->setQuantity(64);
-        Item * copy = new NonTool(item_name->getID(),item_name->getName(),item_name->getNonToolClass(),totalBaru-64);
-        this->add(copy);
-      }else{
-        this->inven[dest]->setQuantity(totalBaru);
-      }
-      
+    if (item_name->getName() == this->inven[dest]->getName()) {
+      this->inven[dest]->setQuantity(this->inven[dest]->getQuantity() + 1);
     } else {
       throw new itemDoesntHaveTheSameNameException();
     }
