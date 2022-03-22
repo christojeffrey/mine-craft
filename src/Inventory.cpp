@@ -75,10 +75,16 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
 }
 
 void Inventory::add(Item* item_name,string dest){
-  if(this->inven.find(dest)== inven.end()){
+  if(this->inven.find(dest) == inven.end()){\
+    // if item is not in inventory
     this->inven[dest]=item_name;
-  }else{
-    throw new inventoryIdIsNotEmptyException();
+  } else {
+    if (item_name->getName() == this->inven[dest]->getName()) {
+      this->inven[dest]->setQuantity(this->inven[dest]->getQuantity() + 1);
+    } else {
+      throw new itemDoesntHaveTheSameNameException();
+    }
+    
   }
 }
 

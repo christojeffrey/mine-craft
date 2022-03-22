@@ -26,8 +26,8 @@ bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     // to check if B is subarray of A
     int i = 0, j = 0;
     while (i < n && j < m) {
-        cout << "table : " << A[i] << endl;
-        cout << "recipe : " << B[j] << endl;
+        cout << "table : " << B[j] << endl;
+        cout << "recipe : " << A[i] << endl;
         if (A[i] == B[j]) {
             i++;
             j++;
@@ -270,7 +270,7 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
         }
         cout << "masuk abis trim\n";
         // check recipe is subarray of a table array
-        if (isSubArray(recipe, table, table.size(), recipe.size())) {
+        if (isSubArray(recipe, table, recipe.size(), table.size())) {
             cout << "masuk abis cek subarray\n";
             res = i;
             break;

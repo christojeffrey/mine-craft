@@ -26,21 +26,21 @@ class ExampleException : public BaseException {
 class craftTableIsNotEmptyException : public BaseException { // happened when the craft table at c_id is not empty when it supposed to be empty
     public:
         void printMessage(){
-            cout << "craft table is not empty" << endl;
+            cout << "Craft table is not empty!" << endl;
         }
 };
 
 class craftTableIsEmptyException : public BaseException { // happened when the craft table at c_id is empty when it supposed to not be empty
     public:
         void printMessage(){
-            cout << "craft table is empty" << endl;
+            cout << "Craft table is empty!" << endl;
         }
 };
 class craftTableDoesntMatchRecipeException : public BaseException { 
     // happened when trying to craft on craft table but doesnt match any recipe
     public:
         void printMessage(){
-            cout << "craft table does not match any recipe" << endl;
+            cout << "Craft table does not match any recipe!" << endl;
         }
 };
 
@@ -48,7 +48,7 @@ class CIDNotValidException : public BaseException {
     // happened when trying to craft on craft table but doesnt match any recipe
     public:
         void printMessage(){
-            cout << "C id is not a valid" << endl;
+            cout << "Index of Craft table given is not valid!" << endl;
         }
 };
 
@@ -56,28 +56,28 @@ class CIDNotValidException : public BaseException {
 class inventoryIsFullException : public BaseException { // happened when the inventory is full
     public:
         void printMessage(){
-            cout << "inventory is full" << endl;
+            cout << "Inventory is full!" << endl;
         }
 };
 class inventoryIdIsEmptyException : public BaseException{
     // happened when the inventory on I_id is empty, when it's supposed to not be empty
     public:
         void printMessage(){
-            cout << "I id is empty" << endl;
+            cout << "Inventory in given index is empty!" << endl;
         }
 };
 class inventoryIdIsNotEmptyException : public BaseException{
     // happened when the inventory on I_id is not empty, when it's supposed to be empty
     public:
         void printMessage(){
-            cout << "I id is not empty" << endl;
+            cout << "Inventory in given index is not empty!" << endl;
         }
 };
 class inventoryIdIsInsufficientException : public BaseException{
     // happened when the inventory on I_id is insufficient
     public:
         void printMessage(){
-            cout << "I id has insufficient quantity" << endl;
+            cout << "Inventory in given index has insufficient quantity" << endl;
         }
 };
 
@@ -85,7 +85,7 @@ class inventoryIdIsNotToolException : public BaseException{
     // happened when inventory on I_id is not a tool when it is supposed to be tool
     public:
         void printMessage(){
-            cout << "I id give is not a tool. it's supposed to be a tool" << endl;
+            cout << "Inventory in given index is not a tool. It's supposed to be a tool!" << endl;
         }
 };
 
@@ -93,7 +93,7 @@ class inventoryItemNameIsNotFoundException : public BaseException{
     // happened when inventory on I_id is not a tool when it is supposed to be tool
     public:
         void printMessage(){
-            cout<< "Nama item tidak ditemukan" << endl;
+            cout<< "Item is not found in inventory!" << endl;
         }
 };
 
@@ -103,7 +103,7 @@ class wrongTypeException : public BaseException{
     //happen when you expet tool but get nontool, or when you expect nontool but get tool
     public:
         void printMessage(){
-            cout << "I expect tipe yang berbeda (antara non tool dan tool)" << endl;
+            cout << "Different type of item expected! (Tool or Non Tool)" << endl;
         }
 };
 
@@ -111,7 +111,7 @@ class oneOfTheItemNeededDoesntExistException : public BaseException{
     //happen when move, and either idxsource or idxdest doesnt exist
     public:
         void printMessage(){
-            cout << "One of the item in the argument given doesnt exist" << endl;
+            cout << "One of the item in the argument given doesn't exist!" << endl;
         }
 };
 
@@ -119,7 +119,7 @@ class itemDoesntHaveTheSameNameException : public BaseException{
     //happen when you want to move to an existing inventory place, but item from source don't have the same name with item from destination
     public:
         void printMessage(){
-            cout << "you want to move to an existing inventory place, but item from source don't have the same name with item from destination" << endl;
+            cout << "Item from source is different with item from destination!" << endl;
         }
 };
 
@@ -127,7 +127,7 @@ class negativeValueGivenException : public BaseException{
     //hapen when you expect non negative value, but given negative value
     public:
         void printMessage(){
-            cout << "negative value given when non negative value expected" << endl;
+            cout << "Negative value given when non negative value expected!" << endl;
         }
 };
 
@@ -135,14 +135,14 @@ class invalidCommandToItem : public BaseException{
     //happen when invalid command given to item. for example nontool.getDurability()
     public:
         void printMessage(){
-            cout << "invalid command given to item" << endl;
+            cout << "Invalid command given to item!" << endl;
         }
 };
 class nonItemQuantityIsNotSufficientException : public BaseException{
     //happen when you try to substract non item quantity, but the quantity existed is not sufficient
     public:
         void printMessage(){
-            cout << "non item quantity is not sufficient"<< endl;
+            cout << "Non item quantity is not sufficient!"<< endl;
         }
 };
 #endif
