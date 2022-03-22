@@ -97,6 +97,14 @@ class inventoryItemNameIsNotFoundException : public BaseException{
         }
 };
 
+class inventoryAddedPartialButFull : public BaseException{
+    // happened when adding a new item and already added partially, but not all
+    public:
+        void printMessage(){
+            cout << "Item has been added partially but not all because inventory is already full!\n";
+        }
+};
+
 
 //untuk inventory
 class wrongTypeException : public BaseException{
