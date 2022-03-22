@@ -25,6 +25,9 @@ bool isCIDValid(string c_id) {
 bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     // to check if B is subarray of A
     int i = 0, j = 0;
+    for (int idx = 0; idx < B.size(); idx++) {
+        cout <<  B[idx] << endl;
+    }
     while (i < n && j < m) {
         cout << "table : " << B[j] << endl;
         cout << "recipe : " << A[i] << endl;
@@ -250,6 +253,7 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
         int row = listRecipe[i]->getRow();
         int col = listRecipe[i]->getCol();
         cout << "masuk awal\n";
+        cout << "RESEP YANG DIBUAT : " << listRecipe[i]->getItem()->getName();
         vector<string> recipe = listRecipe[i]->getRecipe();
         cout << "masuk abis dapet resep\n";
         vector<string> table;
@@ -274,6 +278,10 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
             cout << "masuk abis cek subarray\n";
             res = i;
             break;
+        }
+
+        if (listRecipe[i]->getItem()->getName() == "STICK") {
+            throw new invalidCommandToItem();
         }
     }
     return res;
