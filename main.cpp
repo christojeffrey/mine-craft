@@ -20,6 +20,58 @@ string clean(string s) {
     return s.substr(0, s.length()-1);
 }
 
+vector<string> getRecipeMatrix(vector<string> eachRecipe, int row, int col) {
+  vector<string> res(9);
+  int appendmanyRow = 3 - row;
+  int idx = 0;
+  for (int i = 0; i <= 3; i++) {
+    if (i < col) {
+      res[i] = eachRecipe[idx];
+      idx++;
+    } else {
+      res[i] ="-";
+    }
+  }
+  
+  if (appendmanyRow == 1) {
+    for (int i = 3; i <= 5; i++) {
+      if (i < col + 3) {
+        res[i] = eachRecipe[idx];
+        idx++;
+      } else {
+        res[i] = "-";
+      }
+    }
+
+    for (int i = 6; i <= 8; i++) {
+      res[i] = "-";
+    }
+  } else if (appendmanyRow == 2) {
+    for (int i = 3; i <= 8; i++) {
+      res[i] = "-";
+    }
+  } else {
+    for (int i = 3; i <= 5; i++) {
+      if (i < col + 3) {
+        res[i] = eachRecipe[idx];
+        idx++;
+      } else {
+        res[i] = "-";
+      }
+    }
+
+    for (int i = 6; i <= 8; i++) {
+      if (i < col + 6) {
+        res[i] = eachRecipe[idx];
+        idx++;
+      } else {
+        res[i] = "-";
+      }
+    }
+  }
+  return res;
+}
+
 int main() {
   //add welcome message
 
@@ -164,6 +216,10 @@ int main() {
       }
     }
 
+    vector<string> addToRecipe = getRecipeMatrix(eachRecipe, row, col);
+    for (auto it = addToRecipe.begin(); it != addToRecipe.end(); it++) {
+      cout << *it << endl;
+    }
 
     //creating Recipe Object
     if(isItemATool[itemName]){
