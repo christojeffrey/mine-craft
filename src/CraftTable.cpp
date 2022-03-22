@@ -120,7 +120,12 @@ void CraftTable::substract(string c_id, int N) {
     // Delete item from c_id slot to be empty, if empty throw error
     if (isCIDValid(c_id)) {
         if (!isSlotEmpty(c_id)) {
-            table[c_id] = NULL;
+            int sisa =table[c_id]->substract(N);
+            if(sisa<0){
+                throw "";
+            }else if(sisa==0){
+                table[c_id]=NULL;
+            }
         } else {
             throw new craftTableIsEmptyException();
         }

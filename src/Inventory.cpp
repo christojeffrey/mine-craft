@@ -130,8 +130,8 @@ void Inventory::add(Item* item_name,string dest){
     // if item is not in inventory
     this->inven[dest]=item_name;
   } else {
-    if (item_name->getName() == this->inven[dest]->getName()) {
-      this->inven[dest]->setQuantity(this->inven[dest]->getQuantity() + 1);
+    if (item_name->getName() == this->inven[dest]->getName() && !item_name->getIsTool()) {
+      this->inven[dest]->setQuantity(this->inven[dest]->getQuantity() + item_name->getQuantity());
     } else {
       throw new itemDoesntHaveTheSameNameException();
     }

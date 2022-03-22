@@ -319,21 +319,28 @@ int main() {
       if(src.substr(0,1) == "I"){
         cout << "DEPANNYA I" << endl;
         vector<string> dest;
+        string temp;
         for(int i = 0 ; i < N ; i++){
-          string temp;
-          cin >> temp; 
-          dest.push_back(temp);
+          cin >> temp;
+          if(temp[0]=='C'){ 
+            dest.push_back(temp);
+          }else{
+            break;
+          }
         }
         cout << "main done, lempar ke gamestate" << endl;
-
-        GS->MOVE(src, N, dest);
+        if(temp[0]=='C'){
+          GS->MOVE(src, N, dest);
+        }else{
+          GS->MOVE(src,temp);
+        }
       }
       else{
         string dest;
         cin >> dest;
       cout << "main done, lempar ke gamestate" << endl;
 
-        GS->MOVE(src, dest);
+        GS->MOVE(src, N,dest);
       }
     }
     else if(command == "USE"){ //COMMAND USE
