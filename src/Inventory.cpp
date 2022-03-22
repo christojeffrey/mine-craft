@@ -92,7 +92,6 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
         throw new inventoryIsFullException();
       }
     } else if (!alreadyAdded && !inven.size() < MAX_INVEN) { // Kalau belum ditambah dan inven tidak full
-      // cout << "MASUK CEK DIA TOOL\n";
       // Cari tempat yang kosong
       int i = 0;
       bool found = false;

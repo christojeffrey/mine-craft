@@ -96,7 +96,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){
 void GameState::MOVE(string C_id, string I_id){
     try{
         Item& itemnyaapa = this->craftTable.getItemInCraftTable(C_id);
-        this->craftTable.substract(C_id);
+        this->craftTable.substract(C_id, 2);
         this->inventory.add(&itemnyaapa,I_id);
         itemnyaapa.printInfo();
     }catch(BaseException *e){
