@@ -120,10 +120,7 @@ void CraftTable::substract(string c_id, int N) {
     // Delete item from c_id slot to be empty, if empty throw error
     if (isCIDValid(c_id)) {
         if (!isSlotEmpty(c_id)) {
-            table[c_id]->setQuantity(table[c_id]->getQuantity() - N);
-            if (table[c_id]->getQuantity() == 0) {
-                table[c_id] = NULL;
-            }
+            table[c_id] = NULL;
         } else {
             throw new craftTableIsEmptyException();
         }
@@ -159,10 +156,8 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
     if (!this->isTableEmpty()) {
         cout << "Masuk table not empty craftable make\n";
         if (!this->isAllTool()) {
-
             cout << "Masuk table not is All tool tp belom whichbuildable craftable make\n";
-            bool reflected = false;
-            int idx = whichBuildable(recipe, legalItem, reflected);
+            int idx = whichBuildable(recipe, legalItem);
             cout << "masuk sini dapet indeks" << endl;
             if (idx != -1) {
                 // If recipe matched with craft table
@@ -180,29 +175,10 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
                 }
                 
             } else {
-                // If recipe not matched with craft table, check craft table reflected by Y-axis
-                reflected = true;
-                idx = whichBuildable(recipe, legalItem, reflected);
-                cout << "masuk sini dapet indeks cermin" << endl;
-                if (idx != -1) {
-                    int multiplicity = this->checkMultiple();
-                    cout << "masuk sini dapet multiple cermin" << endl;
-                    afterCraft(multiplicity);
-                    cout << "masuk sini ngosngin table cermin" << endl;
-                    Recipe* itemCrafted = recipe[idx];
-                    if (itemCrafted->getItem()->getIsTool() == true) {
-                        return new Tool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), 10);
-                    } else {
-                        return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult()*multiplicity);
-                    }
-                    cout << "masuk sini dapet resep yang dibuat cermin" << endl;
-                } else {
-                    // cannot build items in craft table
-                    cout << "masuk throw ga ada resep" << endl;
-                    throw new craftTableDoesntMatchRecipeException();
-                }
+                // cannot build items in craft table
+                cout << "masuk throw ga ada resep" << endl;
+                throw new craftTableDoesntMatchRecipeException();
             }
-
         } else {
             // If build Tool sum by durability
             cout << "Masuk nambah durability tool\n";
@@ -210,7 +186,6 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
             Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
         }
-        
     } else {
         cout << "Masuk throw table empty craftable make\n";
         throw new craftTableIsEmptyException();
@@ -250,41 +225,37 @@ Tool* CraftTable::makeTool() {
     return new Tool(id, name, sum);
 };
 
-int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem, bool reflected) {
+int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem) {
     int res = -1;
     for (int i = 0; i < listRecipe.size(); i++) {
         int row = listRecipe[i]->getRow();
         int col = listRecipe[i]->getCol();
-        cout << "masuk awal\n";
         cout << "RESEP YANG DIBUAT : " << listRecipe[i]->getItem()->getName();
         vector<string> recipe = listRecipe[i]->getRecipe();
         cout << "masuk abis dapet resep\n";
         vector<string> table;
-        if (!reflected) {
-            table = (this->convertVector());
-            cout << "masuk abis dapet konversi vector\n";
-        } else {
-            cout << "Mau direflect di whichbuildable\n";
-            table = reflectYTable(this->convertVector());
-            cout << "Sudah direflect di whichbuildable\n";
-        }
+        vector<string> tableReflected;
+        table = (this->convertVector());
+        cout << "masuk abis dapet konversi vector\n";
         // table get non tool class
         table = getTableToCheck(table, legalItem);
         table = trimKosong(table);
-        cout << "isi table " << endl;
-        // for (auto it = table.begin(); it != table.end(); it++){
-        //     cout << (*it) << endl;
-        // }
         cout << "masuk abis trim\n";
         // check recipe is subarray of a table array
         if (isSubArray(recipe, table, recipe.size(), table.size())) {
             cout << "masuk abis cek subarray\n";
             res = i;
             break;
-        }
-
-        if (listRecipe[i]->getItem()->getName() == "STICK") {
-            throw new invalidCommandToItem();
+        } else {
+            cout << "Mau direflect di whichbuildable karena di original ga match\n";
+            tableReflected = reflectYTable(this->convertVector());
+            tableReflected = getTableToCheck(tableReflected, legalItem);
+            tableReflected = trimKosong(tableReflected);
+            if (isSubArray(recipe, tableReflected, recipe.size(), tableReflected.size())) {
+                cout << "masuk abis cek subarray reflected\n";
+                res = i;
+                break;
+            }
         }
     }
     return res;

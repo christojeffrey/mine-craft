@@ -31,7 +31,7 @@ class CraftTable {
         Item* make(vector<Recipe*> recipe, list<Item*> legalItem); // return Item as a result of crafting
         Tool* makeTool();
         void afterCraft(int multiplicity);
-        int whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem, bool reflected);
+        int whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem);
         vector<string> getTableToCheck(vector<string> table, list<Item*> legalItem);
         int checkMultiple();
         vector<string> convertVector();
