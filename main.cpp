@@ -229,7 +229,6 @@ int main() {
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
       Recipe *temp = new Recipe(row, col, addToRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
-    //   // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
 
     }
