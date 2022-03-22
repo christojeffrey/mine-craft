@@ -228,7 +228,7 @@ int main() {
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
-      Recipe *temp = new Recipe(row, col, eachRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
+      Recipe *temp = new Recipe(row, col, addToRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
     //   // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
 
@@ -239,7 +239,7 @@ int main() {
       string tempname = ItemNameToItemObject[itemName]->getName();
       string nontoolClass = ItemNameToItemObject[itemName]->getNonToolClass();
       int quantity = ItemNameToItemObject[itemName]->getQuantity();
-      Recipe *temp = new Recipe(row, col, eachRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
+      Recipe *temp = new Recipe(row, col, addToRecipe, new NonTool(tempid, tempname, nontoolClass, quantity),resultquantity);
       legalRecipe.push_back(temp);
     }
   }

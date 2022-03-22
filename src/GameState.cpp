@@ -87,9 +87,6 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
             }
         }catch(BaseException *e){
             e->printMessage();
-            //kalau di C_id sudah ada yg menempati
-
-            this->inventory.add(itemnyaapa, I_id);
         }
     }catch(BaseException *e){
         e->printMessage();
