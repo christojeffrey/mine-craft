@@ -25,7 +25,7 @@ class CraftTable {
         // Getter Setter Push Pop
         Item& getItemInCraftTable(string c_id);
         void add(Item& item, string c_id); // Add item to c_id slot, if not empty throw error
-        void substract(string c_id); // Delete item from c_id slot to be empty, if empty throw error
+        void substract(string c_id, int N); // Delete item from c_id slot to be empty, if empty throw error
         // Method
         void print(); // Print all the values of the Crafting Table
         Item* make(vector<Recipe*> recipe, list<Item*> legalItem); // return Item as a result of crafting

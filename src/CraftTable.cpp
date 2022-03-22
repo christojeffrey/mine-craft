@@ -25,9 +25,9 @@ bool isCIDValid(string c_id) {
 bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     // to check if B is subarray of A
     int i = 0, j = 0;
-    for (int idx = 0; idx < B.size(); idx++) {
-        cout <<  B[idx] << endl;
-    }
+    // for (int idx = 0; idx < B.size(); idx++) {
+    //     cout <<  B[idx] << endl;
+    // }
     while (i < n && j < m) {
         cout << "table : " << B[j] << endl;
         cout << "recipe : " << A[i] << endl;
@@ -116,11 +116,14 @@ void CraftTable::add(Item& item, string c_id) {
         throw new CIDNotValidException();
     }
 }; 
-void CraftTable::substract(string c_id) {
+void CraftTable::substract(string c_id, int N) {
     // Delete item from c_id slot to be empty, if empty throw error
     if (isCIDValid(c_id)) {
         if (!isSlotEmpty(c_id)) {
-            table[c_id] = NULL;
+            table[c_id]->setQuantity(table[c_id]->getQuantity() - N);
+            if (table[c_id]->getQuantity() == 0) {
+                table[c_id] = NULL;
+            }
         } else {
             throw new craftTableIsEmptyException();
         }
@@ -269,9 +272,9 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
         table = getTableToCheck(table, legalItem);
         table = trimKosong(table);
         cout << "isi table " << endl;
-        for (auto it = table.begin(); it != table.end(); it++){
-            cout << (*it) << endl;
-        }
+        // for (auto it = table.begin(); it != table.end(); it++){
+        //     cout << (*it) << endl;
+        // }
         cout << "masuk abis trim\n";
         // check recipe is subarray of a table array
         if (isSubArray(recipe, table, recipe.size(), table.size())) {
@@ -373,20 +376,3 @@ vector<string> CraftTable::getTableToCheck(vector<string> table, list<Item*> leg
     }
     return table;
 }
-
-// int CraftTable::whichBuildableReflected(vector<Recipe*> listRecipe) {
-//     int res = -1;
-//     for (int i = 0; i < listRecipe.size(); i++) {
-//         int row = listRecipe[i]->getRow();
-//         int col = listRecipe[i]->getCol();
-//         vector<string> recipe = listRecipe[i]->getRecipe();
-//         vector<string> tableYReflected = reflectYTable(this->convertVector());
-//         tableYReflected = trimKosong(tableYReflected);
-//         // check recipe is subarray of a table array
-//         if (isSubArray(tableYReflected, recipe, tableYReflected.size(), recipe.size())) {
-//             res = i;
-//             break;
-//         }
-//     }
-//     return res;
-// };
