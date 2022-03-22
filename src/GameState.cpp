@@ -68,11 +68,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
     try{
         Item* itemnyaapa = this->inventory.getItem(I_id);
         Item* itemnyaapa_copy;
-        if (itemnyaapa->getIsTool()){
-            itemnyaapa_copy = new Tool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getDurability());
-        } else {
-            itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
-        }
+        
         cout << "kirim ke "<<C_id.size()<<"  tempat di craft" << endl;
         try{
             for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
@@ -82,6 +78,11 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
             }
             this->inventory.substract(I_id,N);
             for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
+                if (itemnyaapa->getIsTool()){
+                    itemnyaapa_copy = new Tool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getDurability());
+                } else {
+                    itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
+                }
                 cout << "ngirim sebuah "<< (*itemnyaapa_copy).getName() << " ke "<< *it << endl;
                 this->craftTable.add(*itemnyaapa_copy,*it);
             }
@@ -96,8 +97,9 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
 void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
     try{
         Item* itemnyaapa = this->inventory.getItem(i_id1);
+        Item * copy = new NonTool(itemnyaapa->getID(),itemnyaapa->getName(),itemnyaapa->getNonToolClass(),itemnyaapa->getQuantity());
         this->inventory.substract(i_id1,itemnyaapa->getQuantity());
-        this->inventory.add(itemnyaapa,i_id2);
+        this->inventory.add(copy,i_id2);
         itemnyaapa->printInfo();
     }catch(BaseException *e){
         e->printMessage();
