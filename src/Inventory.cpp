@@ -166,7 +166,7 @@ void Inventory::substract(string I_id, int qty){
         this->inven.erase(I_id);
       }
     }catch(BaseException* e){
-      e->printMessage();
+      throw e;
       //kalau qty kurang atau
     }
   }
