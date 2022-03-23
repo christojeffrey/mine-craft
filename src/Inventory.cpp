@@ -176,7 +176,8 @@ void Inventory::use(string I_id){
   if (this->inven.find(I_id) == this->inven.end()) {
     throw new inventoryIdIsEmptyException();
   } else {
-    if (this->inven[I_id]->use() <= 0) {
+    this->inven[I_id]->use();
+    if (this->inven[I_id]->getDurability() <= 0) {
       this->inven.erase(I_id);
     }
   }

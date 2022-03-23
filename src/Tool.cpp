@@ -24,7 +24,7 @@ void Tool::printInfo()const{
 int Tool::use(){
     //kalo di use, durability di kurangi sebanyak satu
     this->durability--;
-    return this->durability--;
+    return this->durability;
 }
 
 int Tool::substract(int qty){
