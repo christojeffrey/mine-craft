@@ -94,7 +94,7 @@ Item& CraftTable::getItemInCraftTable(string c_id) {
 
 void CraftTable::add(Item& item, string c_id) {
     // Add item to slot key
-    cout << "Adding to " << c_id << "item named " << item.getName() << endl;
+    cout << "Adding to " << c_id << " item named " << item.getName() << endl;
     // Add item to c_id slot, if not empty throw error
     if (isCIDValid(c_id)) {
         if (isSlotEmpty(c_id)) {
@@ -360,7 +360,7 @@ vector<string> CraftTable::getTableToCheck(vector<string> table, list<Item*> leg
             if ((*it1)->getName() == name) {
                 if ((*it1)->getNonToolClass() != "-" && (*it1)->getNonToolClass() != "LOG"){
                     *it = (*it1)->getNonToolClass();
-                    cout << *it << endl;
+                    // cout << *it << endl;
                 } else {
                     break;
                 }
