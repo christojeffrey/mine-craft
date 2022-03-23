@@ -12,11 +12,13 @@ string get_cid(int idx) {
 };
 
 int get_idx(string c_id) {
+    // Get index from key
     int res = c_id[1] - '0';
     return res;
 };
 
 bool isCIDValid(string c_id) {
+    // Check if key is valid in capacity
     int idx = get_idx(c_id);
     return (idx >= 0 && idx < MAX_CAP);
 };
@@ -25,9 +27,6 @@ bool isCIDValid(string c_id) {
 bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     // to check if B is subarray of A
     int i = 0, j = 0;
-    // for (int idx = 0; idx < B.size(); idx++) {
-    //     cout <<  B[idx] << endl;
-    // }
     while (i < n && j < m) {
         cout << "table : " << B[j] << endl;
         cout << "recipe : " << A[i] << endl;
@@ -45,6 +44,7 @@ bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
 }
 
 vector<string> trimKosong(vector<string> table) {
+    // To cut out the "-" (empty) part in table
     while (*(table.begin()) == "-") {
         table.erase(table.begin());
     }
@@ -61,6 +61,7 @@ vector<string> trimKosong(vector<string> table) {
 };
 
 vector<string> reflectYTable(vector<string> table) {
+    // reflect table by y-axis
     swap(table[0], table[2]);
     swap(table[3], table[5]);
     swap(table[6], table[8]);
@@ -88,6 +89,7 @@ CraftTable& CraftTable::operator=(const CraftTable& other) {
 
 // Getter Setter Push Pop
 Item& CraftTable::getItemInCraftTable(string c_id) {
+    // Get item in craft table by key
     if (isCIDValid(c_id))
         return *table[c_id];
     else {
@@ -96,23 +98,22 @@ Item& CraftTable::getItemInCraftTable(string c_id) {
 };
 
 void CraftTable::add(Item& item, string c_id) {
+    // Add item to slot key
     cout << "Adding to " << c_id << "item named " << item.getName();
     // Add item to c_id slot, if not empty throw error
     if (isCIDValid(c_id)) {
-        cout << "is slot empty "<<isSlotEmpty(c_id) << endl;
         if (isSlotEmpty(c_id)) {
             table[c_id] = &item;
-            cout<<"isi table cid" << table[c_id]->getName() << endl;
         } else {
+            // if slot not empty then add by quantity
             if (table[c_id]->getName() == item.getName()) {
                 table[c_id]->setQuantity(table[c_id]->getQuantity()+1); 
             } else {
                 throw new craftTableIsNotEmptyException();
             }
-            // TAnya kakaknya kalo move dari inven ke craftable dan ternyata di craftable udah ada, tapi beda nama, itu ganti item di craftablenya atau throw error
+            // Tanya kakaknya kalo move dari inven ke craftable dan ternyata di craftable udah ada, tapi beda nama, itu ganti item di craftablenya atau throw error
         }
     } else {
-        cout << "THROW" << endl;
         throw new CIDNotValidException();
     }
 }; 
@@ -136,19 +137,20 @@ void CraftTable::substract(string c_id, int N) {
 
 // Method
 void CraftTable::print() {
+    // Output information of craft table per slot
    for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
         if (table[key]) {
             if (i == 2 || i == 5) {
-                cout << table[key]->getName() << endl;
+                cout << "[" << table[key]->getName() << "]" << endl;
             } else {
-                cout << table[key]->getName() << " ";
+                cout << "[" << table[key]->getName() << "]" << " ";
             }
         } else {
             if (i == 2 || i == 5) {
-                cout << "KOSONG" << endl;
+                cout << "[KOSONG]" << endl;
             } else {
-                cout << "KOSONG" << " ";
+                cout << "[KOSONG]" << " ";
             }
         }
     }
@@ -198,6 +200,7 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
 };
 
 void CraftTable::afterCraft(int multiplicity) {
+    // For multiple crafting, empty if only items in crafttable are all used
     if (!this->isTableEmpty()) {
         for (auto it = table.begin(); it != table.end(); it++) {
             if (it->second) {
@@ -215,6 +218,7 @@ void CraftTable::afterCraft(int multiplicity) {
 };
 
 Tool* CraftTable::makeTool() {
+    // To make tool sum by durability, max durability is 10
     string name;
     int sum = 0, id = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
@@ -231,27 +235,30 @@ Tool* CraftTable::makeTool() {
 };
 
 int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem) {
+    // Return an index where recipe is match in listRecipe
     int res = -1;
     for (int i = 0; i < listRecipe.size(); i++) {
         int row = listRecipe[i]->getRow();
         int col = listRecipe[i]->getCol();
         cout << "RESEP YANG DIBUAT : " << listRecipe[i]->getItem()->getName();
+        // Get the recipe to be checked
         vector<string> recipe = listRecipe[i]->getRecipe();
-        cout << "masuk abis dapet resep\n";
         vector<string> table;
         vector<string> tableReflected;
+        // Convert to vector
         table = (this->convertVector());
         cout << "masuk abis dapet konversi vector\n";
-        // table get non tool class
+        // Get table by non tool class
         table = getTableToCheck(table, legalItem);
         table = trimKosong(table);
         cout << "masuk abis trim\n";
-        // check recipe is subarray of a table array
+        // Check recipe is subarray of a table array
         if (isSubArray(recipe, table, recipe.size(), table.size())) {
             cout << "masuk abis cek subarray\n";
             res = i;
             break;
         } else {
+            // If not matched, check the reflected table
             cout << "Mau direflect di whichbuildable karena di original ga match\n";
             tableReflected = reflectYTable(this->convertVector());
             tableReflected = getTableToCheck(tableReflected, legalItem);
@@ -267,6 +274,7 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
 };
 
 vector<string> CraftTable::convertVector() {
+    // Convert map table member in CraftTable to vector of string by its name
     vector<string> res;
     string val;
     for (auto it = table.begin(); it != table.end(); ++it) {
@@ -282,12 +290,14 @@ vector<string> CraftTable::convertVector() {
 
 // Attribute
 bool CraftTable::isSlotEmpty(string c_id) {
+    // To check if slot is empty by key
     if (isCIDValid(c_id))
         return (!table[c_id]);
     return false;
 };
 
 bool CraftTable::isTableEmpty() {
+    // To check if craft table is empty
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second) return false;
     }
@@ -296,6 +306,7 @@ bool CraftTable::isTableEmpty() {
 };
 
 bool CraftTable::isAllTool() {
+    // To check if there are only 2 tool in crafttable, return true
     int cnt = 2;
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second) {
@@ -312,6 +323,7 @@ bool CraftTable::isAllTool() {
 };
 
 int CraftTable::checkMultiple() {
+    // To check how many can be built from items in craft table
     int idx = 0;
     int multiplicity = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
@@ -334,8 +346,9 @@ int CraftTable::checkMultiple() {
     }
     return multiplicity;
 };
-vector<string> CraftTable::getTableToCheck(vector<string> table, list<Item*> legalItem){
-    //iterate legal item, masing2 add ke hasil
+vector<string> CraftTable::getTableToCheck(vector<string> table, list<Item*> legalItem) {
+    // Convert table to get its non tool class (PLANK, LOG, etc)
+    // If non tool class is empty => use the name (DIAMOND)
     for (auto it = (table).begin(); it != (table).end(); it++) {
         string name = *it;
         if (name == "-") continue;
