@@ -50,7 +50,11 @@ void GameState::GIVE(string item_name, int qty){
                 }
             } else {
                 if (qty > MAX_QUANTITY) {
-                    throw new quantityExceedingLimitException();
+                    while (qty > MAX_QUANTITY) {
+                        this->inventory.add(new NonTool(id, item_name, type, MAX_QUANTITY));
+                        qty -= MAX_QUANTITY;
+                    }
+                    this->inventory.add(new NonTool(id, item_name, type, qty));
                 } else if (qty < 0){
                     throw new negativeValueGivenException();
                 } else { 
