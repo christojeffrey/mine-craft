@@ -105,6 +105,13 @@ class inventoryAddedPartialButFull : public BaseException{
         }
 };
 
+class quantityExceedingLimitException : public BaseException{
+    // happened when give command gives quantity that exceeds the limit 64
+    public:
+        void printMessage(){
+            cout << "New Item quantity must not exceed 64!\n";
+        }
+};
 
 //untuk inventory
 class wrongTypeException : public BaseException{
@@ -146,11 +153,12 @@ class invalidCommandToItem : public BaseException{
             cout << "Invalid command given to item!" << endl;
         }
 };
-class nonItemQuantityIsNotSufficientException : public BaseException{
-    //happen when you try to substract non item quantity, but the quantity existed is not sufficient
+
+class itemQuantityIsNotSufficientException : public BaseException{
+    //happen when you try to substract item(either tool or nontool) quantity, but the quantity existed is not sufficient
     public:
         void printMessage(){
-            cout << "Non item quantity is not sufficient!"<< endl;
+            cout << "Item quantity is not sufficient!"<< endl;
         }
 };
 #endif

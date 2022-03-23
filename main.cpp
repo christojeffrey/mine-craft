@@ -13,12 +13,6 @@
 #include "src/Recipe.hpp"
 #include "src/GameState.hpp"
 using namespace std;
-string clean(string s) {
-    // sometimes the file can have CRLF ending, so we need to clean the string first before using it.
-    if (s.length() == 0) return s;
-    if (s[s.length()-1] != '\x0D') return s;
-    return s.substr(0, s.length()-1);
-}
 
 vector<string> getRecipeMatrix(vector<string> eachRecipe, int row, int col) {
   vector<string> res(9);
@@ -76,7 +70,9 @@ int main() {
   //add welcome message
 
   // /* SETUP */
-  cout << "setting up..." << endl;
+  cout << "Setting up..." << endl;
+  cout << "Loading..." << endl;
+  cout << "Please wait and sit tight..." << endl;
   string configPath = "./config";
   string itemConfigPath = configPath + "/item.txt";
 
@@ -162,7 +158,7 @@ int main() {
 
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
-    cout << "====== batas ====" << endl;
+    cout << "====== BATAS ======" << endl;
     cout << entry.path() << endl;
     
     // create list of legal recipe
@@ -171,7 +167,6 @@ int main() {
     //changing text inside into one long string
     string currentRecipeString;
     for (string line; getline(eachRecipeFile, line);) {
-      // line = clean(line);
 
       //each line inside a recipe
       //cout << "\t" << line << endl;
@@ -208,11 +203,11 @@ int main() {
       }
       else if(count == ((row*col) + 3)){ //
         itemName = currentWordRecipe;
-        cout << "INI ITEM NAMENYA " << currentWordRecipe << endl;
+        // cout << "INI ITEM NAMENYA " << currentWordRecipe << endl;
       }
       else if(count == ((row*col) + 4)){ //
         resultquantity = stoi(currentWordRecipe);
-        cout << "INI jumlah yg kebikin " << currentWordRecipe << endl;
+        // cout << "INI jumlah yg kebikin " << currentWordRecipe << endl;
       }
     }
 
@@ -229,6 +224,7 @@ int main() {
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
       Recipe *temp = new Recipe(row, col, addToRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
+      // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
 
     }
@@ -266,7 +262,7 @@ int main() {
 
 
 
-  cout << "game is ready!" << endl;
+  cout << "Game is ready!" << endl;
   // add more glorified welcome message
 
 
@@ -279,7 +275,7 @@ int main() {
 
   
   while (command != "EXIT") {
-    cout << "input your command!"<< endl;
+    cout << "Input your command!"<< endl;
     cout << ">";
     cin >> command;
     if(command == "SHOW"){ //COMMAND SHOW
@@ -316,7 +312,6 @@ int main() {
       cin >> src >> tempN;
       N = stoi(tempN);
       if(src.substr(0,1) == "I"){
-        cout << "DEPANNYA I" << endl;
         vector<string> dest;
         string temp;
         for(int i = 0 ; i < N ; i++){
@@ -387,10 +382,10 @@ int main() {
 
     // COMMAND TAMBAHAN
     else if(command == "HELP"){
-      cout << "this is your help lol" << endl;
+      cout << "HOMEWORK NEED TO BE DONE" << endl;
     }
     else if(command == "EXIT"){
-      cout << "do you want to export your state first? (y/n)" << endl;
+      cout << "Do you want to export your state first? (y/n)" << endl;
       char yn;
       cin >> yn;
       if(yn == 'y'){
@@ -406,7 +401,7 @@ int main() {
     else {
       cout << "Invalid command. try \"HELP\" " << endl;
     }
-    cout << "COMMAND DONE, NEXT COMMAND" << endl;
+    cout << "COMMAND DONE, NEXT COMMAND..." << endl;
   }
 
   // add closing screen?

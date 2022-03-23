@@ -37,7 +37,7 @@ int NonTool::use(){
 int NonTool::substract(int qty){
     //memberikan return sisa quantity setelah dikurangi
     if(qty > this->quantity){
-        throw new nonItemQuantityIsNotSufficientException();
+        throw new itemQuantityIsNotSufficientException();
     }else{
         this->quantity -= qty;
     }

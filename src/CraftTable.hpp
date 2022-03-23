@@ -28,7 +28,7 @@ class CraftTable {
         void substract(string c_id, int N); // Delete item from c_id slot to be empty, if empty throw error
         // Method
         void print(); // Print all the values of the Crafting Table
-        Item* make(vector<Recipe*> recipe, list<Item*> legalItem); // return Item as a result of crafting
+        vector<Item*> make(vector<Recipe*> recipe, list<Item*> legalItem); // return Item as a result of crafting
         Tool* makeTool();
         void afterCraft(int multiplicity);
         int whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem);
@@ -39,6 +39,7 @@ class CraftTable {
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
+        int size();
 };
 
 bool isCIDValid(string c_id);

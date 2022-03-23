@@ -92,7 +92,6 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
         throw new inventoryIsFullException();
       }
     } else if (!alreadyAdded && !inven.size() < MAX_INVEN) { // Kalau belum ditambah dan inven tidak full
-      // cout << "MASUK CEK DIA TOOL\n";
       // Cari tempat yang kosong
       int i = 0;
       bool found = false;
@@ -177,7 +176,8 @@ void Inventory::use(string I_id){
   if (this->inven.find(I_id) == this->inven.end()) {
     throw new inventoryIdIsEmptyException();
   } else {
-    if (this->inven[I_id]->use() <= 0) {
+    this->inven[I_id]->use();
+    if (this->inven[I_id]->getDurability() <= 0) {
       this->inven.erase(I_id);
     }
   }

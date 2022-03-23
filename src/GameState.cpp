@@ -24,6 +24,7 @@ void GameState::GIVE(string item_name, int qty){
     bool found=false;
     string type;
     int id;
+    bool isTool;
 
     list<Item*>::iterator it;
     for (it = legalItem.begin(); it != legalItem.end(); it++){
@@ -31,21 +32,31 @@ void GameState::GIVE(string item_name, int qty){
         cout << (*it)->getName() << endl;
         if((*it)->getName()==item_name){
             found=true;
-            type = (*it)->getNonToolClass();
             id = (*it)->getID();
+            isTool = (*it)->getIsTool();
+            if (!isTool){
+                type = (*it)->getNonToolClass();
+            }
             break;
         }
     }
     if(found){
         try{
             cout << "BERHASIL KETEMU" << endl;
-            if (qty > 64) {
-                qty = 64;
-            } else if (qty < 0){
-                cout << "QUANTITY JANGAN NEGATIF!!\n";
+            // TODO: Harus dibenerin, cek dulu dia tool atau bukan
+            if(isTool){
+                for (int i = 0; i < qty; i++){
+                    this->inventory.add(new Tool(id, item_name, 10));
+                }
             } else {
-                this->inventory.add(new NonTool(id,item_name,type,qty));
-                this->inventory.printInfo();
+                if (qty > 64) {
+                    throw new quantityExceedingLimitException();
+                } else if (qty < 0){
+                    throw new negativeValueGivenException();
+                } else { 
+                    this->inventory.add(new NonTool(id,item_name,type,qty));
+                    this->inventory.printInfo(); // jgn lupa ini hilangin
+                }
             }
         } catch(BaseException *e){
             e->printMessage();
@@ -135,8 +146,10 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        Item* hasil = this->craftTable.make(this->legalRecipe, this->legalItem);
-        this->inventory.add(hasil);
+        vector<Item*> hasil = this->craftTable.make(this->legalRecipe, this->legalItem);
+        for (int i = 0; i < hasil.size(); i++) {
+            this->inventory.add(hasil[i]);
+        }
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep
@@ -157,7 +170,8 @@ void GameState::EXPORT(string namaFile){
             }
             result << endl;
         }catch(...){
-
+            result << "0:0" <<endl;
         }
     }
+    result.close();
 }
