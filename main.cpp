@@ -231,11 +231,15 @@ int main() {
       GS->SHOW();
     } 
     else if (command == "GIVE") {
-      cout << "GIVE command is picked" << endl;
-      string itemName;
-      int itemQty;
-      cin >> itemName >> itemQty;
-      GS->GIVE(itemName, itemQty);
+      try {
+        cout << "GIVE command is picked" << endl;
+        string itemName;
+        int itemQty;
+        cin >> itemName >> itemQty;
+        GS->GIVE(itemName, itemQty);
+      } catch(BaseException* e){
+        e->printMessage();
+      }
     }
     else if (command == "DISCARD"){
       cout << "DISCARD command is picked" << endl;
