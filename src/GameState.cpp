@@ -41,7 +41,7 @@ void GameState::GIVE(string item_name, int qty){
     }
     if (found) {
         try {
-            // TODO: Harus dibenerin, cek dulu dia tool atau bukan
+            // cek dulu dia tool atau bukan
             if(isTool){
                 for (int i = 0; i < qty; i++){
                     this->inventory.add(new Tool(id, item_name, 10));
@@ -61,8 +61,8 @@ void GameState::GIVE(string item_name, int qty){
                 }
             }
         } catch(BaseException *e){
-            e->printMessage();
             //kalau inventory penuh
+            e->printMessage();
         }
     }else{
         throw new inventoryItemNameIsNotFoundException();
@@ -72,8 +72,8 @@ void GameState::DISCARD(string I_id, int qty){
     try{
         this->inventory.substract(I_id,qty);
     }catch(BaseException *e){
-        e->printMessage();
         //kalau I_id tersebut kosong atau kurang
+        e->printMessage();
     }
 }
 void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
@@ -109,7 +109,9 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
                     this->craftTable.add(*itemnyaapa_copy,*it);
                 }catch(BaseException *e){
                     this->inventory.add(itemnyaapa_copy,I_id);
-                    e->printMessage();
+                    // e->printMessage();
+                    throw e;
+
                 }
             }
         }catch(BaseException *e){
@@ -125,8 +127,8 @@ void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
     try{
         this->inventory.move(i_id1,i_id2);
     }catch(BaseException *e){
-        e->printMessage();
         //kalau di craft kosong atau inventory penuh
+        e->printMessage();
     }
 }
 
@@ -143,16 +145,16 @@ void GameState::MOVE(string c_id, int N, string i_id){
             this->inventory.add(copy,i_id);
             itemnyaapa.printInfo();
         }catch(BaseException *e){
-            e->printMessage();
             //kalau di craft kosong atau inventory penuh
+            e->printMessage();
         }
 }
 void GameState::USE(string I_id){
     try{
         this->inventory.use(I_id); //sudah termasuk menghilangkan bila durability 0
     }catch(BaseException *e){
-        e->printMessage();
         //kalau I_id bukan tool
+        e->printMessage();
     }
 }
 void GameState::CRAFT(){
@@ -162,8 +164,8 @@ void GameState::CRAFT(){
             this->inventory.add(hasil[i]);
         }
     }catch(BaseException *e){
-        e->printMessage();
         //bila tidak sesuai dengan resep
+        e->printMessage();
     }
 }
 void GameState::EXPORT(string namaFile){

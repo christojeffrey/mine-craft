@@ -66,8 +66,12 @@ vector<string> getRecipeMatrix(vector<string> eachRecipe, int row, int col) {
   return res;
 }
 
+
+
 int main() {
   //add welcome message
+  cout << "Welcome to the tall corn game!" << endl;
+
 
   // /* SETUP */
   cout << "Setting up..." << endl;
@@ -86,8 +90,6 @@ int main() {
   //read from config 
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
-    cout << line << endl;
-
     //spliting line
     stringstream ss(line);
     string currentWord;
@@ -134,9 +136,7 @@ int main() {
   vector<Recipe*> legalRecipe;
 
   // read recipes
-  for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
-    cout << entry.path() << endl;
-    
+  for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {   
     // create list of legal recipe
     ifstream eachRecipeFile(entry.path());
 
@@ -161,21 +161,20 @@ int main() {
     //assigning into the correct variable
     while (ssrecipe >> currentWordRecipe) {
       count++;
-      // cout <<"\t\t" << count << ". " << currentWordRecipe << endl;
       if (count == 1) {
         row = stoi(currentWordRecipe);
       }
-      else if (count == 2) { //
+      else if (count == 2) { 
         col = stoi(currentWordRecipe);
       }
       else if (count > 2 && count <= ((row*col) + 2)) {
         //add to vector recipe
         eachRecipe.push_back(currentWordRecipe);
       }
-      else if (count == ((row*col) + 3)) { //
+      else if (count == ((row*col) + 3)) { 
         itemName = currentWordRecipe;
       }
-      else if (count == ((row*col) + 4)) { //
+      else if (count == ((row*col) + 4)) { 
         resultquantity = stoi(currentWordRecipe);
       }
     }
@@ -200,20 +199,6 @@ int main() {
   }
   /*SETUP DONE*/
 
-  cout << "================================================================" << endl;
-  //CHECKING LEGAL RECIPE
-  vector<Recipe*>::iterator ptr;
-  for (ptr = legalRecipe.begin(); ptr != legalRecipe.end();ptr++) {
-    cout << (*ptr)->getItem()->getName() << endl;
-    cout << (*ptr)->getRow() << (*ptr)->getCol() << (*ptr)->getQuantityResult();
-  }
-  cout << "================================================================" << endl;
-  //CHEKING LEGAL ITEM
-  list<Item*>::iterator it;
-  for (it = legalItem.begin(); it != legalItem.end(); it++) {
-    cout << (*it)->getName() << endl;
-  }
-
 
   //creating gamestate
   GameState *GS = new GameState(legalItem, legalRecipe);
@@ -223,16 +208,13 @@ int main() {
   string command;
   command = "HELP";
   while (command != "EXIT") {
-    cout << "Input your command!"<< endl;
     cout << ">";
     cin >> command;
     if (command == "SHOW") {
-      cout << "SHOW command is picked" << endl;
       GS->SHOW();
     } 
     else if (command == "GIVE") {
       try {
-        cout << "GIVE command is picked" << endl;
         string itemName;
         int itemQty;
         cin >> itemName >> itemQty;
@@ -242,7 +224,6 @@ int main() {
       }
     }
     else if (command == "DISCARD"){
-      cout << "DISCARD command is picked" << endl;
       string i_id;
       int itemQty;
       cin >> i_id >> itemQty;
@@ -303,7 +284,19 @@ int main() {
     }
 
     else if (command == "HELP") {
-      cout << "HOMEWORK NEED TO BE DONE" << endl;
+      cout << "LIST OF AVAILABLE COMMAND" << endl;
+      cout << "SHOW" << endl;
+      cout << "GIVE <itemName> <itemQty>" << endl;
+      cout << "DISCARD <InventoryIdx> <itemQty>" << endl;
+      cout << "MOVE <InventoryIdx> <CraftCount> <CraftIdx>" << endl;
+      cout << "MOVE <InventoryIdx> 1 <InventoryIdx>" << endl;
+      cout << "MOVE <CraftIdx> 1 <InventoryIdx>" << endl;
+      cout << "USE <InventoryIdx>" << endl;
+      cout << "CRAFT" << endl;
+      cout << "EXPORT <outputPath>" << endl;
+      cout << "EXIT" << endl;
+
+
     }
     else if (command == "EXIT") {
       cout << "Do you want to export your state first? (y/n)" << endl;
@@ -311,12 +304,19 @@ int main() {
       cin >> yn;
       if (yn == 'y') {
         //do export
+        cout << "Please input the output path" << endl;
+        string outputPath;
+        cin >> outputPath;
+        GS->EXPORT(outputPath);
+
       }
       else if (yn == 'n') {
         //say goodbye
+        cout << "Goodbye!" << endl;
       }
       else {
         //print invalid input. we take it as a 'n', so bye bye
+        cout << "Goodbye!" << endl;
       }
     }
     else {

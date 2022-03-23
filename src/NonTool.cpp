@@ -30,7 +30,7 @@ bool NonTool::operator==(NonTool& n){
 }
 
 int NonTool::use(){
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
     return 0;
 }
 

@@ -26,34 +26,34 @@ void Item::printInfo()const{
 }
 
 int Item::getQuantity()const{
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 }
 
 void Item::setQuantity(int pengganti)
 {
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 
 }
 
 int Item::getDurability() const
 {
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 
 }
 
 void Item::setDurability(int pengganti)
 {
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 
 }
 
 string Item:: getNonToolClass() const {
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 
 }
 
 string Item::getType(){
-    throw new invalidCommandToItem();
+    throw new invalidCommandToItemException();
 
 }
 
