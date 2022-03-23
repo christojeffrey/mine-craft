@@ -110,7 +110,6 @@ void CraftTable::add(Item& item, string c_id) {
             } else {
                 throw new craftTableIsNotEmptyException();
             }
-            // Tanya kakaknya kalo move dari inven ke craftable dan ternyata di craftable udah ada, tapi beda nama, itu ganti item di craftablenya atau throw error
         }
     } else {
         throw new CIDNotValidException();
@@ -143,7 +142,7 @@ void CraftTable::print() {
         string key = get_cid(i);
         if (table[key]) {
             if (i == 2 || i == 5) {
-                cout << "[ " << table[key]->getName() << "]" << endl;
+                cout << "[" << table[key]->getName() << "]" << endl;
             } else {
                 cout << "[" << table[key]->getName() << "]" << " ";
             }
