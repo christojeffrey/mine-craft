@@ -19,7 +19,7 @@ void Tool::setDurability(int pengganti){
 
 void Tool::printInfo()const{
     Item::printInfo();
-    cout << "Durability\t: "<< this->durability <<endl;
+    cout << this->durability;
 }
 
 int Tool::use(){

@@ -124,16 +124,11 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
 }
 void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven
     try{
-        Item* itemnyaapa = this->inventory.getItem(i_id1);
-        Item * copy = new NonTool(itemnyaapa->getID(),itemnyaapa->getName(),itemnyaapa->getNonToolClass(),itemnyaapa->getQuantity());
-        this->inventory.substract(i_id1,itemnyaapa->getQuantity());
-        this->inventory.add(copy,i_id2);
-        itemnyaapa->printInfo();
+        this->inventory.move(i_id1,i_id2);
     }catch(BaseException *e){
         e->printMessage();
         //kalau di craft kosong atau inventory penuh
     }
-
 }
 
 void GameState::MOVE(string c_id, int N, string i_id){

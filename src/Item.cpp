@@ -21,15 +21,7 @@ bool Item::getIsTool() const{
 }
 
 void Item::printInfo()const{
-    if(isTool){
-        cout << "Item is Tool" << endl;
-    }
-    else{
-        cout << "Item is Not a Tool" << endl;
-    }
-
-    cout << "ID\t\t: "<< this->ID <<endl;
-    cout << "Name\t\t: "<< this->name <<endl;
+    cout << this->name << " ";
 
 }
 

@@ -22,7 +22,7 @@ void NonTool::setQuantity(int pengganti){
 
 void NonTool::printInfo()const{
     Item::printInfo();
-    cout << "Quantity\t: "<< this->quantity << endl;
+    cout << this->quantity;
 }
 
 bool NonTool::operator==(NonTool& n){
@@ -48,16 +48,3 @@ string NonTool::getNonToolClass()const{
     return this->nonToolClass;
     //   return this->quantity;
 }
-
-// }
-
-// void NonTool::add(Tool * t){
-    
-// }
-
-// void NonTool::add(NonTool *n ){
-//     if(n->getQuantity()<=0){
-//         throw "Nontool yang ditambahkan kosong";
-//     }
-//     this->quantity+=n->getQuantity();
-// } 
