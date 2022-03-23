@@ -49,7 +49,7 @@ void GameState::GIVE(string item_name, int qty){
                     this->inventory.add(new Tool(id, item_name, 10));
                 }
             } else {
-                if (qty > 64) {
+                if (qty > MAX_QUANTITY) {
                     throw new quantityExceedingLimitException();
                 } else if (qty < 0){
                     throw new negativeValueGivenException();

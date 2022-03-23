@@ -39,10 +39,10 @@ void Inventory::move(string idxSrc, string idxDest){
     throw new itemDoesntHaveTheSameNameException();
   } 
   else {
-    int sisaQty = 64 - this->inven[idxDest]->getQuantity();
+    int sisaQty = MAX_QUANTITY - this->inven[idxDest]->getQuantity();
     // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
     if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
-      this->inven[idxDest]->setQuantity(64);
+      this->inven[idxDest]->setQuantity(MAX_QUANTITY);
       this->inven[idxSrc]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity() - sisaQty);
       // hapus item jika jumlahnya jadi 0
       if (this->inven[idxSrc]->getQuantity() == 0) {
@@ -68,14 +68,14 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
         // Cek apakah namanya sama dengan item yang akan ditambah
         if (item->getName() == it->second->getName()){
           // cek quantity item + qty this masih di batas atau tidak
-          if (item->getQuantity() + it->second->getQuantity() <= 64){
+          if (item->getQuantity() + it->second->getQuantity() <= MAX_QUANTITY){
             it->second->setQuantity(item->getQuantity() + it->second->getQuantity());
             item->setQuantity(0);
             alreadyAdded = true;
           } else { // kita add partial
-            int sisaQty = 64 - it->second->getQuantity(); // Simpan sisa sebelum penuh
+            int sisaQty = MAX_QUANTITY - it->second->getQuantity(); // Simpan sisa sebelum penuh
             // Pasti yg ditambah lgsg set 64
-            it->second->setQuantity(64);
+            it->second->setQuantity(MAX_QUANTITY);
             //kurangi qty item yg akan ditambah
             item->setQuantity(item->getQuantity() - sisaQty);
             alreadyAddedPartially = true;
@@ -126,7 +126,7 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
 }
 
 void Inventory::add(Item* item_name,string dest){
-  if(this->inven.find(dest) == inven.end()){\
+  if(this->inven.find(dest) == inven.end()){
     // if item is not in inventory
     this->inven[dest]=item_name;
   } else {
