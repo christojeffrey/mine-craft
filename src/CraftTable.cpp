@@ -26,20 +26,20 @@ bool isCIDValid(string c_id) {
 bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
     // to check if B is subarray of A
     int i = 0, j = 0;
+    if (n != m) return false;
     while (i < n && j < m) {
         cout << "table : " << B[j] << endl;
         cout << "recipe : " << A[i] << endl;
         if (A[i] == B[j]) {
             i++;
             j++;
-            if (j == m)
-                return true;
         } else {
-            i = i - j + 1;
-            j = 0;
+            // i = i - j + 1;
+            // j = 0;
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 vector<string> trimKosong(vector<string> table) {
@@ -270,6 +270,7 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
         // Get table by non tool class
         table = getTableToCheck(table, legalItem);
         table = trimKosong(table);
+        recipe = trimKosong(recipe);
         cout << "masuk abis trim\n";
         // Check recipe is subarray of a table array
         if (isSubArray(recipe, table, recipe.size(), table.size())) {
