@@ -106,7 +106,7 @@ void CraftTable::add(Item& item, string c_id) {
             table[c_id] = &item;
         } else {
             // if slot not empty then add by quantity
-            if (table[c_id]->getName() == item.getName()) {
+            if (table[c_id]->getName() == item.getName() || table[c_id]->getNonToolClass() == item.getNonToolClass()) {
                 table[c_id]->setQuantity(table[c_id]->getQuantity()+1); 
             } else {
                 throw new craftTableIsNotEmptyException();
@@ -121,11 +121,13 @@ void CraftTable::substract(string c_id, int N) {
     // Delete item from c_id slot to be empty, if empty throw error
     if (isCIDValid(c_id)) {
         if (!isSlotEmpty(c_id)) {
-            int sisa =table[c_id]->substract(N);
-            if(sisa<0){
-                throw "";
-            }else if(sisa==0){
+            int remain = table[c_id]->getQuantity() - N;
+            if (remain < 0){
+                throw new ItemQuantityIsNotSufficientException();
+            } else if (remain == 0) {
                 table[c_id]=NULL;
+            } else {
+                table[c_id]->setQuantity(table[c_id]->getQuantity() - N);
             }
         } else {
             throw new craftTableIsEmptyException();
@@ -138,13 +140,13 @@ void CraftTable::substract(string c_id, int N) {
 // Method
 void CraftTable::print() {
     // Output information of craft table per slot
-   for (int i = 0; i < MAX_CAP; i++) {
+    for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
-        if (table[key]) {
+        if (table[key] && table[key]->getQuantity() > 0) {
             if (i == 2 || i == 5) {
-                cout << "[" << table[key]->getName() << "]" << endl;
+                cout << "[ " << table[key]->getQuantity() << table[key]->getName() << "]" << endl;
             } else {
-                cout << "[" << table[key]->getName() << "]" << " ";
+                cout << "[" << table[key]->getQuantity() << table[key]->getName() << "]" << " ";
             }
         } else {
             if (i == 2 || i == 5) {
@@ -157,7 +159,7 @@ void CraftTable::print() {
     cout << endl;
 }; 
 
-Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
+vector<Item*> CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
     if (!this->isTableEmpty()) {
@@ -171,14 +173,20 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
                 Recipe* itemCrafted = recipe[idx];
                 cout << "masuk sini dapet resep yang dibuat" << endl;
                 int multiplicity = this->checkMultiple();
-                cout << "masuk sini dapet multiple" << endl;
+                cout << "kelipatan" << multiplicity << endl;
                 afterCraft(multiplicity);
                 cout << "masuk sini ngosongin table" << endl;
 
                 if (itemCrafted->getItem()->getIsTool() == true) {
-                    return new Tool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), 10);
+                    vector<Item*> res(multiplicity);
+                    for (int i = 0; i < multiplicity; i++) {
+                        res[i] = new Tool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), 10);
+                    }
+                    return res;
                 } else {
-                    return new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult()*multiplicity);
+                    vector<Item*> res;
+                    res.push_back(new NonTool(itemCrafted->getItem()->getID(), itemCrafted->getItem()->getName(), itemCrafted->getItem()->getNonToolClass(), itemCrafted->getQuantityResult()*multiplicity));
+                    return res;
                 }
                 
             } else {
@@ -190,7 +198,8 @@ Item* CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
             // If build Tool sum by durability
             cout << "Masuk nambah durability tool\n";
             Tool* sumTool = makeTool();
-            Item* res = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
+            vector<Item*> res(1);
+            res[0] = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
         }
     } else {
@@ -328,21 +337,18 @@ int CraftTable::checkMultiple() {
     int multiplicity = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second) {
-            if (it->second->getQuantity() != 1) {
-                int quantityItem = it->second->getQuantity();
+            int quantityItem = it->second->getQuantity();
+            if (quantityItem != 1) {
                 if (idx == 0) {
                     multiplicity = quantityItem;
+                    idx++;
                 } else {
-                    if (multiplicity > quantityItem) {
-                        multiplicity = quantityItem;
-                    }
+                    multiplicity = min(multiplicity, quantityItem);
                 }
-
             } else {
                 return 1;
             }
         }
-        ++idx;
     }
     return multiplicity;
 };

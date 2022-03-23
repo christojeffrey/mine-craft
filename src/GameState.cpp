@@ -135,8 +135,10 @@ void GameState::USE(string I_id){
 }
 void GameState::CRAFT(){
     try{
-        Item* hasil = this->craftTable.make(this->legalRecipe, this->legalItem);
-        this->inventory.add(hasil);
+        vector<Item*> hasil = this->craftTable.make(this->legalRecipe, this->legalItem);
+        for (int i = 0; i < hasil.size(); i++) {
+            this->inventory.add(hasil[i]);
+        }
     }catch(BaseException *e){
         e->printMessage();
         //bila tidak sesuai dengan resep
