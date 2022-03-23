@@ -260,20 +260,17 @@ int main() {
   //vector<Recipe> temp;
   GameState *GS = new GameState(legalItem, legalRecipe);
 
-
-
   cout << "Game is ready!" << endl;
   // add more glorified welcome message
-
-
-
 
 
   /* START */
   string command;
   command = "HELP";
 
-  
+
+
+
   while (command != "EXIT") {
     cout << "Input your command!"<< endl;
     cout << ">";
@@ -301,40 +298,47 @@ int main() {
 
     }
     else if (command == "MOVE") { //COMMAND MOVE
-      cout << "MOVE command is picked" << endl;
-      //MOVE ada 3 macem
-      //pertama dan kedua, diawali sama i_id, angka, sama tujuan akhir. keknya ini digabungin jadi 1, soalnya di gamestate cuman ada 1 buah method
+    try{
+        cout << "MOVE command is picked" << endl;
+        //MOVE ada 3 macem
+        //pertama dan kedua, diawali sama i_id, angka, sama tujuan akhir. keknya ini digabungin jadi 1, soalnya di gamestate cuman ada 1 buah method
 
-      //ketiga diawali sama c_id
-      string src;
-      int N;
-      string tempN;
-      cin >> src >> tempN;
-      N = stoi(tempN);
-      if(src.substr(0,1) == "I"){
-        vector<string> dest;
-        string temp;
-        for(int i = 0 ; i < N ; i++){
-          cin >> temp;
-          if(temp[0]=='C'){ 
-            dest.push_back(temp);
+        //ketiga diawali sama c_id
+        string src;
+        int N;
+        string tempN;
+        cin >> src >> tempN;
+
+        N = stoi(tempN);
+        
+        if(src.substr(0,1) == "I"){
+          vector<string> dest;
+          string temp;
+          for(int i = 0 ; i < N ; i++){
+            cin >> temp;
+            if(temp[0]=='C'){ 
+              dest.push_back(temp);
+            }else{
+              break;
+            }
+          }
+          cout << "main done, lempar ke gamestate" << endl;
+          if(temp[0]=='C'){
+            GS->MOVE(src, N, dest);
           }else{
-            break;
+            GS->MOVE(src,temp);
           }
         }
+        else{
+          string dest;
+          cin >> dest;
         cout << "main done, lempar ke gamestate" << endl;
-        if(temp[0]=='C'){
-          GS->MOVE(src, N, dest);
-        }else{
-          GS->MOVE(src,temp);
+
+          GS->MOVE(src, N,dest);
         }
       }
-      else{
-        string dest;
-        cin >> dest;
-      cout << "main done, lempar ke gamestate" << endl;
-
-        GS->MOVE(src, N,dest);
+      catch(exception &err){
+        cout << "Conversion failure: "<< err.what() <<endl;
       }
     }
     else if(command == "USE"){ //COMMAND USE
@@ -403,7 +407,7 @@ int main() {
     }
     cout << "COMMAND DONE, NEXT COMMAND..." << endl;
   }
-
+  
   // add closing screen?
   return 0;
 }
