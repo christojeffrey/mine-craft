@@ -122,7 +122,7 @@ void CraftTable::substract(string c_id, int N) {
         if (!isSlotEmpty(c_id)) {
             int remain = table[c_id]->getQuantity() - N;
             if (remain < 0){
-                throw new ItemQuantityIsNotSufficientException();
+                throw new itemQuantityIsNotSufficientException();
             } else if (remain == 0) {
                 table[c_id]=NULL;
             } else {

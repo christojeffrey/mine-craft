@@ -153,16 +153,9 @@ class invalidCommandToItem : public BaseException{
             cout << "Invalid command given to item!" << endl;
         }
 };
-class nonItemQuantityIsNotSufficientException : public BaseException{
-    //happen when you try to substract non item quantity, but the quantity existed is not sufficient
-    public:
-        void printMessage(){
-            cout << "Non item quantity is not sufficient!"<< endl;
-        }
-};
 
-class ItemQuantityIsNotSufficientException : public BaseException{
-    //happen when you try to substract non item quantity, but the quantity existed is not sufficient
+class itemQuantityIsNotSufficientException : public BaseException{
+    //happen when you try to substract item(either tool or nontool) quantity, but the quantity existed is not sufficient
     public:
         void printMessage(){
             cout << "Item quantity is not sufficient!"<< endl;
