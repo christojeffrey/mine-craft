@@ -20,8 +20,6 @@ class ExampleException : public BaseException {
 };
 
 
-
-
 /* for craftTable */
 class craftTableIsNotEmptyException : public BaseException { // happened when the craft table at c_id is not empty when it supposed to be empty
     public:
@@ -161,4 +159,5 @@ class itemQuantityIsNotSufficientException : public BaseException{
             cout << "Item quantity is not sufficient!"<< endl;
         }
 };
+
 #endif

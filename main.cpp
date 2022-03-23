@@ -96,69 +96,45 @@ int main() {
     string name;
     string nonToolClass;
     string toolnontool;
-    while(ss >> currentWord){
-      if(count == 0){
+    while (ss >> currentWord) {
+      if (count == 0) {
         id = currentWord;
       }
-      else if(count == 1){ //
+      else if (count == 1) {
         name = currentWord;
       }
-      else if(count == 2){ //
+      else if (count == 2) {
         nonToolClass = currentWord;
       }
-      else if(count == 3){ //
+      else if (count == 3) {
         toolnontool = currentWord;
       }
       count++;
-      //cout << count++ << ". " << currentWord << endl;
     }
-
-    /* FOR DEBUGGING PURPOSE */
-    // cout << "\tid = " << id << endl;
-    // cout << "\tname = "<< name << endl;
-    // cout << "\tclass = "<< nonToolClass << endl;
-    // cout << "\ttoolnontool = " << toolnontool << endl;
-    /* FOR DEBUGGING PURPOSE */
-
-   
 
 
     //add to legal list
-    if(toolnontool == "TOOL"){
+    if (toolnontool == "TOOL") {
       //tambahkan tool ke legal item
       Tool* temp = new Tool(stoi(id) ,name, 10);
-      // temp->printInfo();
       legalItem.push_back(temp);
 
       //add to recipe helper
       ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
       isItemATool.insert(pair<string,bool> (name, true));
-    }
-    else{
+    } else {
       //tambahakn nontool ke legal item
       NonTool* temp = new NonTool(stoi(id), name, nonToolClass,1); // quantity disini harusnya gaperna disentuh. aku kasih 1. kenapa gk dikasih 0 aja? takutnya nti bikin behaviour yg aneh
       legalItem.push_back(temp);
-
-            //add to recipe helper
-
       ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
       isItemATool.insert(pair<string,bool> (name, false));
-
     }
   }
-
-  /* FOR DEBUGGING PURPOSE */
-  // list<Item*>::iterator it = legalItem.begin();
-  // for(it = legalItem.begin(); it != legalItem.end();it++){ //
-  //   (*it)->printInfo();
-  // }
-  /* FOR DEBUGGING PURPOSE */
 
   vector<Recipe*> legalRecipe;
 
   // read recipes
   for (const auto &entry :filesystem::directory_iterator(configPath + "/recipe")) {
-    cout << "====== BATAS ======" << endl;
     cout << entry.path() << endl;
     
     // create list of legal recipe
@@ -169,14 +145,9 @@ int main() {
     for (string line; getline(eachRecipeFile, line);) {
 
       //each line inside a recipe
-      //cout << "\t" << line << endl;
       currentRecipeString.append(line);
       currentRecipeString.append(" ");
     }
-
-    cout <<"INI ISI FILENYA:" << currentRecipeString << endl;
-    
-
     //spliting long string into each variable needed to make a recipe
     string currentWordRecipe;
     int count = 0;
@@ -188,48 +159,37 @@ int main() {
 
     stringstream ssrecipe(currentRecipeString);
     //assigning into the correct variable
-    while(ssrecipe >> currentWordRecipe) {
+    while (ssrecipe >> currentWordRecipe) {
       count++;
-      cout <<"\t\t" << count << ". " << currentWordRecipe << endl;
-      if(count == 1){
+      // cout <<"\t\t" << count << ". " << currentWordRecipe << endl;
+      if (count == 1) {
         row = stoi(currentWordRecipe);
       }
-      else if(count == 2){ //
+      else if (count == 2) { //
         col = stoi(currentWordRecipe);
       }
-      else if(count > 2 && count <= ((row*col) + 2)){
+      else if (count > 2 && count <= ((row*col) + 2)) {
         //add to vector recipe
         eachRecipe.push_back(currentWordRecipe);
       }
-      else if(count == ((row*col) + 3)){ //
+      else if (count == ((row*col) + 3)) { //
         itemName = currentWordRecipe;
-        // cout << "INI ITEM NAMENYA " << currentWordRecipe << endl;
       }
-      else if(count == ((row*col) + 4)){ //
+      else if (count == ((row*col) + 4)) { //
         resultquantity = stoi(currentWordRecipe);
-        // cout << "INI jumlah yg kebikin " << currentWordRecipe << endl;
       }
     }
 
     vector<string> addToRecipe = getRecipeMatrix(eachRecipe, row, col);
-    for (auto it = addToRecipe.begin(); it != addToRecipe.end(); it++) {
-      cout << *it << endl;
-    }
 
     //creating Recipe Object
-    if(isItemATool[itemName]){
-    // //   //recipe made for tool
-
+    if (isItemATool[itemName]) {
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       int tempdurability = ItemNameToItemObject[itemName]->getDurability();
       Recipe *temp = new Recipe(row, col, addToRecipe, new Tool(tempid, tempname, tempdurability),resultquantity);
-      // Recipe temp2 = Recipe(1, 1, vector<string>(3,"test"),Tool(tempid, tempname, tempdurability),1);
       legalRecipe.push_back(temp);
-
-    }
-    else{
-    //   //recipe made for nontool
+    } else {
       int tempid = ItemNameToItemObject[itemName]->getID();
       string tempname = ItemNameToItemObject[itemName]->getName();
       string nontoolClass = ItemNameToItemObject[itemName]->getNonToolClass();
@@ -240,70 +200,54 @@ int main() {
   }
   /*SETUP DONE*/
 
-  //baris dibawah ini(yg buat ngecek recipe), gk jalan kalo recipe legalRecipe dibuat sebagai vector<Recipe>. kalo dibikin vector<Recipe*>, isa. mungkin karena Recipe gapunya cctor?
   cout << "================================================================" << endl;
   //CHECKING LEGAL RECIPE
   vector<Recipe*>::iterator ptr;
-  for(ptr = legalRecipe.begin(); ptr != legalRecipe.end();ptr++){
+  for (ptr = legalRecipe.begin(); ptr != legalRecipe.end();ptr++) {
     cout << (*ptr)->getItem()->getName() << endl;
     cout << (*ptr)->getRow() << (*ptr)->getCol() << (*ptr)->getQuantityResult();
   }
   cout << "================================================================" << endl;
   //CHEKING LEGAL ITEM
   list<Item*>::iterator it;
-  for (it = legalItem.begin(); it != legalItem.end(); it++){
+  for (it = legalItem.begin(); it != legalItem.end(); it++) {
     cout << (*it)->getName() << endl;
   }
 
 
   //creating gamestate
-  //vector<Recipe> temp;
   GameState *GS = new GameState(legalItem, legalRecipe);
-
   cout << "Game is ready!" << endl;
-  // add more glorified welcome message
-
 
   /* START */
   string command;
   command = "HELP";
-
-
-
-
   while (command != "EXIT") {
     cout << "Input your command!"<< endl;
     cout << ">";
     cin >> command;
-    if(command == "SHOW"){ //COMMAND SHOW
+    if (command == "SHOW") {
       cout << "SHOW command is picked" << endl;
       GS->SHOW();
     } 
-    else if (command == "GIVE") { //COMMAND GIVE
+    else if (command == "GIVE") {
       cout << "GIVE command is picked" << endl;
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
-      cout << "main done, lempar ke gamestate" << endl;
       GS->GIVE(itemName, itemQty);
     }
-    else if (command == "DISCARD"){ //COMMAND DISCARD
+    else if (command == "DISCARD"){
       cout << "DISCARD command is picked" << endl;
       string i_id;
       int itemQty;
       cin >> i_id >> itemQty;
-      cout << "main done, lempar ke gamestate" << endl;
 
       GS->DISCARD(i_id, itemQty);
 
     }
     else if (command == "MOVE") { //COMMAND MOVE
     try{
-        cout << "MOVE command is picked" << endl;
-        //MOVE ada 3 macem
-        //pertama dan kedua, diawali sama i_id, angka, sama tujuan akhir. keknya ini digabungin jadi 1, soalnya di gamestate cuman ada 1 buah method
-
-        //ketiga diawali sama c_id
         string src;
         int N;
         string tempN;
@@ -322,7 +266,6 @@ int main() {
               break;
             }
           }
-          cout << "main done, lempar ke gamestate" << endl;
           if(temp[0]=='C'){
             GS->MOVE(src, N, dest);
           }else{
@@ -332,8 +275,6 @@ int main() {
         else{
           string dest;
           cin >> dest;
-        cout << "main done, lempar ke gamestate" << endl;
-
           GS->MOVE(src, N,dest);
         }
       }
@@ -341,64 +282,36 @@ int main() {
         cout << "Conversion failure: "<< err.what() <<endl;
       }
     }
-    else if(command == "USE"){ //COMMAND USE
-      cout << "USE command is picked" << endl;
+    else if (command == "USE") {
       string i_id;
       cin >> i_id;
-      cout << "main done, lempar ke gamestate" << endl;
-
       GS->USE(i_id);
     } 
-    else if (command == "CRAFT") { //COMMAND CRAFT
+    else if (command == "CRAFT") {
       cout << "CRAFT command is picked" << endl;
-
-      //ntah kenapa dari code dari templatenya kek gini. padahal di spek, craft gk nerima argumen apapun
-      // string slotSrc;
-      // int slotQty;
-      // string slotDest;
-      // // need to handle multiple destinations
-      // cin >> slotSrc >> slotQty >> slotDest;
-      cout << "main done, lempar ke gamestate" << endl;
-      
       GS->CRAFT();
     } 
-    else if (command == "EXPORT") { //COMMAND EXPORT
-
-      //template export, mangga di reuse di GameState
-      // cout << "EXPORT command is picked" << endl;
+    else if (command == "EXPORT") {
       string outputPath;
       cin >> outputPath;
-      // ofstream outputFile(outputPath);
-
-      // // hardcode for first test case
-      // outputFile << "21:10" << endl;
-      // outputFile << "6:1" << endl;
-      // for (int i = 2; i < 27; i++) {
-      //   outputFile << "0:0" << endl;
-      // }
-
-      // cout << "Exported" << endl;
-      // todo
-      cout << "main done, lempar ke gamestate" << endl;
 
       GS->EXPORT(outputPath);
     }
 
-    // COMMAND TAMBAHAN
-    else if(command == "HELP"){
+    else if (command == "HELP") {
       cout << "HOMEWORK NEED TO BE DONE" << endl;
     }
-    else if(command == "EXIT"){
+    else if (command == "EXIT") {
       cout << "Do you want to export your state first? (y/n)" << endl;
       char yn;
       cin >> yn;
-      if(yn == 'y'){
+      if (yn == 'y') {
         //do export
       }
-      else if(yn == 'n'){
+      else if (yn == 'n') {
         //say goodbye
       }
-      else{
+      else {
         //print invalid input. we take it as a 'n', so bye bye
       }
     }

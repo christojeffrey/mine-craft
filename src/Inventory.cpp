@@ -164,7 +164,6 @@ void Inventory::printInfo(){
 }
 
 void Inventory::substract(string I_id, int qty){
-  cout <<"inventory substract"<< I_id << " " << qty << endl;
   if (this->inven.find(I_id) == this->inven.end()) {
     throw new inventoryIdIsEmptyException();
   } else if (qty < 0) {
