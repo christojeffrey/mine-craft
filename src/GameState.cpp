@@ -28,7 +28,6 @@ void GameState::GIVE(string item_name, int qty){
 
     list<Item*>::iterator it;
     for (it = legalItem.begin(); it != legalItem.end(); it++){
-        cout << "checking inside give" << endl;
         cout << (*it)->getName() << endl;
         if((*it)->getName()==item_name){
             found=true;
@@ -40,9 +39,8 @@ void GameState::GIVE(string item_name, int qty){
             break;
         }
     }
-    if(found){
-        try{
-            cout << "BERHASIL KETEMU" << endl;
+    if (found) {
+        try {
             // TODO: Harus dibenerin, cek dulu dia tool atau bukan
             if(isTool){
                 for (int i = 0; i < qty; i++){
@@ -65,7 +63,6 @@ void GameState::GIVE(string item_name, int qty){
     }else{
         throw new inventoryItemNameIsNotFoundException();
     }
-    cout << "give done" << endl;
 }
 void GameState::DISCARD(string I_id, int qty){
     try{
@@ -80,8 +77,7 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
         Item* itemnyaapa = this->inventory.getItem(I_id);
         Item* itemnyaapa_copy;
         
-        cout << "kirim ke "<<C_id.size()<<"  tempat di craft" << endl;
-        try{
+        try {
             for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
                 if (!isCIDValid(*it)) {
                     throw new CIDNotValidException();
@@ -106,7 +102,6 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
                     } else {
                         itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
                     }
-                    cout << "ngirim sebuah "<< (*itemnyaapa_copy).getName() << " ke "<< *it << endl;
                     this->craftTable.add(*itemnyaapa_copy,*it);
                 }catch(BaseException *e){
                     this->inventory.add(itemnyaapa_copy,I_id);

@@ -23,19 +23,15 @@ bool isCIDValid(string c_id) {
 };
 
 
-bool isSubArray(vector<string> A, vector<string> B, int n, int m) {
-    // to check if B is subarray of A
+bool isMatchRecipe(vector<string> A, vector<string> B, int n, int m) {
+    // to check if B is match with of A
     int i = 0, j = 0;
     if (n != m) return false;
     while (i < n && j < m) {
-        cout << "table : " << B[j] << endl;
-        cout << "recipe : " << A[i] << endl;
         if (A[i] == B[j]) {
             i++;
             j++;
         } else {
-            // i = i - j + 1;
-            // j = 0;
             return false;
         }
     }
@@ -98,7 +94,7 @@ Item& CraftTable::getItemInCraftTable(string c_id) {
 
 void CraftTable::add(Item& item, string c_id) {
     // Add item to slot key
-    cout << "Adding to " << c_id << "item named " << item.getName();
+    cout << "Adding to " << c_id << "item named " << item.getName() << endl;
     // Add item to c_id slot, if not empty throw error
     if (isCIDValid(c_id)) {
         if (isSlotEmpty(c_id)) {
@@ -171,19 +167,13 @@ vector<Item*> CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
     /* Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. Item akan otomatis ditambahkan ke inventory dengan
     algoritma yang sama dengan command GIVE. */
     if (!this->isTableEmpty()) {
-        cout << "Masuk table not empty craftable make\n";
         if (!this->isAllTool()) {
-            cout << "Masuk table not is All tool tp belom whichbuildable craftable make\n";
             int idx = whichBuildable(recipe, legalItem);
-            cout << "masuk sini dapet indeks" << endl;
             if (idx != -1) {
                 // If recipe matched with craft table
                 Recipe* itemCrafted = recipe[idx];
-                cout << "masuk sini dapet resep yang dibuat" << endl;
                 int multiplicity = this->checkMultiple();
-                cout << "kelipatan" << multiplicity << endl;
                 afterCraft(multiplicity);
-                cout << "masuk sini ngosongin table" << endl;
 
                 if (itemCrafted->getItem()->getIsTool() == true) {
                     vector<Item*> res(multiplicity);
@@ -199,20 +189,17 @@ vector<Item*> CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
                 
             } else {
                 // cannot build items in craft table
-                cout << "masuk throw ga ada resep" << endl;
                 throw new craftTableDoesntMatchRecipeException();
             }
         } else {
             if (this->size() > 2) throw new craftTableDoesntMatchRecipeException(); // THrow if there are tool more than 2
             // If build Tool sum by durability
-            cout << "Masuk nambah durability tool\n";
             Tool* sumTool = makeTool();
             vector<Item*> res(1);
             res[0] = new Tool(sumTool->getID(), sumTool->getName(), sumTool->getDurability());
             return res;
         }
     } else {
-        cout << "Masuk throw table empty craftable make\n";
         throw new craftTableIsEmptyException();
     }
 };
@@ -237,7 +224,6 @@ void CraftTable::afterCraft(int multiplicity) {
 
 Tool* CraftTable::makeTool() {
     // To make tool sum by durability, max durability is 10
-    cout << "masuk makeTool" << endl;
     string name;
     int sum = 0, id = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
@@ -259,32 +245,26 @@ int CraftTable::whichBuildable(vector<Recipe*> listRecipe, list<Item*> legalItem
     for (int i = 0; i < listRecipe.size(); i++) {
         int row = listRecipe[i]->getRow();
         int col = listRecipe[i]->getCol();
-        cout << "RESEP YANG DIBUAT : " << listRecipe[i]->getItem()->getName();
         // Get the recipe to be checked
         vector<string> recipe = listRecipe[i]->getRecipe();
         vector<string> table;
         vector<string> tableReflected;
         // Convert to vector
         table = (this->convertVector());
-        cout << "masuk abis dapet konversi vector\n";
         // Get table by non tool class
         table = getTableToCheck(table, legalItem);
         table = trimKosong(table);
         recipe = trimKosong(recipe);
-        cout << "masuk abis trim\n";
         // Check recipe is subarray of a table array
-        if (isSubArray(recipe, table, recipe.size(), table.size())) {
-            cout << "masuk abis cek subarray\n";
+        if (isMatchRecipe(recipe, table, recipe.size(), table.size())) {
             res = i;
             break;
         } else {
             // If not matched, check the reflected table
-            cout << "Mau direflect di whichbuildable karena di original ga match\n";
             tableReflected = reflectYTable(this->convertVector());
             tableReflected = getTableToCheck(tableReflected, legalItem);
             tableReflected = trimKosong(tableReflected);
-            if (isSubArray(recipe, tableReflected, recipe.size(), tableReflected.size())) {
-                cout << "masuk abis cek subarray reflected\n";
+            if (isMatchRecipe(recipe, tableReflected, recipe.size(), tableReflected.size())) {
                 res = i;
                 break;
             }
