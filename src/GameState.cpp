@@ -170,7 +170,8 @@ void GameState::EXPORT(string namaFile){
             }
             result << endl;
         }catch(...){
-
+            result << "0:0" <<endl;
         }
     }
+    result.close();
 }
