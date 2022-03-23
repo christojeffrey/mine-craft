@@ -72,14 +72,14 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
         // Cek apakah namanya sama dengan item yang akan ditambah
         if (item->getName() == it->second->getName()){
           // cek quantity item + qty this masih di batas atau tidak
-          if (item->getQuantity() + it->second->getQuantity() <= 64){
+          if (item->getQuantity() + it->second->getQuantity() <= MAX_QUANTITY){
             it->second->setQuantity(item->getQuantity() + it->second->getQuantity());
             item->setQuantity(0);
             alreadyAdded = true;
           } else { // kita add partial
-            int sisaQty = 64 - it->second->getQuantity(); // Simpan sisa sebelum penuh
+            int sisaQty = MAX_QUANTITY - it->second->getQuantity(); // Simpan sisa sebelum penuh
             // Pasti yg ditambah lgsg set 64
-            it->second->setQuantity(64);
+            it->second->setQuantity(MAX_QUANTITY);
             //kurangi qty item yg akan ditambah
             item->setQuantity(item->getQuantity() - sisaQty);
             alreadyAddedPartially = true;
@@ -130,7 +130,7 @@ void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
 }
 
 void Inventory::add(Item* item_name,string dest){
-  if(this->inven.find(dest) == inven.end()){\
+  if(this->inven.find(dest) == inven.end()){
     // if item is not in inventory
     this->inven[dest]=item_name;
   } else {

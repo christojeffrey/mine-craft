@@ -3,6 +3,8 @@
 #include <string>
 #include "Exception.hpp"
 
+#define MAX_QUANTITY 64
+
 using namespace std;
 class Item {
     private:

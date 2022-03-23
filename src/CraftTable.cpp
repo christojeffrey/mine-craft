@@ -105,8 +105,18 @@ void CraftTable::add(Item& item, string c_id) {
             table[c_id] = &item;
         } else {
             // if slot not empty then add by quantity
-            if (table[c_id]->getName() == item.getName() || table[c_id]->getNonToolClass() == item.getNonToolClass()) {
-                table[c_id]->setQuantity(table[c_id]->getQuantity()+1); 
+            if (!table[c_id]->getIsTool()) {
+                // if non tool set by quantity
+                if (table[c_id]->getName() == item.getName()) {
+                    int quantityItem = table[c_id]->getQuantity();
+                    if (quantityItem + 1 > MAX_QUANTITY) {
+                        throw new quantityExceedingLimitException();
+                    } else {
+                        table[c_id]->setQuantity(quantityItem + 1);
+                    }
+                } else {
+                    throw new craftTableIsNotEmptyException();
+                }
             } else {
                 throw new craftTableIsNotEmptyException();
             }
