@@ -1,4 +1,5 @@
 #include "Tool.hpp"
+#include "Exception.hpp"
 #include <string>
 #include <iostream>
 
@@ -30,7 +31,7 @@ int Tool::use(){
 int Tool::substract(int qty){
     //this actually did nothing to the item. return sisa itemnya
     if(qty!=1){
-        throw "Tidak valid";
+        throw new ItemQuantityIsNotSufficientException();
     }else{
         return 0;
     }
