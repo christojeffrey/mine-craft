@@ -39,6 +39,7 @@ class CraftTable {
         bool isSlotEmpty(string c_id);
         bool isTableEmpty();
         bool isAllTool();
+        int size();
 };
 
 bool isCIDValid(string c_id);

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "CraftTable.hpp"
-
 using namespace std;
 
 string get_cid(int idx) {
@@ -142,11 +141,11 @@ void CraftTable::print() {
     // Output information of craft table per slot
     for (int i = 0; i < MAX_CAP; i++) {
         string key = get_cid(i);
-        if (table[key] && table[key]->getQuantity() > 0) {
+        if (table[key]) {
             if (i == 2 || i == 5) {
-                cout << "[ " << table[key]->getQuantity() << table[key]->getName() << "]" << endl;
+                cout << "[ " << table[key]->getName() << "]" << endl;
             } else {
-                cout << "[" << table[key]->getQuantity() << table[key]->getName() << "]" << " ";
+                cout << "[" << table[key]->getName() << "]" << " ";
             }
         } else {
             if (i == 2 || i == 5) {
@@ -195,6 +194,7 @@ vector<Item*> CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
                 throw new craftTableDoesntMatchRecipeException();
             }
         } else {
+            if (this->size() > 2) throw new craftTableDoesntMatchRecipeException(); // THrow if there are tool more than 2
             // If build Tool sum by durability
             cout << "Masuk nambah durability tool\n";
             Tool* sumTool = makeTool();
@@ -228,6 +228,7 @@ void CraftTable::afterCraft(int multiplicity) {
 
 Tool* CraftTable::makeTool() {
     // To make tool sum by durability, max durability is 10
+    cout << "masuk makeTool" << endl;
     string name;
     int sum = 0, id = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
@@ -315,20 +316,27 @@ bool CraftTable::isTableEmpty() {
 };
 
 bool CraftTable::isAllTool() {
-    // To check if there are only 2 tool in crafttable, return true
-    int cnt = 2;
+    // To check if there are only tool in crafttable, return true
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second) {
             // if slot not empty
-            if (it->second->getIsTool() && cnt >= 0) {
-                --cnt;
-            } else {
-                //if (!it->second->getIsTool() || cnt < 0)                
+            if (!it->second->getIsTool()) {            
                 return false;
             }
         }
     } 
     return true;
+};
+
+int CraftTable::size() {
+    int cnt = 0;
+    for (auto it = table.begin(); it != table.end(); ++it) {
+        if (it->second) {
+            // if slot not empty
+            cnt++;
+        }
+    }
+    return cnt; 
 };
 
 int CraftTable::checkMultiple() {
