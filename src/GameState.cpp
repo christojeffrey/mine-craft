@@ -87,15 +87,31 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
                     throw new CIDNotValidException();
                 }
             }
-            this->inventory.substract(I_id,N);
-            for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
-                if (itemnyaapa->getIsTool()){
-                    itemnyaapa_copy = new Tool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getDurability());
-                } else {
-                    itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
+
+            if(!itemnyaapa->getIsTool()){
+                if(itemnyaapa->getQuantity()<N){
+                    throw new itemQuantityIsNotSufficientException();
                 }
-                cout << "ngirim sebuah "<< (*itemnyaapa_copy).getName() << " ke "<< *it << endl;
-                this->craftTable.add(*itemnyaapa_copy,*it);
+            }else{
+                if(N!=1){
+                    throw new itemQuantityIsNotSufficientException();
+                }
+            }
+            
+            for(vector<string>::iterator it=C_id.begin(); it!=C_id.end(); ++it){
+                try{
+                    this->inventory.substract(I_id,1);
+                    if (itemnyaapa->getIsTool()){
+                        itemnyaapa_copy = new Tool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getDurability());
+                    } else {
+                        itemnyaapa_copy = new NonTool(itemnyaapa->getID(), itemnyaapa->getName(), itemnyaapa->getNonToolClass(), 1);
+                    }
+                    cout << "ngirim sebuah "<< (*itemnyaapa_copy).getName() << " ke "<< *it << endl;
+                    this->craftTable.add(*itemnyaapa_copy,*it);
+                }catch(BaseException *e){
+                    this->inventory.add(itemnyaapa_copy,I_id);
+                    e->printMessage();
+                }
             }
         }catch(BaseException *e){
             throw e;

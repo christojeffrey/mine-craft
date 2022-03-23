@@ -31,7 +31,7 @@ int Tool::use(){
 int Tool::substract(int qty){
     //this actually did nothing to the item. return sisa itemnya
     if(qty!=1){
-        throw new ItemQuantityIsNotSufficientException();
+        throw new itemQuantityIsNotSufficientException();
     }else{
         return 0;
     }
