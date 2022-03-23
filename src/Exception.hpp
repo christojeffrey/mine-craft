@@ -105,6 +105,13 @@ class inventoryAddedPartialButFull : public BaseException{
         }
 };
 
+class quantityExceedingLimitException : public BaseException{
+    // happened when give command gives quantity that exceeds the limit 64
+    public:
+        void printMessage(){
+            cout << "New Item quantity must not exceed 64!\n";
+        }
+};
 
 //untuk inventory
 class wrongTypeException : public BaseException{
