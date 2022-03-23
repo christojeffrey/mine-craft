@@ -30,12 +30,16 @@ Inventory::~Inventory(){
 
 // Belom cek apakah namanya sama (done)
 void Inventory::move(string idxSrc, string idxDest){
-  if (this->inven[idxDest]->getIsTool() || this->inven[idxSrc]->getIsTool()) {
+  if (this->inven.find(idxSrc) == this->inven.end()) {
+    throw new oneOfTheItemNeededDoesntExistException();
+  } else if (this->inven.find(idxDest) == this->inven.end()) {
+    this->inven[idxDest] = this->inven[idxSrc];
+    this->inven.erase(idxSrc);
+  } else if (this->inven[idxDest]->getIsTool() || this->inven[idxSrc]->getIsTool()) {
     // throw exception
     throw new wrongTypeException();
-  } else if (this->inven.find(idxSrc) == this->inven.end() || this->inven.find(idxDest) == this->inven.end()) {
-    throw new oneOfTheItemNeededDoesntExistException();
-  } else if (this->inven[idxSrc]->getName() != this->inven[idxDest]->getName()){
+  } 
+  else if (this->inven[idxSrc]->getName() != this->inven[idxDest]->getName()){
     throw new itemDoesntHaveTheSameNameException();
   } 
   else {
