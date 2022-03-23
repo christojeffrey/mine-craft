@@ -19,7 +19,7 @@ void Tool::setDurability(int pengganti){
 
 void Tool::printInfo()const{
     Item::printInfo();
-    cout << "Durability\t: "<< this->durability <<endl;
+    cout << this->durability;
 }
 
 int Tool::use(){
@@ -31,7 +31,7 @@ int Tool::use(){
 int Tool::substract(int qty){
     //this actually did nothing to the item. return sisa itemnya
     if(qty!=1){
-        throw new ItemQuantityIsNotSufficientException();
+        throw new itemQuantityIsNotSufficientException();
     }else{
         return 0;
     }

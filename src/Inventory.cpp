@@ -39,18 +39,22 @@ void Inventory::move(string idxSrc, string idxDest){
     throw new itemDoesntHaveTheSameNameException();
   } 
   else {
-    int sisaQty = 64 - this->inven[idxDest]->getQuantity();
-    // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
-    if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
-      this->inven[idxDest]->setQuantity(64);
-      this->inven[idxSrc]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity() - sisaQty);
-      // hapus item jika jumlahnya jadi 0
-      if (this->inven[idxSrc]->getQuantity() == 0) {
+    if (this->inven[idxDest]->getQuantity() < 64) {
+      int sisaQty = 64 - this->inven[idxDest]->getQuantity();
+      // Kalo qty src melebihi atau sama dengan sisaQty dest hingga max
+      if (this->inven[idxSrc]->getQuantity() >= sisaQty) {
+        this->inven[idxDest]->setQuantity(64);
+        this->inven[idxSrc]->setQuantity(this->inven[idxSrc]->getQuantity() - sisaQty);
+        // hapus item jika jumlahnya jadi 0
+        if (this->inven[idxSrc]->getQuantity() == 0) {
+          this->inven.erase(idxSrc);
+        }
+      } else { // klo qty dari item di src engga memenuhi qty dari idx dest, idx dest lgsg tambahin, idx src lgsg hapus
+        this->inven[idxDest]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity());
         this->inven.erase(idxSrc);
       }
-    } else { // klo qty dari item di src engga memenuhi qty dari idx dest, idx dest lgsg tambahin, idx src lgsg hapus
-      this->inven[idxDest]->setQuantity(this->inven[idxDest]->getQuantity() + this->inven[idxSrc]->getQuantity());
-      this->inven.erase(idxSrc);
+    } else {
+      throw new quantityExceedingLimitException();
     }
   }
 }
@@ -141,15 +145,21 @@ void Inventory::add(Item* item_name,string dest){
 
 void Inventory::printInfo(){
   // for (map<string, Item*>::iterator it = this->inven.begin(); it != this->inven.end(); ++it){
+  cout << "\n======== INVENTORY ========" << endl;
   for (int i = 0; i < MAX_INVEN; i++){
     string key = intToString(i);
-    cout << key << ": [";
+    cout << "[";
     if (this->inven.find(key) != this->inven.end()){
       inven[key]->printInfo();
     } else {
       cout << "KOSONG";
     }
-    cout << "]\n";
+    cout << "]";
+    if ((i + 1) % 3 == 0){
+      cout << "\n";
+    } else {
+      cout << " ";
+    }
   }
 }
 

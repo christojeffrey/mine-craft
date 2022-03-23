@@ -19,3 +19,4 @@ GameState
     - sesuai fungsi2 yg ada di main
 
 Tanya kakaknya kalo move dari inven ke craftable dan ternyata di craftable udah ada, tapi beda nama, itu ganti item di craftablenya atau throw error
+Tanya kakaknya kalo give oak log 70 itu dicancel atau jadi ada oak log 64 dan oak log 6
