@@ -9,7 +9,7 @@ ALL_SRCINSIDE := $(wildcard src/*.cpp)
 SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
 SRCS_TEST     := $(filter-out main.cpp check.cpp, $(ALL_SRCS))
 
-all: compile test check
+all: compile compiletest check
 
 # Compile all cpp files except check.cpp
 compile:
@@ -17,12 +17,6 @@ compile:
 
 compiletest:
 	g++ -std=c++17 -o $(EXECUTABLE_FILENAME_TEST) $(SRCS_TEST) $(ALL_SRCINSIDE)
-
-# Test
-test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
-	for inputfile in $(TC_FOLDER)/*.$(EXT_IN); do \
-		./$(EXECUTABLE_FILENAME) < $$inputfile; \
-	done;
 
 # Check
 check: FORCE check.cpp
