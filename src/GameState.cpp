@@ -28,7 +28,6 @@ void GameState::GIVE(string item_name, int qty){
 
     list<Item*>::iterator it;
     for (it = legalItem.begin(); it != legalItem.end(); it++){
-        // cout << (*it)->getName() << endl;
         if((*it)->getName()==item_name){
             found=true;
             id = (*it)->getID();
@@ -57,7 +56,6 @@ void GameState::GIVE(string item_name, int qty){
                     throw new negativeValueGivenException();
                 } else { 
                     this->inventory.add(new NonTool(id,item_name,type,qty));
-                    //this->inventory.printInfo(); // jgn lupa ini hilangin
                 }
             }
         } catch(BaseException *e){
@@ -109,18 +107,16 @@ void GameState::MOVE(string I_id, int N, vector<string> C_id){ //inven ke craft
                     this->craftTable.add(*itemnyaapa_copy,*it);
                 }catch(BaseException *e){
                     this->inventory.add(itemnyaapa_copy,I_id);
-                    // e->printMessage();
                     throw e;
 
                 }
             }
         }catch(BaseException *e){
             throw e;
-            //e->printMessage();
         }
     }catch(BaseException *e){
-        e->printMessage();
         //kalau jumlah di inventory kurang
+        e->printMessage();
     }
 }
 void GameState::MOVE(string i_id1, string i_id2){ //inven ke inven

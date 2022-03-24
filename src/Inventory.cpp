@@ -28,7 +28,6 @@ Inventory::Inventory() {
 Inventory::~Inventory(){
 }
 
-// Belom cek apakah namanya sama (done)
 void Inventory::move(string idxSrc, string idxDest){
   if (this->inven.find(idxSrc) == this->inven.end()) {
     throw new oneOfTheItemNeededDoesntExistException();
@@ -63,7 +62,7 @@ void Inventory::move(string idxSrc, string idxDest){
   }
 }
 
-void Inventory::add(Item* item){ //kalo item banyak, kalo sudah ada gimana ?
+void Inventory::add(Item* item){
   // Iterate item yang sudah ada dulu cari yang sama
   // Cek apakah dia nontool, kalau tool sudah pasti tambah baru
   bool alreadyAdded = false;
@@ -148,7 +147,6 @@ void Inventory::add(Item* item_name,string dest){
 }
 
 void Inventory::printInfo(){
-  // for (map<string, Item*>::iterator it = this->inven.begin(); it != this->inven.end(); ++it){
   cout << "\n======== INVENTORY ========" << endl;
   for (int i = 0; i < MAX_INVEN; i++){
     string key = intToString(i);
@@ -203,9 +201,3 @@ Item * Inventory::getItem(string I_id){
     return this->inven[I_id];
   }
 } 
-
-// // driver
-// int main(){
-//   Inventory i;
-//   return 0;
-// }

@@ -23,13 +23,11 @@ void Tool::printInfo()const{
 }
 
 int Tool::use(){
-    //kalo di use, durability di kurangi sebanyak satu
     this->durability--;
     return this->durability;
 }
 
 int Tool::substract(int qty){
-    //this actually did nothing to the item. return sisa itemnya
     if(qty!=1){
         throw new itemQuantityIsNotSufficientException();
     }else{

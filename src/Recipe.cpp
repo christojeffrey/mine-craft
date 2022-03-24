@@ -8,13 +8,6 @@ Recipe::Recipe() {
     col = 0;
     quantityResult = 0;
 }; // Ctor
-// Recipe::Recipe(int row, int col, vector<string> recipe, Item& item, int quantityResult) {
-//     this->row = row;
-//     this->col = col;
-//     this->quantityResult = quantityResult;
-//     this->recipe = recipe;
-//     this->item = &item;
-// };
 
 Recipe::Recipe(int row, int col, vector<string> recipe, Item *item, int quantityResult) {
     this->row = row;

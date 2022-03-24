@@ -204,7 +204,7 @@ vector<Item*> CraftTable::make(vector<Recipe*> recipe, list<Item*> legalItem) {
                 throw new craftTableDoesntMatchRecipeException();
             }
         } else {
-            if (this->size() > 2) throw new craftTableDoesntMatchRecipeException(); // THrow if there are tool more than 2
+            if (this->size() > 2) throw new craftTableDoesntMatchRecipeException(); // Throw if there are tool more than 2
             // If build Tool sum by durability
             Tool* sumTool = makeTool();
             vector<Item*> res(1);
@@ -373,7 +373,6 @@ vector<string> CraftTable::getTableToCheck(vector<string> table, list<Item*> leg
             if ((*it1)->getName() == name) {
                 if ((*it1)->getNonToolClass() != "-" && (*it1)->getNonToolClass() != "LOG"){
                     *it = (*it1)->getNonToolClass();
-                    // cout << *it << endl;
                 } else {
                     break;
                 }

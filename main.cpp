@@ -128,8 +128,8 @@ int main() {
       ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
       isItemATool.insert(pair<string,bool> (name, true));
     } else {
-      //tambahakn nontool ke legal item
-      NonTool* temp = new NonTool(stoi(id), name, nonToolClass,1); // quantity disini harusnya gaperna disentuh. aku kasih 1. kenapa gk dikasih 0 aja? takutnya nti bikin behaviour yg aneh
+      //tambahkan nontool ke legal item
+      NonTool* temp = new NonTool(stoi(id), name, nonToolClass,1);
       legalItem.push_back(temp);
       ItemNameToItemObject.insert(pair<string,Item*> (name,temp));
       isItemATool.insert(pair<string,bool> (name, false));
@@ -234,7 +234,7 @@ int main() {
       GS->DISCARD(i_id, itemQty);
 
     }
-    else if (command == "MOVE") { //COMMAND MOVE
+    else if (command == "MOVE") {
     try{
         string src;
         int N;

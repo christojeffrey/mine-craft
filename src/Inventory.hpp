@@ -10,14 +10,12 @@ using namespace std;
 
 #define MAX_INVEN 27
 
-// Error Lens
-// Aku harus siap ngethrow banyak exception
 class Inventory{
     private:
         // pake map buat nyatet semua inventory
         map<string, Item*> inven;
     public:
-        Inventory(); // constructor melakukan construct 27 slot inventory
+        Inventory();
         ~Inventory();
         void move(string idx1, string idx2);
         void add(Item* item_name);
