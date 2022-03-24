@@ -154,6 +154,7 @@ void testGameState(){
     gs->USE("I6");  
 }
 
+
 void testItem(){
     Tool *a = new Tool(1, "WOODEN_SWORD", 10);
     NonTool *b = new NonTool(1, "OAK_PLANK", "PLANK", 10);
