@@ -71,7 +71,14 @@ vector<string> getRecipeMatrix(vector<string> eachRecipe, int row, int col) {
 int main() {
   //add welcome message
   cout << "Welcome to the tall corn game!" << endl;
-
+  cout << " ░░░░░░░███████████████████████░░░░░░░░░░" << endl;
+  cout << " ░░░░░██░░░░░░░░░░░░░░░░░░░░░░░█░░░░░░░░░" << endl;
+  cout << " ░░░░███░░░░░░░░░░░░░░░░░░░░░░░█░░░░░░░░░" << endl;
+  cout << " ░░░██░██████░░░░░░░░░░░░░░░░███░░░░░░░░░" << endl;
+  cout << " ░░██░░░░██░██████████████████░░░░░░░░░░░" << endl;
+  cout << " ░░██░░░░█░░░░░██░░░░░░░░░░░░░░░░░░░░░░░░" << endl;
+  cout << " ░░░███████░░░░░█░░░░░░░░░░░░░░░░░░░░░░░░" << endl;
+  cout << " ░░░░░░░░░███████░░░░░░░░░░░░░░░░░░░░░░░░" << endl;
 
   // /* SETUP */
   cout << "Setting up..." << endl;
