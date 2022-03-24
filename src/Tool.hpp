@@ -10,8 +10,6 @@ class Tool: public Item{
     public:
         // Tool(); once a tool is created, gaboleh polosan
         Tool(int ID, string name,int durability);
-        Tool(int ID):Item(1, "bob", true){
-        } 
         
         int getDurability()const;
         void setDurability(int pengganti);
