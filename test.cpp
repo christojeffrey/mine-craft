@@ -54,7 +54,22 @@ void testGameState(){
     gs->USE("I6");  
 }
 
+void testItem(){
+    Tool *a = new Tool(1, "WOODEN_SWORD", 10);
+    NonTool *b = new NonTool(2, "WOODEN_AXE", "AXE", 10);
+    assert(a->getID() == 1);
+    assert(a->getName() == "WOODEN_SWORD");
+    assert(a->getIsTool() == true);
+    assert(a->getNonToolClass() == "");
+    assert(a->getQuantity() == 10);
+    assert(b->getID() == 2);
+    assert(b->getName() == "WOODEN_AXE");
+    assert(b->getIsTool() == false);
+    assert(b->getNonToolClass() == "AXE");
+    assert(b->getQuantity() == 10);
+}
 int main() {
     testCraftTable();
     testGameState();
+    testItem();
 }

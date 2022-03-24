@@ -57,7 +57,7 @@ void GameState::GIVE(string item_name, int qty){
                     throw new negativeValueGivenException();
                 } else { 
                     this->inventory.add(new NonTool(id,item_name,type,qty));
-                    this->inventory.printInfo(); // jgn lupa ini hilangin
+                    //this->inventory.printInfo(); // jgn lupa ini hilangin
                 }
             }
         } catch(BaseException *e){
