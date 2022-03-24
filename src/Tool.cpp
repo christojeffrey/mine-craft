@@ -37,3 +37,6 @@ int Tool::substract(int qty){
     }
     return 0;
 }
+// Item& Tool::operator=(const Item& i){
+//     return *new Tool(i.getID(),i.getName(),i.getDurability());
+// }

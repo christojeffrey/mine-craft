@@ -28,7 +28,7 @@ void GameState::GIVE(string item_name, int qty){
 
     list<Item*>::iterator it;
     for (it = legalItem.begin(); it != legalItem.end(); it++){
-        cout << (*it)->getName() << endl;
+        // cout << (*it)->getName() << endl;
         if((*it)->getName()==item_name){
             found=true;
             id = (*it)->getID();

@@ -19,6 +19,9 @@ class NonTool: public Item{
         //kenapa ada durability disini?
         // int getDurability(); 
         // void setDurability(int pengganti);
+        // Item& operator=(const Item& i);
+
+
 
         void printInfo()const;
         bool operator==(NonTool& n);

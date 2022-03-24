@@ -48,3 +48,8 @@ string NonTool::getNonToolClass()const{
     return this->nonToolClass;
     //   return this->quantity;
 }
+
+// Item& NonTool::operator=(const Item& i){
+//     return *new NonTool(i.getID(),i.getName(),i.getNonToolClass(),i.getQuantity());
+// }
+

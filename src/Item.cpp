@@ -57,11 +57,6 @@ string Item::getType(){
 
 }
 
-Item& Item::operator=(const Item& i){
-    // this->isTool = i.isTool;
-    return *new Item(i.getID(), i.getName(), i.getIsTool());
-}
-
 int Item::use(){
     return 1;
     }

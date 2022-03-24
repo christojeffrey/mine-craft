@@ -38,15 +38,22 @@ class Item {
         virtual void setDurability(int pengganti);
         virtual string getNonToolClass() const;
         virtual string getType();
+        
+        // virtual Item& operator=(const Item& i);
+
 
         //pure virtual
-        virtual int use();
-        virtual int substract(int qty);
+        virtual int use() = 0;
+        virtual int substract(int qty) = 0;
         // kalo ini dibikin pure virual, artinya harus dibikinin sama tool. aneh kalo substact. kalo pun idenya 'ngeremove item dari inventory', yaitu di handle sama inventory. consider only making this on non tool.
         // oke gajadi, enaknya diinventory langsung manggil item substract, gk perlu peduliin dia itu tool atau nontool
         // virtul void aItemool* t) = 0;
 
 };
-
+// Item& Item::operator=(const Item& i){
+// {
+//     // this->isTool = i.isTool;
+//     return *new Item(i.getID(), i.getName(), i.getIsTool());
+// }
 
 #endif

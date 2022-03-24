@@ -18,7 +18,7 @@ class Tool: public Item{
         int use();
         int substract(int qty);
         // int add(Item * t);
+        // Item& operator=(const Item& i);
+
 };
-
-
 #endif
