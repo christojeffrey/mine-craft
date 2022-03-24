@@ -156,17 +156,24 @@ void testGameState(){
 
 void testItem(){
     Tool *a = new Tool(1, "WOODEN_SWORD", 10);
-    NonTool *b = new NonTool(2, "WOODEN_AXE", "AXE", 10);
-    assert(a->getID() == 1);
-    assert(a->getName() == "WOODEN_SWORD");
-    assert(a->getIsTool() == true);
-    assert(a->getNonToolClass() == "");
-    assert(a->getQuantity() == 10);
-    assert(b->getID() == 2);
-    assert(b->getName() == "WOODEN_AXE");
-    assert(b->getIsTool() == false);
-    assert(b->getNonToolClass() == "AXE");
-    assert(b->getQuantity() == 10);
+    NonTool *b = new NonTool(1, "OAK_PLANK", "PLANK", 10);
+    a->printInfo();
+    cout << "=======\n";
+    cout << "getDurability : " << a->getDurability() << endl;
+    cout << "set tool durability to 5\n";
+    a->setDurability(5);
+    cout << "getDurability : " << a->getDurability() << endl;
+    cout << "use tool\n";
+    a->use();
+    cout << "getDurability : " << a->getDurability() << endl;
+    cout << "=======\n";
+    b->printInfo();
+    cout << "substract nontool 2\n";
+    b->substract(2);
+    cout << "getQuantity : " << b->getQuantity() << endl;
+    cout << "set nontool quantity to 5\n";
+    b->setQuantity(5);
+    cout << "getQuantity : " << b->getQuantity() << endl;
 }
 int main() {
     cout << "==== TEST CRAFT TABLE ====" << endl;
