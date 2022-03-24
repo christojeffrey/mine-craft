@@ -32,8 +32,29 @@ void testCraftTable() {
     a.substract("C8", 1);
     assert(a.isSlotEmpty("C8")); // test if craft table slot is empty
     assert(a.isTableEmpty());
-}       
+}    
+
+void testGameState(){
+    list<Item*> legalItem;
+    legalItem.push_back(new Tool(1, "WOODEN_SWORD", 10));
+    vector<Recipe*> legalRecipe;
+    vector<string> s;
+    s.push_back("BAHAN BAHAN");
+    legalRecipe.push_back(new Recipe(1,2,s,new Tool(1, "WOODEN_SWORD", 10),1));
+    GameState* gs = new GameState(legalItem,legalRecipe);
+    gs->GIVE("WOODEN_SWORD",1);
+    gs->SHOW();
+    gs->DISCARD("I0",5);
+    vector<string> p;
+    p.push_back("C0");
+    gs->MOVE("I0",1,p);
+    gs->MOVE("C0",1,"I0");
+    gs->MOVE("I0","I1");
+    gs->USE("I1");
+    gs->USE("I6");  
+}
 
 int main() {
     testCraftTable();
+    testGameState();
 }
