@@ -125,13 +125,25 @@ void CraftTable::substract(string c_id, int N) {
     // Delete item from c_id slot to be empty, if empty throw error
     if (isCIDValid(c_id)) {
         if (!isSlotEmpty(c_id)) {
-            int remain = table[c_id]->getQuantity() - N;
-            if (remain < 0){
-                throw new itemQuantityIsNotSufficientException();
-            } else if (remain == 0) {
-                table[c_id]=NULL;
+            if (!table[c_id]->getIsTool()) {
+                int remain = table[c_id]->getQuantity() - N;
+                if (remain < 0){
+                    throw new itemQuantityIsNotSufficientException();
+                } else if (remain == 0) {
+                    table[c_id]=NULL;
+                } else {
+                    table[c_id]->setQuantity(table[c_id]->getQuantity() - N);
+                }
             } else {
-                table[c_id]->setQuantity(table[c_id]->getQuantity() - N);
+                if (N != 1) {
+                    throw new itemQuantityIsNotSufficientException();
+                } else {
+                    if (N==1) {
+                        table[c_id]=NULL;
+                    } else {
+                        throw new invalidCommandToItemException();
+                    }
+                }
             }
         } else {
             throw new craftTableIsEmptyException();
