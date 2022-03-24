@@ -319,6 +319,7 @@ bool CraftTable::isAllTool() {
 };
 
 int CraftTable::size() {
+    // This method is built because map size function is counting the key
     int cnt = 0;
     for (auto it = table.begin(); it != table.end(); ++it) {
         if (it->second) {
