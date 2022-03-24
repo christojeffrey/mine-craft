@@ -15,8 +15,10 @@
 
 int main() {
     CraftTable a;
-    assert(a.isTableEmpty());
-    assert(a.size() == 0);
+    assert(a.isTableEmpty()); // test if craft table is empty
+    assert(a.size() == 0); // test if craft table size is 0 because empty
+
+    assert(!a.isTableEmpty()); // should fail
 
     return 0;
 }       

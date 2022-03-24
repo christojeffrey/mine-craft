@@ -16,7 +16,7 @@ compile:
 	g++ -std=c++17 -o $(EXECUTABLE_FILENAME) $(SRCS) $(ALL_SRCINSIDE)
 
 compiletest:
-	g++ -std=c++17 -o $(EXECUTABLE_FILENAME) $(SRCS_TEST) $(ALL_SRCINSIDE)
+	g++ -std=c++17 -o $(EXECUTABLE_FILENAME_TEST) $(SRCS_TEST) $(ALL_SRCINSIDE)
 
 # Test
 test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
