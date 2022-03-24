@@ -6,7 +6,7 @@ EXECUTABLE_FILENAME = main
 EXECUTABLE_FILENAME_TEST = test
 ALL_SRCS := $(wildcard *.cpp)
 ALL_SRCINSIDE := $(wildcard src/*.cpp)
-SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
+SRCS     := $(filter-out test.cpp check.cpp, $(ALL_SRCS))
 SRCS_TEST     := $(filter-out main.cpp check.cpp, $(ALL_SRCS))
 
 all: compile test check

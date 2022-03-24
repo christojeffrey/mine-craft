@@ -14,7 +14,7 @@ class Recipe {
         int quantityResult;
     public:
         Recipe(); // Ctor
-        Recipe(int row, int col, vector<string> recipe, Item& item, int quantityResult);
+        // Recipe(int row, int col, vector<string> recipe, Item& item, int quantityResult);
         Recipe(int row, int col, vector<string> recipe, Item* item, int quantityResult);
 
         Recipe(const Recipe& r);
