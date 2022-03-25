@@ -86,7 +86,11 @@ CraftTable& CraftTable::operator=(const CraftTable& other) {
 Item& CraftTable::getItemInCraftTable(string c_id) {
     // Get item in craft table by key
     if (isCIDValid(c_id))
-        return *table[c_id];
+        if (!isSlotEmpty(c_id)) {
+            return *table[c_id];
+        } else {
+            throw new craftTableIsEmptyException(); 
+        }
     else {
         throw new CIDNotValidException();
     }
