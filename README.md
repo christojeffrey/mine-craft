@@ -27,6 +27,11 @@ This template consists of:
 - check.cpp containing the code for checking
 - makefile for compiling and testing
 
+## System Requirements
+- UNIX based system or WSL if you're using windows
+- C++ 17
+- g++
+
 ## Running the Makefile
 Make sure you are using Linux with C++17. WSL also works if you are using Windows.
 If you are running for the first time, then
