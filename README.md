@@ -11,13 +11,6 @@ NIM | NAMA
 13520058 | Kristo Abdi Wiguna
 13520151 | Rizky Ramadhana
 
-## link2 penting
-[Q&A](https://docs.google.com/spreadsheets/d/1eId5WybvuhNl329oPe944U_iuOeaiQk7HQaVEPOSjeE/edit#gid=1410919163)\
-[Laporan](https://docs.google.com/document/d/1G4pTkZyIyddl5NclLTXnlm7Fbg3ARk-4/edit)\
-[Form Asistensi 1](https://docs.google.com/document/d/1NVLBiEOAP0xUehO1MuTZedD7Jtrwp341/edit)\
-[Class Diagram](https://lucid.app/lucidchart/d8323ff8-89f8-4e84-8ee1-54417a2a9a56/edit?invitationId=inv_2986e704-f1a0-4c27-8ecd-5787be0b29af&page=0_0#)
---- 
-
 ## What's Inside
 This template consists of:
 - config folder containing all the config files (items and recipes)
