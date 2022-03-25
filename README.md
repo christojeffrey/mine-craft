@@ -1,6 +1,6 @@
 # tubes1-oop-tall-corn
 ###### Kelompok 6 tall corn
-Program CLI-based that implements Minecraft-like gamestyle using Object-oriented paradigm.
+CLI-based program that implements Minecraft-like crafting system using Object-oriented paradigm in c++.
 
 ## Author
 NIM | NAMA
